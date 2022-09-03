@@ -1,0 +1,29 @@
+{
+	"name": "innil-custom-stuff",
+	"id": "innil-custom-stuff",
+	"title": "Innil's Custom Stuff",
+	"description": "Personal module for replacing or adding to many things. Modular (see settings).",
+	"version": "1.0.0",
+	"authors": [{
+		"name": "Innil",
+		"url": "https://github.com/InnilToo",
+		"discord": "Innil#6666"
+	}],
+	"minimumCoreVersion": "10",
+	"compatibility": {
+		"minimum": "10"
+	},
+	"styles": [
+		"./styles/styles.css",
+		"./styles/sheet_coloring.css",
+		"./styles/raritycolors.css",
+		"./styles/effect-panel.css",
+		"./styles/template-styles.css"
+	],
+	"esmodules": ["./setup.js"],
+	"languages": [{
+		"lang": "en",
+		"name": "English",
+		"path": "languages/en.json"
+	}]
+}
