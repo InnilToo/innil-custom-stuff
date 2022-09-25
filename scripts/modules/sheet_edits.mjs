@@ -57,34 +57,7 @@ export class INNIL_SHEET {
 		}
 	}
 	
-	static create_forage_counter = (sheet, html, sheetData) => {
-		if(!game.settings.get(MODULE_NAME, "sheetSettings").create_forage_counter) return;
-		const actor = sheet.actor;
-		if(!sheetData.isCharacter) return;
-		
-		const value = actor.getFlag(MODULE_NAME, "materia-medica.value") ?? 0;
-		const materia = document.createElement("div");
-		materia.setAttribute("class", "counter flexrow materia");
-		materia.innerHTML = `
-			<h4>Foraged Materials</h4>
-			<div class="counter-value">
-				<input
-					class="material"
-					name="flags.innil-custom-stuff.materia-medica.value"
-					type="number"
-					value="${value}"
-					data-dtype="Number"
-					min="0"
-					max="999"
-					oninput="validity.valid || (value=${value})"
-					placeholder="0"
-				>
-			</div>
-		`;
-		const belowThis = html[0].querySelector(".tab.attributes.flexrow .counters div.counter.flexrow.exhaustion");
-		belowThis.parentNode.insertBefore(materia, belowThis.nextSibling);
-	}
-	
+	// create dots.
 	static create_dots = (sheet, html) => {
 		const limited_use_dots = !!game.settings.get(MODULE_NAME, "colorSettings").limited_use_dots;
 		const spell_slot_dots = !!game.settings.get(MODULE_NAME, "colorSettings").spell_slot_dots;

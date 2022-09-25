@@ -8,7 +8,6 @@ export class api {
 			setting: {
 				toggleLR: INNIL_REST.toggleLR,
 				toggleSR: INNIL_REST.toggleSR,
-				setForageDC: INNIL_UTILS.setMateriaMedicaForagingDC
 			},
 			catalog: {
 				getDocument: INNIL_CATALOG.fromCatalog,

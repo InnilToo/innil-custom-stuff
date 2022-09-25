@@ -219,11 +219,6 @@ export class INNIL_UTILS {
 		if(itemMacro && item.hasMacro()) return item.executeMacro(options);
 		else return item.roll(options);
 	}
-
-	static setMateriaMedicaForagingDC = async (number) => {
-		if(!game.user.isGM) return ui.notifications.warn("Excuse me?");
-		return game.settings.set(MODULE_NAME, "foragingDC", number);
-	}
 	
 	static teleportTokens = async (size = 4, {fade = true, fadeDuration = 500, clearTargets = true} = {}) => {
 		// pick area of tokens.

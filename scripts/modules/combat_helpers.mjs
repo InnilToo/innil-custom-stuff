@@ -2,6 +2,7 @@ import { MODULE_NAME } from "../const.mjs";
 
 export class INNIL_COMBAT {
     
+	// mark defeated combatant as dead unless it's linked and/or player owned
 	static mark_defeated_combatant = async (tokenDoc, updates) => {
 		if ( !game.settings.get(MODULE_NAME, "markDefeatedCombatants") ) return;
 		if ( tokenDoc.actor.hasPlayerOwner ) return;
@@ -18,6 +19,7 @@ export class INNIL_COMBAT {
 		}
 	}
 	
+	// display sawing throw on shot ammo
 	static show_ammo_if_it_has_save = async (weapon, roll, ammoUpdate) => {
 		if ( !game.settings.get(MODULE_NAME, "displaySavingThrowAmmo") ) return;
 		if ( !ammoUpdate.length ) return;

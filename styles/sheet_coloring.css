@@ -1,16 +1,16 @@
 /* Default colors. */
 body :root {
-    --full_color: #b33737;
-    --attuned_color: #7a7971;
-    --not_attuned_color: #44191A;
-	--prepared_color: #7a7971;
-	--not_prepared_color: #44191A;
-	--always_prepared_color: #7F7F7F;
-	--equipped_color: #7a7971;
-	--not_equipped_color: #44191A;
-    --color_proficient: "#228b22";
-	--color_half_proficient: "#696969";
-	--color_twice_proficient: "#ff6347";
+    --full_color: #1aa5c1;
+    --attuned_color: #31c431;
+    --not_attuned_color: #ff6347;
+    --equipped_color: #31c431;
+	--not_equipped_color: #9f9f94;
+	--prepared_color: #d6e600;
+	--not_prepared_color: #9f9f94;
+	--always_prepared_color: #31c431;
+    --color_proficient: #31c431;
+	--color_half_proficient: #1aa5c1;
+	--color_twice_proficient: #ff6347;
     color:rgb(0, 0, 0)
 }
 

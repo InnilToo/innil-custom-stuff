@@ -23,14 +23,6 @@ function _registerSettings(){
 		type: Boolean,
 		default: false
 	});
-	game.settings.register(MODULE_NAME, "foragingDC", {
-		name: "Foraging DC",
-		hint: "The current DC for foraging.",
-		scope: "world",
-		config: true,
-		type: Number,
-		default: 15
-	});
 	game.settings.register(MODULE_NAME, "markDefeatedCombatants", {
 		name: "Mark Combatants Defeated",
 		hint: "When combatants that are not owned by a player is reduced to 0 or less hp, mark them as defeated.",
@@ -118,9 +110,7 @@ class AdditionsSubmenu extends FormApplication {
 		saveButton.addEventListener("click", async function(){
 			await game.settings.set(MODULE_NAME, "additionSettings", {
 				add_conditions: html[0].querySelector(".innil-add-conditions").checked,
-				add_equipment_types: html[0].querySelector(".innil-add-equipment-types").checked,
-				add_piety: html[0].querySelector(".innil-add-piety").checked,
-				add_divine: html[0].querySelector(".innil-add-divine").checked
+				add_equipment_types: html[0].querySelector(".innil-add-equipment-types").checked
 			});
 			dialog.close();
 		});
@@ -129,9 +119,7 @@ class AdditionsSubmenu extends FormApplication {
 		const source = game.settings.get(MODULE_NAME, "additionSettings");
 		const defaults = {
 			add_conditions: true,
-			add_equipment_types: true,
-			add_piety: true,
-			add_divine: true
+			add_equipment_types: true
 		}
 		
 		return foundry.utils.mergeObject(defaults, source);
@@ -164,7 +152,6 @@ class SheetSubmenu extends FormApplication {
 				remove_resources: html[0].querySelector(".innil-remove-resources").checked,
 				remove_alignment: html[0].querySelector(".innil-remove-alignment").checked,
 				disable_initiative_button: html[0].querySelector(".innil-disable-initiative-button").checked,
-				create_forage_counter: html[0].querySelector(".innil-create-forage-counter").checked,
 				pretty_trait_selector: html[0].querySelector(".innil-pretty-trait-selector").checked,
 				collapsible_headers: html[0].querySelector(".innil-collapsible-headers").checked
 			});
@@ -178,7 +165,6 @@ class SheetSubmenu extends FormApplication {
 			remove_resources: true,
 			remove_alignment: true,
 			disable_initiative_button: true,
-			create_forage_counter: true,
 			pretty_trait_selector: true,
 			collapsible_headers: true
 		}
@@ -323,9 +309,7 @@ const registerSettingsMenus = function () {
 		type: Object,
 		default: {
 			add_conditions: true,
-			add_equipment_types: true,
-			add_piety: true,
-			add_divine: true
+			add_equipment_types: true
 		},
 		onChange: () => window.location.reload()
 	});
@@ -346,7 +330,6 @@ const registerSettingsMenus = function () {
 			remove_resources: true,
 			remove_alignment: true,
 			disable_initiative_button: true,
-			create_forage_counter: true,
 			pretty_trait_selector: true,
 			collapsible_headers: true
 		}
