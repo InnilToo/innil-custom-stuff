@@ -292,7 +292,7 @@ export const EXHAUSTION_EFFECTS = [
         flags: {
             "innil-custom-stuff": {exhaustion: 2},
             convenientDescription: `
-                <p>You have disadvantage on all ability checks.<p>
+                <p>You have disadvantage on all ability checks.</p>
                 <p>Your movement speed is halved.</p>`
         },
         changes: [
@@ -310,7 +310,7 @@ export const EXHAUSTION_EFFECTS = [
         flags: {
             "innil-custom-stuff": {exhaustion: 3},
             convenientDescription: `
-                <p>You have disadvantage on all ability checks, attack rolls, and saving throws.<p>
+                <p>You have disadvantage on all ability checks, attack rolls, and saving throws.</p>
                 <p>Your movement speed is halved.</p>`
         },
         changes: [
@@ -328,7 +328,7 @@ export const EXHAUSTION_EFFECTS = [
         flags: {
             "innil-custom-stuff": {exhaustion: 4},
             convenientDescription: `
-                <p>You have disadvantage on all ability checks, attack rolls, and saving throws.<p>
+                <p>You have disadvantage on all ability checks, attack rolls, and saving throws.</p>
                 <p>Your movement speed and your maximum hit points are halved.</p>`
         },
         changes: [
@@ -347,7 +347,7 @@ export const EXHAUSTION_EFFECTS = [
         flags: {
             "innil-custom-stuff": {exhaustion: 5},
             convenientDescription: `
-                <p>You have disadvantage on all ability checks, attack rolls, and saving throws.<p>
+                <p>You have disadvantage on all ability checks, attack rolls, and saving throws.</p>
                 <p>You cannot move, and your hit point maximum is halved.</p>`
         },
         changes: [

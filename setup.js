@@ -6,7 +6,7 @@ import { INNIL_ADDITIONS } from "./scripts/modules/game_additions.mjs";
 import { INNIL_REPLACEMENTS } from "./scripts/modules/game_replacements.mjs";
 import { INNIL_SHEET } from "./scripts/modules/sheet_edits.mjs";
 import { INNIL_COMBAT } from "./scripts/modules/combat_helpers.mjs";
-import { INNIL_EXHAUSTION } from "./scripts/modules/exhaustion.mjs";
+import { innil_exhaustion } from "./scripts/modules/exhaustion.mjs";
 
 Hooks.once("init", () => {
     console.log(`${MODULE_TITLE_SHORT} | Initializing ${MODULE_TITLE}`);
@@ -29,26 +29,25 @@ Hooks.once("setup", () => {
 	// rename currency labels; this shows up on the sheet.
 	INNIL_SHEET.rename_currency_labels();
 
+	// create a exhaustion pop up on click
+    innil_exhaustion();
+
 });
 
 Hooks.once("ready", () => {
-	
+
 	// disable short and long rest.
 	Hooks.on("renderLongRestDialog", INNIL_SHEET.disable_long_rest);
 	Hooks.on("renderShortRestDialog", INNIL_SHEET.disable_short_rest);
-	
+
 	// sheet edits.
 	Hooks.on("renderActorSheet", INNIL_SHEET.rename_rest_labels);
 	Hooks.on("renderActorSheet", INNIL_SHEET.remove_resources);
 	Hooks.on("renderActorSheet", INNIL_SHEET.remove_alignment);
 	Hooks.on("renderActorSheet", INNIL_SHEET.disable_initiative_button);
 	Hooks.on("renderActorSheet", INNIL_SHEET.set_hp_color);
-	Hooks.on("renderActorSheet", INNIL_SHEET.disable_exhaustion);
 	Hooks.on("renderActorSheet", INNIL_SHEET.collapsible_headers);
 
-	// create a exhaustion pop up on click
-	//Hooks.on("renderActorSheet", INNIL_EXHAUSTION.exhaustionUpdate);
-	
 	// create dots for limited uses and spell slots.
 	Hooks.on("renderActorSheet", INNIL_SHEET.create_dots);
 
@@ -69,11 +68,11 @@ Hooks.once("ready", () => {
 
 	// display ammo when you make an attack, if the ammo has a save.
 	Hooks.on("dnd5e.rollAttack", INNIL_COMBAT.show_ammo_if_it_has_save);
-	
+
 	// set up sockets.
 	INNIL_SOCKETS.loadTextureSocketOn(); // loadTextureForAll
 	INNIL_SOCKETS.routeTilesThroughGM(); // let players create tiles.
-	
+
 	// add 'view scene' to scene config headers.
 	if(game.user.isGM){
 		Hooks.on("getSceneConfigHeaderButtons", (app, array) => {

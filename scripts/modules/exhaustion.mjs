@@ -1,9 +1,10 @@
 import { MODULE_NAME } from "../const.mjs";
-import { INNIL_UTILS } from "../modules/innil_functions.mjs";
+import { INNIL_UTILS } from "./innil_functions.mjs";
 
-export function INNIL_EXHAUSTION() {
+export function innil_exhaustion() {
 
     Hooks.on("renderActorSheet", (sheet, html) => {
+
         const exh = html[0].querySelector(".counter.flexrow.exhaustion");
         if (!exh) return;
         // disable input.
@@ -14,17 +15,19 @@ export function INNIL_EXHAUSTION() {
         header.setAttribute("data-action", "updateExhaustion");
         // create listeners (black magic).
         if (sheet.innil?.exhaustion === undefined) {
+
             foundry.utils.setProperty(sheet, "innil.exhaustion", exhaustionUpdate.bind(sheet.object));
             sheet.element[0].addEventListener("click", sheet.innil.exhaustion);
         } else {
+
             sheet.element[0].removeEventListener("click", sheet.innil.exhaustion);
             sheet.element[0].addEventListener("click", sheet.innil.exhaustion);
         }
     });
-
 }
 
 function exhaustionUpdate(event) {
+
     const action = event.target.closest("[data-action=updateExhaustion]");
     if (!action) return;
 

@@ -146,6 +146,7 @@ export class INNIL_REPLACEMENTS {
 			halberd: `${key}.NcZKj1Re9XxUJHYS`,
 			handcrossbow: `${key}.tq2IZWhRwEpoJCLN`,
 			handaxe: `${key}.zR4BtcctYAOWE7KN`,
+			harpoon: `${key}.ggmS0WfL09iS5CLs`,
 			heavycrossbow: `${key}.zQX0nUPFKzAmWfVP`,
 			javelin: `${key}.JW3iiWOeLeHfMCQW`,
 			lance: `${key}.BzVHGLVLnYXcQGAN`,

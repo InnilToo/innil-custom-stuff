@@ -6,7 +6,7 @@ export function registerSettings() {
 	registerSettingsMenus();
 }
 
-function _registerSettings(){
+function _registerSettings() {
 	game.settings.register(MODULE_NAME, "toggleLR", {
 		name: "Disable Long Rest",
 		hint: "If checked, players cannot take a long rest.",
@@ -42,26 +42,26 @@ function _registerSettings(){
 }
 
 class ReplacementsSubmenu extends FormApplication {
-    constructor() {
-        super({});
-    }
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ['form'],
-            popOut: true,
-            width: "550",
-            height: "auto",
-            template: "/modules/innil-custom-stuff/templates/settings_replacements.html",
-            id: "innil-settings-submenu-replacers",
-            title: "Replacements",
-            resizable: false
-        });
-    }
+	constructor() {
+		super({});
+	}
+	static get defaultOptions() {
+		return foundry.utils.mergeObject(super.defaultOptions, {
+			classes: ['form'],
+			popOut: true,
+			width: "550",
+			height: "auto",
+			template: "/modules/innil-custom-stuff/templates/settings_replacements.html",
+			id: "innil-settings-submenu-replacers",
+			title: "Replacements",
+			resizable: false
+		});
+	}
 	activateListeners(html) {
 		super.activateListeners(html);
 		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
 		const dialog = this;
-		saveButton.addEventListener("click", async function(){
+		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "replacementSettings", {
 				replace_status_effects: html[0].querySelector(".innil-replace-status-effects").checked,
 				replace_languages: html[0].querySelector(".innil-replace-languages").checked,
@@ -88,26 +88,26 @@ class ReplacementsSubmenu extends FormApplication {
 }
 
 class AdditionsSubmenu extends FormApplication {
-    constructor() {
-        super({});
-    }
-    static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
-            classes: ['form'],
-            popOut: true,
-            width: "550",
-            height: "auto",
-            template: "/modules/innil-custom-stuff/templates/settings_additions.html",
-            id: "innil-settings-submenu-additions",
-            title: "Additions",
-            resizable: false
-        });
-    }
+	constructor() {
+		super({});
+	}
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			classes: ['form'],
+			popOut: true,
+			width: "550",
+			height: "auto",
+			template: "/modules/innil-custom-stuff/templates/settings_additions.html",
+			id: "innil-settings-submenu-additions",
+			title: "Additions",
+			resizable: false
+		});
+	}
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
 		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
-		saveButton.addEventListener("click", async function(){
+		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "additionSettings", {
 				add_conditions: html[0].querySelector(".innil-add-conditions").checked,
 				add_equipment_types: html[0].querySelector(".innil-add-equipment-types").checked
@@ -121,32 +121,32 @@ class AdditionsSubmenu extends FormApplication {
 			add_conditions: true,
 			add_equipment_types: true
 		}
-		
+
 		return foundry.utils.mergeObject(defaults, source);
 	}
 }
 
 class SheetSubmenu extends FormApplication {
-    constructor() {
-        super({});
-    }
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ['form'],
-            popOut: true,
-            width: "550",
-            height: "auto",
-            template: "/modules/innil-custom-stuff/templates/settings_sheet.html",
-            id: "innil-settings-submenu-sheet",
-            title: "Sheet Adjustments",
-            resizable: false
-        });
-    }
+	constructor() {
+		super({});
+	}
+	static get defaultOptions() {
+		return foundry.utils.mergeObject(super.defaultOptions, {
+			classes: ['form'],
+			popOut: true,
+			width: "550",
+			height: "auto",
+			template: "/modules/innil-custom-stuff/templates/settings_sheet.html",
+			id: "innil-settings-submenu-sheet",
+			title: "Sheet Adjustments",
+			resizable: false
+		});
+	}
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
 		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
-		saveButton.addEventListener("click", async function(){
+		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "sheetSettings", {
 				rename_rest_labels: html[0].querySelector(".innil-rename-rest-labels").checked,
 				remove_resources: html[0].querySelector(".innil-remove-resources").checked,
@@ -168,32 +168,32 @@ class SheetSubmenu extends FormApplication {
 			pretty_trait_selector: true,
 			collapsible_headers: true
 		}
-		
+
 		return foundry.utils.mergeObject(defaults, source);
 	}
 }
 
 class ColorPickerSubmenu extends FormApplication {
-    constructor() {
-        super({});
-    }
-    static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
-            classes: ['form'],
-            popOut: true,
-            width: "550",
-            height: "auto",
-            template: "/modules/innil-custom-stuff/templates/settings_colorpickers.html",
-            id: "innil-settings-submenu-colorpickers",
-            title: "Character Sheet Color Adjustments",
-            resizable: false
-        });
-    }
+	constructor() {
+		super({});
+	}
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			classes: ['form'],
+			popOut: true,
+			width: "550",
+			height: "auto",
+			template: "/modules/innil-custom-stuff/templates/settings_colorpickers.html",
+			id: "innil-settings-submenu-colorpickers",
+			title: "Character Sheet Color Adjustments",
+			resizable: false
+		});
+	}
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
 		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
-		saveButton.addEventListener("click", async function(){
+		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "colorSettings", {
 				limited_use_dots: html[0].querySelector(".innil-limited-use-dots").checked,
 				spell_slot_dots: html[0].querySelector(".innil-spell-slot-dots").checked,
@@ -235,26 +235,26 @@ class ColorPickerSubmenu extends FormApplication {
 }
 
 class RarityColorsSubmenu extends FormApplication {
-    constructor(){
-        super({});
-    }
-    static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
-            classes: ['form'],
-            popOut: true,
-            width: "550",
-            height: "auto",
-            template: "/modules/innil-custom-stuff/templates/settings_raritycolors.html",
-            id: "innil-settings-submenu-raritycolors",
-            title: "Item Rarity Color Adjustments",
-            resizable: false
-        });
-    }
+	constructor() {
+		super({});
+	}
+	static get defaultOptions() {
+		return mergeObject(super.defaultOptions, {
+			classes: ['form'],
+			popOut: true,
+			width: "550",
+			height: "auto",
+			template: "/modules/innil-custom-stuff/templates/settings_raritycolors.html",
+			id: "innil-settings-submenu-raritycolors",
+			title: "Item Rarity Color Adjustments",
+			resizable: false
+		});
+	}
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
 		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
-		saveButton.addEventListener("click", async function(){
+		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "rarityColorSettings", {
 				uncommon: html[0].querySelector(".innil-color-uncommon").value,
 				rare: html[0].querySelector(".innil-color-rare").value,
@@ -301,7 +301,7 @@ const registerSettingsMenus = function () {
 		type: ReplacementsSubmenu,
 		restricted: true
 	});
-	
+
 	// additions.
 	game.settings.register(MODULE_NAME, "additionSettings", {
 		scope: "world",
@@ -319,7 +319,7 @@ const registerSettingsMenus = function () {
 		type: AdditionsSubmenu,
 		restricted: true
 	});
-	
+
 	// sheet edits.
 	game.settings.register(MODULE_NAME, "sheetSettings", {
 		scope: "world",
@@ -340,7 +340,7 @@ const registerSettingsMenus = function () {
 		type: SheetSubmenu,
 		restricted: true
 	});
-	
+
 	// sheet color settings.
 	game.settings.register(MODULE_NAME, "colorSettings", {
 		scope: "client",
@@ -368,7 +368,7 @@ const registerSettingsMenus = function () {
 		type: ColorPickerSubmenu,
 		restricted: false
 	});
-	
+
 	// item rarity color settings.
 	game.settings.register(MODULE_NAME, "rarityColorSettings", {
 		scope: "client",
@@ -388,5 +388,5 @@ const registerSettingsMenus = function () {
 		type: RarityColorsSubmenu,
 		restricted: false
 	});
-	
+
 }
