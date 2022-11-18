@@ -2,35 +2,36 @@ import { MODULE_NAME } from "../const.mjs";
 import { SPELL_EFFECTS, STATUS_EFFECTS } from "../../sources/conditions.js";
 
 export class INNIL_REPLACEMENTS {
-    
+
 	// replace consumable types
-    static replace_consumable_types = () => {
-		if(!game.settings.get(MODULE_NAME, "replacementSettings").replace_consumable_types) return;
+	static replace_consumable_types = () => {
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_consumable_types) return;
 
 		// the new consumable types.
 		const addedConsumableTypes = {
 			drink: "Drink",
-			elixir: "Elixir",
 			bomb: "Bomb",
-			trap: "Trap"
+			trap: "Trap",
+			charm: "Charm",
+			wine: "Wine"
 		}
 
 		// delete unwanted consumable types.
 		const deletedConsumableTypes = ["rod", "wand"];
 		const oldObject = foundry.utils.duplicate(CONFIG.DND5E.consumableTypes);
-		for(let del of deletedConsumableTypes) delete oldObject[del];
+		for (let del of deletedConsumableTypes) delete oldObject[del];
 
 		// merge remaining with new types to add.
 		const newArray = Object.entries(addedConsumableTypes)
 			.concat(Object.entries(oldObject))
 			.sort(([keyA], [keyB]) => keyA.localeCompare(keyB));
-		
+
 		CONFIG.DND5E.consumableTypes = Object.fromEntries(newArray);
 	}
 
-    // replace languages 
-    static replace_languages = () => {
-		if(!game.settings.get(MODULE_NAME, "replacementSettings").replace_languages) return;
+	// replace languages 
+	static replace_languages = () => {
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_languages) return;
 		CONFIG.DND5E.languages = {
 			common: "Common",
 			aarakocra: "Aarakocra",
@@ -58,19 +59,19 @@ export class INNIL_REPLACEMENTS {
 			zemnian: "Zemnian"
 		}
 	}
-	
+
 	// replace tools
 	static replace_tools = () => {
-		if(!game.settings.get(MODULE_NAME, "replacementSettings").replace_tools) return;
-		
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_tools) return;
+
 		// pluralising gaming set and instrument:
 		CONFIG.DND5E.toolTypes["game"] = "Gaming Sets";
 		CONFIG.DND5E.toolTypes["music"] = "Musical Instruments";
 		CONFIG.DND5E.toolProficiencies["game"] = "Gaming Sets";
 		CONFIG.DND5E.toolProficiencies["music"] = "Musical Instruments";
 
-        const key = "innil-catalogs.catalog-of-items";
-		
+		const key = "innil-catalogs.catalog-of-items";
+
 		CONFIG.DND5E.toolIds = {
 			guiro: `${key}.0bn6X8GmJPTb8kee`,
 			glaur: `${key}.0gATC04WyH4JrPWg`,
@@ -124,13 +125,13 @@ export class INNIL_REPLACEMENTS {
 			carpenter: `${key}.zSyPecV8GvlwRBnb`
 		}
 	}
-	
+
 	// replace weapons
 	static replace_weapons = () => {
-		if(!game.settings.get(MODULE_NAME, "replacementSettings").replace_weapons) return;
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_weapons) return;
 
-        const key = "innil-catalogs.catalog-of-items";
-		
+		const key = "innil-catalogs.catalog-of-items";
+
 		CONFIG.DND5E.weaponIds = {
 			battleaxe: `${key}.5YvvZ5KsGgzlVBJg`,
 			blowgun: `${key}.7mIrXgEFREdCZoq6`,
@@ -173,13 +174,13 @@ export class INNIL_REPLACEMENTS {
 			whip: `${key}.KGH7gJe5mvpbRoFZ`
 		}
 	}
-    
+
 	// replace status effects
-    static replace_status_effects = () => {
-		if(!game.settings.get(MODULE_NAME, "replacementSettings").replace_status_effects) return;
-		
+	static replace_status_effects = () => {
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_status_effects) return;
+
 		// these are gotten from a different file, combined, and then sorted.
-		const statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort((a,b) => a.sort - b.sort);
+		const statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort((a, b) => a.sort - b.sort);
 		CONFIG.statusEffects = statusEffects;
 	}
 }

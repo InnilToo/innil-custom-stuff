@@ -2,8 +2,8 @@ import { INNIL_CATALOG, INNIL_REST, INNIL_UTILS } from "./modules/innil_function
 import { EXHAUSTION_EFFECTS } from "../sources/conditions.js";
 
 export class api {
-	
-	static register(){
+
+	static register() {
 		globalThis.INNIL = {
 			setting: {
 				toggleLR: INNIL_REST.toggleLR,

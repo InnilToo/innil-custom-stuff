@@ -7,6 +7,7 @@
     border: none;
     opacity: 0.15;
 }
+
 #token-hud .status-effects {
     visibility: hidden;
     position: absolute;
@@ -28,11 +29,13 @@
 label.innil-custom-stuff.innil-label-name {
     font-weight: bold;
 }
+
 .innil-custom-stuff.innil-settings-save {
     width: 200px;
     background-color: rgb(190, 189, 178);
     border: 2px groove var(--color-border-light-highlight);
 }
+
 .innil-custom-stuff.innil-submenu-header {
     display: flex;
     align-content: flex-start;
@@ -44,19 +47,23 @@ label.innil-custom-stuff.innil-label-name {
 .trait-list li label.checkbox {
     white-space: nowrap;
 }
+
 .trait-list.flexrow.innil-traits li {
     flex-basis: 50%;
     width: 50%;
     min-width: 50%;
 }
+
 .trait-list.flexcol.innil-prof ol.trait-list {
     display: grid;
     grid-template-columns: 40% 60%;
 }
+
 .trait-list.flexcol.innil-profs {
     flex-direction: row;
-    width:max-content;
+    width: max-content;
 }
+
 .trait-list.flexcol.innil-profs li ol.trait-list {
     width: max-content;
 }
@@ -64,48 +71,55 @@ label.innil-custom-stuff.innil-label-name {
 /* collapsible items and effect headers */
 .dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover,
 .dnd5e.sheet.actor .characteristics label:hover {
-    text-shadow: 0 0 8px var(--color-shadow-primary)!important;
+    text-shadow: 0 0 8px var(--color-shadow-primary) !important;
     cursor: pointer;
 }
+
 /* Make collapsed header gray text color and slighly slimmer. */
 .dnd5e.sheet.actor .items-header.flexrow.no-create {
     height: auto;
     color: darkgray;
 }
+
 /* Hide 'ol' that follow a collapsed header, and hide all 'All' buttons. */
-.dnd5e.sheet.actor .items-header.flexrow.no-create + ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create + ol + ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create+ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create+ol+ol,
 .dnd5e.sheet.actor .items-header.flexrow.no-create .item-control.item-create,
 .dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control,
-.dnd5e.sheet.actor .characteristics label.no-edit + textarea {
+.dnd5e.sheet.actor .characteristics label.no-edit+textarea {
     display: none;
 }
 
 /* whisper dialog */
 .form-fields {
-	display: grid;
-	grid-template-columns: auto auto auto auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
 }
+
 .whisper-dialog-player-name.selected {
-	background-color: cornflowerblue;
-	font-weight: bold;
+    background-color: cornflowerblue;
+    font-weight: bold;
 }
+
 .whisper-dialog-player-name:hover {
-	text-shadow: 0 0 8px var(--color-shadow-primary) !important;
+    text-shadow: 0 0 8px var(--color-shadow-primary) !important;
 }
+
 .whisper-dialog-player-name {
     padding: 5px 0 5px 0;
-	border: 1px solid var(--color-border-dark-tertiary);
-	border-radius: 5px;
-	margin: 1px 1px 1px 1px;
-	text-align: center;
-	line-height: normal;
+    border: 1px solid var(--color-border-dark-tertiary);
+    border-radius: 5px;
+    margin: 1px 1px 1px 1px;
+    text-align: center;
+    line-height: normal;
 }
+
 .whisper-dialog-textarea {
-	resize: none;
+    resize: none;
 }
+
 .form-fields.whisper-dialog {
-	display: grid;
-	grid-template-columns: 24% 24% 24% 24%;
-	justify-content: space-around;
+    display: grid;
+    grid-template-columns: 24% 24% 24% 24%;
+    justify-content: space-around;
 }

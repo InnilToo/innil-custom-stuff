@@ -9,8 +9,8 @@ import { INNIL_COMBAT } from "./scripts/modules/combat_helpers.mjs";
 import { innil_exhaustion } from "./scripts/modules/exhaustion.mjs";
 
 Hooks.once("init", () => {
-    console.log(`${MODULE_TITLE_SHORT} | Initializing ${MODULE_TITLE}`);
-    registerSettings();
+	console.log(`${MODULE_TITLE_SHORT} | Initializing ${MODULE_TITLE}`);
+	registerSettings();
 	api.register();
 });
 
@@ -30,7 +30,7 @@ Hooks.once("setup", () => {
 	INNIL_SHEET.rename_currency_labels();
 
 	// create a exhaustion pop up on click
-    innil_exhaustion();
+	innil_exhaustion();
 
 });
 
@@ -64,7 +64,7 @@ Hooks.once("ready", () => {
 	INNIL_SHEET.refreshColors();
 
 	// mark 0 hp combatants as defeated.
-	if(game.user.isGM) Hooks.on("updateToken", INNIL_COMBAT.mark_defeated_combatant);
+	if (game.user.isGM) Hooks.on("updateToken", INNIL_COMBAT.mark_defeated_combatant);
 
 	// display ammo when you make an attack, if the ammo has a save.
 	Hooks.on("dnd5e.rollAttack", INNIL_COMBAT.show_ammo_if_it_has_save);
@@ -74,7 +74,7 @@ Hooks.once("ready", () => {
 	INNIL_SOCKETS.routeTilesThroughGM(); // let players create tiles.
 
 	// add 'view scene' to scene config headers.
-	if(game.user.isGM){
+	if (game.user.isGM) {
 		Hooks.on("getSceneConfigHeaderButtons", (app, array) => {
 			const viewBtn = {
 				class: "innil-custom-stuff-view-scene",
