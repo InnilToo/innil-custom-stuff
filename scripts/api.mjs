@@ -1,8 +1,11 @@
-import { INNIL_CATALOG, INNIL_REST, INNIL_UTILS } from "./modules/innil_functions.mjs";
+import {
+	INNIL_CATALOG,
+	INNIL_REST,
+	INNIL_UTILS,
+} from "./modules/innil_functions.mjs";
 import { EXHAUSTION_EFFECTS } from "../sources/conditions.js";
 
 export class api {
-
 	static register() {
 		globalThis.INNIL = {
 			setting: {
@@ -14,13 +17,13 @@ export class api {
 				spawn: INNIL_CATALOG.spawnFromCatalog,
 				mutate: INNIL_CATALOG.mutateFromCatalog,
 				cast: INNIL_CATALOG.castFromCatalog,
-				castCharges: INNIL_CATALOG.magicItemCast
+				castCharges: INNIL_CATALOG.magicItemCast,
 			},
 			token: {
 				teleport: INNIL_UTILS.teleportTokens,
 				target: INNIL_UTILS.targetTokens,
 				damage: INNIL_UTILS.apply_damage,
-				getOwnerIds: INNIL_UTILS.get_token_owner_ids
+				getOwnerIds: INNIL_UTILS.get_token_owner_ids,
 			},
 			helper: {
 				wait: INNIL_UTILS.wait,
@@ -36,8 +39,8 @@ export class api {
 				increase: INNIL_UTILS.increase_exhaustion,
 				decrease: INNIL_UTILS.decrease_exhaustion,
 				update: INNIL_UTILS.update_exhaustion,
-				effects: EXHAUSTION_EFFECTS
-			}
-		}
+				effects: EXHAUSTION_EFFECTS,
+			},
+		};
 	}
 }

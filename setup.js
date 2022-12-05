@@ -7,6 +7,7 @@ import { INNIL_REPLACEMENTS } from "./scripts/modules/game_replacements.mjs";
 import { INNIL_SHEET } from "./scripts/modules/sheet_edits.mjs";
 import { INNIL_COMBAT } from "./scripts/modules/combat_helpers.mjs";
 import { innil_exhaustion } from "./scripts/modules/exhaustion.mjs";
+import { INNIL_ANIMATIONS } from "./scripts/modules/animations.mjs";
 
 Hooks.once("init", () => {
 	console.log(`${MODULE_TITLE_SHORT} | Initializing ${MODULE_TITLE}`);
@@ -31,11 +32,9 @@ Hooks.once("setup", () => {
 
 	// create a exhaustion pop up on click
 	innil_exhaustion();
-
 });
 
 Hooks.once("ready", () => {
-
 	// disable short and long rest.
 	Hooks.on("renderLongRestDialog", INNIL_SHEET.disable_long_rest);
 	Hooks.on("renderShortRestDialog", INNIL_SHEET.disable_short_rest);
@@ -55,7 +54,10 @@ Hooks.once("ready", () => {
 	Hooks.on("renderActorSheet", INNIL_SHEET.color_magic_items);
 
 	// make the attunement button an actual toggle.
-	Hooks.on("renderActorSheet", INNIL_SHEET.create_toggle_on_attunement_button);
+	Hooks.on(
+		"renderActorSheet",
+		INNIL_SHEET.create_toggle_on_attunement_button
+	);
 
 	// make the trait and proficiency selectors less ugly.
 	Hooks.on("renderTraitSelector", INNIL_SHEET.pretty_trait_selector);
@@ -64,7 +66,8 @@ Hooks.once("ready", () => {
 	INNIL_SHEET.refreshColors();
 
 	// mark 0 hp combatants as defeated.
-	if (game.user.isGM) Hooks.on("updateToken", INNIL_COMBAT.mark_defeated_combatant);
+	if (game.user.isGM)
+		Hooks.on("updateToken", INNIL_COMBAT.mark_defeated_combatant);
 
 	// display ammo when you make an attack, if the ammo has a save.
 	Hooks.on("dnd5e.rollAttack", INNIL_COMBAT.show_ammo_if_it_has_save);
@@ -80,10 +83,24 @@ Hooks.once("ready", () => {
 				class: "innil-custom-stuff-view-scene",
 				icon: "fas fa-eye",
 				label: "View Scene",
-				onclick: async () => await app.object.view()
-			}
+				onclick: async () => await app.object.view(),
+			};
 			array.unshift(viewBtn);
 		});
 	}
 
+	// hook for when measured templates are created to display animation.
+	const canAnimate = ["sequencer", "jb2a_patreon"].every(
+		(id) => !!game.modules.get(id)?.active
+	);
+	if (canAnimate) {
+		Hooks.on(
+			"createMeasuredTemplate",
+			INNIL_ANIMATIONS.onCreateMeasuredTemplate
+		);
+		Hooks.on("dnd5e.useItem", INNIL_ANIMATIONS.onItemUse);
+		Hooks.on("dnd5e.rollAttack", INNIL_ANIMATIONS.onItemRollAttack);
+		Hooks.on("dnd5e.rollDamage", INNIL_ANIMATIONS.onItemRollDamage);
+		Hooks.on("dnd5e.rollSkill", INNIL_ANIMATIONS.onRollSkill);
+	}
 });

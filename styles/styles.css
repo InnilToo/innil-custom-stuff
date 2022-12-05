@@ -1,125 +1,132 @@
 /* Token HUD status effects. */
 #token-hud .status-effects .effect-control {
-    width: 36px;
-    height: 36px;
-    margin: 0;
-    padding: 0;
-    border: none;
-    opacity: 0.15;
+	width: 36px;
+	height: 36px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	opacity: 0.15;
 }
 
 #token-hud .status-effects {
-    visibility: hidden;
-    position: absolute;
-    left: 65px;
-    top: 0;
-    display: grid;
-    padding: 3px;
-    box-sizing: content-box;
-    width: 148px;
-    grid-template-columns: repeat(4, 25%);
-    background: rgba(0, 0, 0, 0.6);
-    box-shadow: 0 0 15px var(--color-shadow-dark);
-    border: 1px solid var(--color-border-dark-3);
-    border-radius: 4px;
-    pointer-events: all;
+	visibility: hidden;
+	position: absolute;
+	left: 65px;
+	top: 0;
+	display: grid;
+	padding: 3px;
+	box-sizing: content-box;
+	width: 148px;
+	grid-template-columns: repeat(4, 25%);
+	background: rgba(0, 0, 0, 0.6);
+	box-shadow: 0 0 15px var(--color-shadow-dark);
+	border: 1px solid var(--color-border-dark-3);
+	border-radius: 4px;
+	pointer-events: all;
 }
 
 /* Setting Submenus. */
 label.innil-custom-stuff.innil-label-name {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .innil-custom-stuff.innil-settings-save {
-    width: 200px;
-    background-color: rgb(190, 189, 178);
-    border: 2px groove var(--color-border-light-highlight);
+	width: 200px;
+	background-color: rgb(190, 189, 178);
+	border: 2px groove var(--color-border-light-highlight);
 }
 
 .innil-custom-stuff.innil-submenu-header {
-    display: flex;
-    align-content: flex-start;
-    justify-content: space-around;
+	display: flex;
+	align-content: flex-start;
+	justify-content: space-around;
 }
-
 
 /* traits list into columns...? */
 .trait-list li label.checkbox {
-    white-space: nowrap;
+	white-space: nowrap;
 }
 
 .trait-list.flexrow.innil-traits li {
-    flex-basis: 50%;
-    width: 50%;
-    min-width: 50%;
+	flex-basis: 50%;
+	width: 50%;
+	min-width: 50%;
 }
 
 .trait-list.flexcol.innil-prof ol.trait-list {
-    display: grid;
-    grid-template-columns: 40% 60%;
+	display: grid;
+	grid-template-columns: 40% 60%;
 }
 
 .trait-list.flexcol.innil-profs {
-    flex-direction: row;
-    width: max-content;
+	flex-direction: row;
+	width: max-content;
 }
 
 .trait-list.flexcol.innil-profs li ol.trait-list {
-    width: max-content;
+	width: max-content;
 }
 
 /* collapsible items and effect headers */
 .dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover,
 .dnd5e.sheet.actor .characteristics label:hover {
-    text-shadow: 0 0 8px var(--color-shadow-primary) !important;
-    cursor: pointer;
+	text-shadow: 0 0 8px var(--color-shadow-primary) !important;
+	cursor: pointer;
 }
 
 /* Make collapsed header gray text color and slighly slimmer. */
 .dnd5e.sheet.actor .items-header.flexrow.no-create {
-    height: auto;
-    color: darkgray;
+	color: darkgray;
 }
 
 /* Hide 'ol' that follow a collapsed header, and hide all 'All' buttons. */
-.dnd5e.sheet.actor .items-header.flexrow.no-create+ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create+ol+ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create + ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create + ol + ol,
 .dnd5e.sheet.actor .items-header.flexrow.no-create .item-control.item-create,
 .dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control,
-.dnd5e.sheet.actor .characteristics label.no-edit+textarea {
-    display: none;
+.dnd5e.sheet.actor .characteristics label.no-edit + textarea {
+	display: none;
 }
 
 /* whisper dialog */
 .form-fields {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
+	display: grid;
+	grid-template-columns: auto auto auto auto;
 }
 
 .whisper-dialog-player-name.selected {
-    background-color: cornflowerblue;
-    font-weight: bold;
+	background-color: cornflowerblue;
+	font-weight: bold;
 }
 
 .whisper-dialog-player-name:hover {
-    text-shadow: 0 0 8px var(--color-shadow-primary) !important;
+	text-shadow: 0 0 8px var(--color-shadow-primary) !important;
 }
 
 .whisper-dialog-player-name {
-    padding: 5px 0 5px 0;
-    border: 1px solid var(--color-border-dark-tertiary);
-    border-radius: 5px;
-    margin: 1px 1px 1px 1px;
-    text-align: center;
-    line-height: normal;
+	padding: 5px 0 5px 0;
+	border: 1px solid var(--color-border-dark-tertiary);
+	border-radius: 5px;
+	margin: 1px 1px 1px 1px;
+	text-align: center;
+	line-height: normal;
 }
 
 .whisper-dialog-textarea {
-    resize: none;
+	resize: none;
 }
 
 .form-fields.whisper-dialog {
-    display: grid;
-    grid-template-columns: 24% 24% 24% 24%;
-    justify-content: space-around;
+	display: grid;
+	grid-template-columns: 24% 24% 24% 24%;
+	justify-content: space-around;
+}
+
+button:active:not(.pm-dropdown),
+a:active {
+	filter: brightness(0.7);
+}
+
+.tab#chat {
+	margin: -5px 0px 0px;
 }

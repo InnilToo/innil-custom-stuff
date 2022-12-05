@@ -12,18 +12,18 @@
 	background: inherit;
 }
 
-.innil-hover-button>img {
+.innil-hover-button > img {
 	height: 90%;
 	width: 90%;
 	opacity: 20%;
 	border: none;
 }
 
-.innil-hover-button.active>img {
+.innil-hover-button.active > img {
 	opacity: 100% !important;
 }
 
-.innil-hover-button>img:hover {
+.innil-hover-button > img:hover {
 	filter: drop-shadow(0 0 10px red);
 	opacity: 50%;
 }

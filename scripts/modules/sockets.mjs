@@ -1,7 +1,6 @@
 import { INNIL_UTILS } from "./innil_functions.mjs";
 
 export class INNIL_SOCKETS {
-
 	// load texture for all.
 	static loadTextureSocketOn = () => {
 		game.socket.on(`world.${game.world.id}`, (request) => {
@@ -9,7 +8,7 @@ export class INNIL_SOCKETS {
 				INNIL_UTILS.loadTextureForAll(request.src, false);
 			}
 		});
-	}
+	};
 
 	// place tile.
 	static routeTilesThroughGM = () => {
@@ -18,5 +17,5 @@ export class INNIL_SOCKETS {
 				INNIL_UTILS.createTiles(request.tileData, false);
 			}
 		});
-	}
+	};
 }

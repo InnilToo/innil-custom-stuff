@@ -15,9 +15,7 @@
 		"minimum": "10",
 		"maximum": "10"
 	},
-	"esmodules": [
-		"./setup.js"
-	],
+	"esmodules": ["./setup.js"],
 	"styles": [
 		"./styles/styles.css",
 		"./styles/sheet_coloring.css",
