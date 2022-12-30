@@ -1,8 +1,7 @@
 {
-	"name": "innil-custom-stuff",
 	"id": "innil-custom-stuff",
 	"title": "Innil's Custom Stuff",
-	"description": "Personal module for replacing or adding to many things. Modular (see settings).",
+
 	"version": "1.0.0",
 	"authors": [
 		{
@@ -13,7 +12,8 @@
 	],
 	"compatibility": {
 		"minimum": "10",
-		"maximum": "10"
+		"maximum": "10",
+		"verified": "10.291"
 	},
 	"esmodules": ["./setup.js"],
 	"styles": [
@@ -26,7 +26,10 @@
 		{
 			"lang": "en",
 			"name": "English",
-			"path": "lang/en.json"
+			"path": "languages/en.json",
+			"description": "Personal module for replacing or adding to many things. Modular (see settings)."
 		}
-	]
+	],
+	"url": "https://github.com/InnilToo/innil-custom-stuff",
+	"manifest": "https://raw.githubusercontent.com/InnilToo/innil-custom-stuff/main/module.json"
 }

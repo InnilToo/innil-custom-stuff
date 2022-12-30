@@ -131,8 +131,11 @@ body :root {
 
 .dnd5e.sheet.actor
 	.traits
-	:is(.trait-selector i.fas, .proficiency-selector i.fas, .config-button
-		.fa-cog) {
+	:is(
+		.trait-selector i.fas,
+		.proficiency-selector i.fas,
+		.config-button .fa-cog
+	) {
 	color: blue;
 }
 

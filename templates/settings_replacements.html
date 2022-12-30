@@ -1,99 +1,184 @@
 <form class="flexcol">
-    <div class="form-group">
-        <label class="innil-custom-stuff innil-label-name" for="innil-replace-status-effects">Replace Status
-            Effects</label>
-        <div class="form-fields">
-            {{#if replace_status_effects}}
-            <input class="innil-custom-stuff innil-replace-status-effects" id="innil-replace-status-effects"
-                type="checkbox" checked>
-            {{else}}
-            <input class="innil-custom-stuff innil-replace-status-effects" id="innil-replace-status-effects"
-                type="checkbox">
-            {{/if}}
-        </div>
-        <p class="notes">Replace the status effects on the token hud.</p>
-    </div>
-    <div>
-        <hr>
-    </div>
-    <div class="form-group">
-        <label class="innil-custom-stuff innil-label-name" for="innil-replace-languages">Replace Languages</label>
-        <div class="form-fields">
-            {{#if replace_languages}}
-            <input class="innil-custom-stuff innil-replace-languages" id="innil-replace-languages" type="checkbox"
-                checked>
-            {{else}}
-            <input class="innil-custom-stuff innil-replace-languages" id="innil-replace-languages" type="checkbox">
-            {{/if}}
-        </div>
-        <p class="notes">A total replace of all default languages, but using same keys if available.</p>
-    </div>
-    <div class="form-group">
-        <label class="innil-custom-stuff innil-label-name" for="innil-rename-currency-labels">Rename Currency
-            Labels</label>
-        <div class="form-fields">
-            {{#if rename_currency_labels}}
-            <input class="innil-custom-stuff innil-rename-currency-labels" id="innil-rename-currency-labels"
-                type="checkbox" checked>
-            {{else}}
-            <input class="innil-custom-stuff innil-rename-currency-labels" id="innil-rename-currency-labels"
-                type="checkbox">
-            {{/if}}
-        </div>
-        <p class="notes">Rename the labels on currency to short abbreviations.</p>
-    </div>
-    <div>
-        <hr>
-    </div>
-    <div class="form-group">
-        <label class="innil-custom-stuff innil-label-name" for="innil-replace-tools">Replace Tools</label>
-        <div class="form-fields">
-            {{#if replace_tools}}
-            <input class="innil-custom-stuff innil-replace-tools" id="innil-replace-tools" type="checkbox" checked>
-            {{else}}
-            <input class="innil-custom-stuff innil-replace-tools" id="innil-replace-tools" type="checkbox">
-            {{/if}}
-        </div>
-        <p class="notes">A total replace of all default tools, but using same keys if available.</p>
-    </div>
-    <div>
-        <hr>
-    </div>
-    <div class="form-group">
-        <label class="innil-custom-stuff innil-label-name" for="innil-replace-weapons">Replace Weapons</label>
-        <div class="form-fields">
-            {{#if replace_weapons}}
-            <input class="innil-custom-stuff innil-replace-weapons" id="innil-replace-weapons" type="checkbox" checked>
-            {{else}}
-            <input class="innil-custom-stuff innil-replace-weapons" id="innil-replace-weapons" type="checkbox">
-            {{/if}}
-        </div>
-        <p class="notes">A total replace of all default weapons, but using same keys if available. Also gets rid of
-            firearm-specific weapon attributes.</p>
-    </div>
-    <div>
-        <hr>
-    </div>
-    <div class="form-group">
-        <label class="innil-custom-stuff innil-label-name" for="innil-replace-consumable-types">Replace Consumable
-            Types</label>
-        <div class="form-fields">
-            {{#if replace_consumable_types}}
-            <input class="innil-custom-stuff innil-replace-consumable-types" id="innil-replace-consumable-types"
-                type="checkbox" checked>
-            {{else}}
-            <input class="innil-custom-stuff innil-replace-consumable-types" id="innil-replace-consumable-types"
-                type="checkbox">
-            {{/if}}
-        </div>
-        <p class="notes">A replacement of the current consumable types, using original keys if available.</p>
-    </div>
-    <div>
-        <hr>
-    </div>
+	<div class="form-group">
+		<label
+			class="innil-custom-stuff innil-label-name"
+			for="innil-replace-status-effects"
+			>Replace Status Effects</label
+		>
+		<div class="form-fields">
+			{{#if replace_status_effects}}
+			<input
+				class="innil-custom-stuff innil-replace-status-effects"
+				id="innil-replace-status-effects"
+				type="checkbox"
+				checked
+			/>
+			{{else}}
+			<input
+				class="innil-custom-stuff innil-replace-status-effects"
+				id="innil-replace-status-effects"
+				type="checkbox"
+			/>
+			{{/if}}
+		</div>
+		<p class="notes">Replace the status effects on the token hud.</p>
+	</div>
+	<div>
+		<hr />
+	</div>
+	<div class="form-group">
+		<label
+			class="innil-custom-stuff innil-label-name"
+			for="innil-replace-languages"
+			>Replace Languages</label
+		>
+		<div class="form-fields">
+			{{#if replace_languages}}
+			<input
+				class="innil-custom-stuff innil-replace-languages"
+				id="innil-replace-languages"
+				type="checkbox"
+				checked
+			/>
+			{{else}}
+			<input
+				class="innil-custom-stuff innil-replace-languages"
+				id="innil-replace-languages"
+				type="checkbox"
+			/>
+			{{/if}}
+		</div>
+		<p class="notes">
+			A total replace of all default languages, but using same keys if
+			available.
+		</p>
+	</div>
+	<div class="form-group">
+		<label
+			class="innil-custom-stuff innil-label-name"
+			for="innil-rename-currency-labels"
+			>Rename Currency Labels</label
+		>
+		<div class="form-fields">
+			{{#if rename_currency_labels}}
+			<input
+				class="innil-custom-stuff innil-rename-currency-labels"
+				id="innil-rename-currency-labels"
+				type="checkbox"
+				checked
+			/>
+			{{else}}
+			<input
+				class="innil-custom-stuff innil-rename-currency-labels"
+				id="innil-rename-currency-labels"
+				type="checkbox"
+			/>
+			{{/if}}
+		</div>
+		<p class="notes">
+			Rename the labels on currency to short abbreviations.
+		</p>
+	</div>
+	<div>
+		<hr />
+	</div>
+	<div class="form-group">
+		<label
+			class="innil-custom-stuff innil-label-name"
+			for="innil-replace-tools"
+			>Replace Tools</label
+		>
+		<div class="form-fields">
+			{{#if replace_tools}}
+			<input
+				class="innil-custom-stuff innil-replace-tools"
+				id="innil-replace-tools"
+				type="checkbox"
+				checked
+			/>
+			{{else}}
+			<input
+				class="innil-custom-stuff innil-replace-tools"
+				id="innil-replace-tools"
+				type="checkbox"
+			/>
+			{{/if}}
+		</div>
+		<p class="notes">
+			A total replace of all default tools, but using same keys if
+			available.
+		</p>
+	</div>
+	<div>
+		<hr />
+	</div>
+	<div class="form-group">
+		<label
+			class="innil-custom-stuff innil-label-name"
+			for="innil-replace-weapons"
+			>Replace Weapons</label
+		>
+		<div class="form-fields">
+			{{#if replace_weapons}}
+			<input
+				class="innil-custom-stuff innil-replace-weapons"
+				id="innil-replace-weapons"
+				type="checkbox"
+				checked
+			/>
+			{{else}}
+			<input
+				class="innil-custom-stuff innil-replace-weapons"
+				id="innil-replace-weapons"
+				type="checkbox"
+			/>
+			{{/if}}
+		</div>
+		<p class="notes">
+			A total replace of all default weapons, but using same keys if
+			available. Also gets rid of firearm-specific weapon attributes.
+		</p>
+	</div>
+	<div>
+		<hr />
+	</div>
+	<div class="form-group">
+		<label
+			class="innil-custom-stuff innil-label-name"
+			for="innil-replace-consumable-types"
+			>Replace Consumable Types</label
+		>
+		<div class="form-fields">
+			{{#if replace_consumable_types}}
+			<input
+				class="innil-custom-stuff innil-replace-consumable-types"
+				id="innil-replace-consumable-types"
+				type="checkbox"
+				checked
+			/>
+			{{else}}
+			<input
+				class="innil-custom-stuff innil-replace-consumable-types"
+				id="innil-replace-consumable-types"
+				type="checkbox"
+			/>
+			{{/if}}
+		</div>
+		<p class="notes">
+			A replacement of the current consumable types, using original keys
+			if available.
+		</p>
+	</div>
+	<div>
+		<hr />
+	</div>
 </form>
 <header class="innil-custom-stuff innil-submenu-header">
-    <button type="submit" name="submit" class="innil-custom-stuff innil-settings-save">
-        <i class="fas fa-save"></i> Save Settings
-    </button>
+	<button
+		type="submit"
+		name="submit"
+		class="innil-custom-stuff innil-settings-save"
+	>
+		<i class="fas fa-save"></i> Save Settings
+	</button>
 </header>

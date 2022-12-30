@@ -172,6 +172,19 @@ export class INNIL_ANIMATIONS {
 				.file(file)
 				.play();
 		}
+
+		// THUNDER PUNCH.
+		check = name.includes("Thunder Punch");
+		if (check) {
+			if (!target || !token) return;
+			const file = "jb2a.unarmed_strike.magical.01.blue";
+			return new Sequence()
+				.effect()
+				.stretchTo(target)
+				.atLocation(token)
+				.file(file)
+				.play();
+		}
 	}
 
 	static onItemRollDamage(item, roll) {
@@ -248,6 +261,21 @@ export class INNIL_ANIMATIONS {
 
 		let check;
 
+		// ACID SPLASH.
+		check = name.includes("Acid Splash");
+		if (check) {
+			if (!target) return;
+			const file = "jb2a.liquid.splash.green";
+			return new Sequence().effect().file(file).atLocation(target).play();
+		}
+
+		// CREATE OR DESTROY WATER.
+		check = name.includes("Create or Destroy Water");
+		if (check) {
+			const file = "jb2a.liquid.splash.bright_blue";
+			return new Sequence().effect().file(file).attachTo(token).play();
+		}
+
 		// DETECT MAGIC.
 		check = name.includes("Detect Magic");
 		if (check) {
@@ -282,6 +310,19 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target) return;
 			const file = "jb2a.magic_signs.rune.enchantment.intro.purple";
+			return new Sequence()
+				.effect()
+				.file(file)
+				.scale(0.5)
+				.atLocation(target)
+				.play();
+		}
+
+		// HEXBLADE'S CURSE.
+		check = name.includes("Hexblade's Curse");
+		if (check) {
+			if (!target) return;
+			const file = "jb2a.smoke.puff.centered.dark_black.0";
 			return new Sequence()
 				.effect()
 				.file(file)
