@@ -31,5 +31,6 @@
 		}
 	],
 	"url": "https://github.com/InnilToo/innil-custom-stuff",
-	"manifest": "https://raw.githubusercontent.com/InnilToo/innil-custom-stuff/main/module.json"
+	"manifest": "https://raw.githubusercontent.com/InnilToo/innil-custom-stuff/main/module.json",
+	"download": "https://github.com/InnilToo/innil-custom-stuff/raw/main/module.zip"
 }
