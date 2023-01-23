@@ -14,7 +14,7 @@ export const SPELL_EFFECTS = [
 		id: "bane",
 		label: "Bane",
 		sort: 1100,
-		icon: "assets/images/conditions/bane",
+		icon: "assets/images/conditions/bane.webp",
 		duration: { seconds: 60 },
 		flags: {
 			convenientDescription: `
