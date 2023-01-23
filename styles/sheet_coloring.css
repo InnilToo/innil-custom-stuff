@@ -62,11 +62,7 @@ body :root {
 	filter: drop-shadow(0px 0px 1px black);
 }
 
-.dnd5e.sheet.actor
-	.inventory-list
-	.item
-	.item-name
-	i:hover:not(.original-class) {
+.dnd5e.sheet.actor .inventory-list .item .item-name i:hover:not(.original-class) {
 	text-shadow: 0 0 8px var(--color-shadow-primary) !important;
 	padding-top: 8px;
 	padding-bottom: 8px;
@@ -78,40 +74,23 @@ body :root {
 	filter: drop-shadow(0px 0px 1px black);
 }
 
-.dnd5e.sheet.actor
-	.inventory-list
-	.item
-	.item-controls
-	.item-toggle:not(.active)
-	i {
+.dnd5e.sheet.actor .inventory-list .item .item-controls .item-toggle:not(.active) i {
 	color: var(--not_equipped_color) !important;
 	filter: drop-shadow(0px 0px 1px black);
 }
 
 /* Prepared icon. */
-.dnd5e.sheet.actor
-	.tab.spellbook
-	.item-controls
-	.item-control.item-toggle.active
-	i {
+.dnd5e.sheet.actor .tab.spellbook .item-controls .item-control.item-toggle.active i {
 	color: var(--prepared_color) !important;
 	filter: drop-shadow(0px 0px 1px black);
 }
 
-.dnd5e.sheet.actor
-	.tab.spellbook
-	.item-controls
-	.item-control.item-toggle.fixed
-	i {
+.dnd5e.sheet.actor .tab.spellbook .item-controls .item-control.item-toggle.fixed i {
 	color: var(--always_prepared_color) !important;
 	filter: drop-shadow(0px 0px 1px black);
 }
 
-.dnd5e.sheet.actor
-	.tab.spellbook
-	.item-controls
-	.item-control.item-toggle:not(.active):not(.fixed)
-	i {
+.dnd5e.sheet.actor .tab.spellbook .item-controls .item-control.item-toggle:not(.active):not(.fixed) i {
 	color: var(--not_prepared_color) !important;
 	filter: drop-shadow(0px 0px 1px black);
 }
@@ -129,13 +108,7 @@ body :root {
 	background-color: burlywood;
 }
 
-.dnd5e.sheet.actor
-	.traits
-	:is(
-		.trait-selector i.fas,
-		.proficiency-selector i.fas,
-		.config-button .fa-cog
-	) {
+.dnd5e.sheet.actor .traits :is(.trait-selector i.fas, .proficiency-selector i.fas, .config-button .fa-cog) {
 	color: blue;
 }
 
@@ -171,10 +144,6 @@ body :root {
 }
 
 /* twice proficient */
-.dnd5e.sheet.actor
-	ul.skills-list
-	li.skill
-	.skill-proficiency
-	.fas.fa-check-double {
+.dnd5e.sheet.actor ul.skills-list li.skill .skill-proficiency .fas.fa-check-double {
 	color: var(--color_twice_proficient) !important;
 }

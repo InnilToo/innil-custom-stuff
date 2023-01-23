@@ -1,8 +1,4 @@
-import {
-	INNIL_CATALOG,
-	INNIL_REST,
-	INNIL_UTILS,
-} from "./modules/innil_functions.mjs";
+import { INNIL_CATALOG, INNIL_REST, INNIL_UTILS } from "./modules/innil_functions.mjs";
 import { EXHAUSTION_EFFECTS } from "../sources/conditions.js";
 
 export class api {

@@ -1,25 +1,12 @@
 <form class="flexcol">
 	<!-- Add New Conditions toggle -->
 	<div class="form-group">
-		<label
-			class="innil-custom-stuff innil-label-name"
-			for="innil-add-conditions"
-			>Add New Conditions</label
-		>
+		<label class="innil-custom-stuff innil-label-name" for="innil-add-conditions">Add New Conditions</label>
 		<div class="form-fields">
 			{{#if add_conditions}}
-			<input
-				class="innil-custom-stuff innil-add-conditions"
-				id="innil-add-conditions"
-				type="checkbox"
-				checked
-			/>
+			<input class="innil-custom-stuff innil-add-conditions" id="innil-add-conditions" type="checkbox" checked />
 			{{else}}
-			<input
-				class="innil-custom-stuff innil-add-conditions"
-				id="innil-add-conditions"
-				type="checkbox"
-			/>
+			<input class="innil-custom-stuff innil-add-conditions" id="innil-add-conditions" type="checkbox" />
 			{{/if}}
 		</div>
 		<p class="notes">An addition to current available conditions.</p>
@@ -30,30 +17,15 @@
 
 	<!-- Add New Equipment Types toggle -->
 	<div class="form-group">
-		<label
-			class="innil-custom-stuff innil-label-name"
-			for="innil-add-equipment-types"
-			>Add New Equipment Types</label
-		>
+		<label class="innil-custom-stuff innil-label-name" for="innil-add-equipment-types">Add New Equipment Types</label>
 		<div class="form-fields">
 			{{#if add_equipment_types}}
-			<input
-				class="innil-custom-stuff innil-add-equipment-types"
-				id="innil-add-equipment-types"
-				type="checkbox"
-				checked
-			/>
+			<input class="innil-custom-stuff innil-add-equipment-types" id="innil-add-equipment-types" type="checkbox" checked />
 			{{else}}
-			<input
-				class="innil-custom-stuff innil-add-equipment-types"
-				id="innil-add-equipment-types"
-				type="checkbox"
-			/>
+			<input class="innil-custom-stuff innil-add-equipment-types" id="innil-add-equipment-types" type="checkbox" />
 			{{/if}}
 		</div>
-		<p class="notes">
-			An addition to current available equipment types. Not armor.
-		</p>
+		<p class="notes">An addition to current available equipment types. Not armor.</p>
 	</div>
 	<div>
 		<hr />
@@ -61,11 +33,5 @@
 </form>
 
 <header class="innil-custom-stuff innil-submenu-header">
-	<button
-		type="submit"
-		name="submit"
-		class="innil-custom-stuff innil-settings-save"
-	>
-		<i class="fas fa-save"></i> Save Settings
-	</button>
+	<button type="submit" name="submit" class="innil-custom-stuff innil-settings-save"><i class="fas fa-save"></i> Save Settings</button>
 </header>

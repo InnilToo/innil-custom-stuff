@@ -14,100 +14,56 @@ export class INNIL_ANIMATIONS {
 		check = item.getFlag("world", "breath-weapon.type");
 		if (check) {
 			const file = check;
-			return new Sequence()
-				.effect()
-				.file(file)
-				.atLocation(templateDoc)
-				.stretchTo(templateDoc)
-				.play();
+			return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
 		}
 
 		// BURNING HANDS.
 		check = item.name.includes("Burning Hands");
 		if (check) {
 			const file = "jb2a.burning_hands.01.orange";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.atLocation(templateDoc)
-				.stretchTo(templateDoc)
-				.play();
+			return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
 		}
 
 		// CALL LIGHTNING.
 		check = item.name.includes("Call Lightning");
 		if (check) {
 			const file = "jb2a.lightning_strike.blue.0";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.atLocation(templateDoc)
-				.scale(2)
-				.play();
+			return new Sequence().effect().file(file).atLocation(templateDoc).scale(2).play();
 		}
 
 		// DARKNESS.
 		check = item.name.includes("Darkness");
 		if (check) {
 			const file = "jb2a.darkness.black";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.attachTo(templateDoc)
-				.tieToDocuments(templateDoc)
-				.persist()
-				.play();
+			return new Sequence().effect().file(file).attachTo(templateDoc).tieToDocuments(templateDoc).persist().play();
 		}
 
 		// EVARD'S BLACK TENTACLES.
 		check = item.name.includes("Black Tentacles");
 		if (check) {
 			const file = "jb2a.arms_of_hadar.dark_purple";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.attachTo(templateDoc)
-				.tieToDocuments(templateDoc)
-				.persist()
-				.play();
+			return new Sequence().effect().file(file).attachTo(templateDoc).tieToDocuments(templateDoc).persist().play();
 		}
 
 		// GRAVITY WAVE.
 		check = item.name.includes("Gravity Wave");
 		if (check) {
 			const file = "jb2a.sphere_of_annihilation.600px.purplered";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.attachTo(templateDoc)
-				.tieToDocuments(templateDoc)
-				.fadeIn(500)
-				.persist()
-				.play();
+			return new Sequence().effect().file(file).attachTo(templateDoc).tieToDocuments(templateDoc).fadeIn(500).persist().play();
 		}
 
 		// LIGHTNING BOLT.
 		check = item.name.includes("Lightning Bolt");
 		if (check) {
 			const file = "jb2a.lightning_bolt.wide.blue";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.atLocation(templateDoc)
-				.stretchTo(templateDoc)
-				.play();
+			return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
 		}
 
 		// STAR DUST.
 		check = item.name.includes("Star Dust");
 		if (check) {
 			const file = "jb2a.side_impact.part.slow.star.pinkyellow";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.atLocation(templateDoc)
-				.stretchTo(templateDoc)
-				.play();
+			return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
 		}
 	}
 
@@ -125,12 +81,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target || !token) return;
 			const file = "jb2a.eldritch_blast";
-			return new Sequence()
-				.effect()
-				.stretchTo(target)
-				.atLocation(token)
-				.file(file)
-				.play();
+			return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
 		}
 
 		// FIRE BOLT.
@@ -138,12 +89,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target || !token) return;
 			const file = "jb2a.fire_bolt.orange";
-			return new Sequence()
-				.effect()
-				.stretchTo(target)
-				.atLocation(token)
-				.file(file)
-				.play();
+			return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
 		}
 
 		// LIGHTING SPEAR.
@@ -151,13 +97,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target || !token) return;
 			const file = "jb2a.bolt.lightning.blue";
-			return new Sequence()
-				.effect()
-				.stretchTo(target)
-				.atLocation(token)
-				.file(file)
-				.playbackRate(2)
-				.play();
+			return new Sequence().effect().stretchTo(target).atLocation(token).file(file).playbackRate(2).play();
 		}
 
 		// RADIANT FLAME.
@@ -165,12 +105,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target || !token) return;
 			const file = "jb2a.chain_lightning.secondary.yellow";
-			return new Sequence()
-				.effect()
-				.stretchTo(target)
-				.atLocation(token)
-				.file(file)
-				.play();
+			return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
 		}
 
 		// THUNDER PUNCH.
@@ -178,12 +113,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target || !token) return;
 			const file = "jb2a.unarmed_strike.magical.01.blue";
-			return new Sequence()
-				.effect()
-				.stretchTo(target)
-				.atLocation(token)
-				.file(file)
-				.play();
+			return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
 		}
 	}
 
@@ -201,12 +131,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target) return;
 			const file = "jb2a.healing_generic.loop.tealyellow";
-			return new Sequence()
-				.effect()
-				.attachTo(target)
-				.file(file)
-				.scaleIn(0, 500)
-				.play();
+			return new Sequence().effect().attachTo(target).file(file).scaleIn(0, 500).play();
 		}
 
 		// CURE WOUNDS.
@@ -214,12 +139,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target) return;
 			const file = "jb2a.cure_wounds.400px.blue";
-			return new Sequence()
-				.effect()
-				.attachTo(target)
-				.file(file)
-				.scaleIn(0, 500)
-				.play();
+			return new Sequence().effect().attachTo(target).file(file).scaleIn(0, 500).play();
 		}
 
 		// ELDRITCH SMITE.
@@ -243,12 +163,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target || !token) return;
 			const file = "jb2a.chain_lightning.secondary.blue";
-			return new Sequence()
-				.effect()
-				.stretchTo(target)
-				.atLocation(token)
-				.file(file)
-				.play();
+			return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
 		}
 	}
 
@@ -287,14 +202,7 @@ export class INNIL_ANIMATIONS {
 		check = name.includes("Divine Sense");
 		if (check) {
 			const file = "jb2a.token_border.circle.static.blue.001";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.fadeIn(500)
-				.duration(10000)
-				.fadeOut(500)
-				.attachTo(token)
-				.play();
+			return new Sequence().effect().file(file).fadeIn(500).duration(10000).fadeOut(500).attachTo(token).play();
 		}
 
 		// HUNTER'S MARK.
@@ -310,12 +218,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target) return;
 			const file = "jb2a.magic_signs.rune.enchantment.intro.purple";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.scale(0.5)
-				.atLocation(target)
-				.play();
+			return new Sequence().effect().file(file).scale(0.5).atLocation(target).play();
 		}
 
 		// HEXBLADE'S CURSE.
@@ -323,26 +226,14 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target) return;
 			const file = "jb2a.smoke.puff.centered.dark_black.0";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.scale(0.5)
-				.atLocation(target)
-				.play();
+			return new Sequence().effect().file(file).scale(0.5).atLocation(target).play();
 		}
 
 		// UNSETTLING PRESENCE.
 		check = name.includes("Unsettling Presence");
 		if (check) {
 			const file = "jb2a.icon.fear.dark_purple";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.fadeIn(500)
-				.duration(3000)
-				.fadeOut(500)
-				.attachTo(token)
-				.play();
+			return new Sequence().effect().file(file).fadeIn(500).duration(3000).fadeOut(500).attachTo(token).play();
 		}
 
 		// TOLL THE DEAD.
@@ -350,12 +241,7 @@ export class INNIL_ANIMATIONS {
 		if (check) {
 			if (!target) return;
 			const file = "jb2a.toll_the_dead.purple.complete";
-			return new Sequence()
-				.effect()
-				.file(file)
-				.scale(0.5)
-				.atLocation(target)
-				.play();
+			return new Sequence().effect().file(file).scale(0.5).atLocation(target).play();
 		}
 	}
 

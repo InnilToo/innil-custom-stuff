@@ -4,11 +4,7 @@ import { SPELL_EFFECTS, STATUS_EFFECTS } from "../../sources/conditions.js";
 export class INNIL_REPLACEMENTS {
 	// replace consumable types
 	static replace_consumable_types = () => {
-		if (
-			!game.settings.get(MODULE_NAME, "replacementSettings")
-				.replace_consumable_types
-		)
-			return;
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_consumable_types) return;
 
 		// the new consumable types.
 		const addedConsumableTypes = {
@@ -34,11 +30,7 @@ export class INNIL_REPLACEMENTS {
 
 	// replace languages
 	static replace_languages = () => {
-		if (
-			!game.settings.get(MODULE_NAME, "replacementSettings")
-				.replace_languages
-		)
-			return;
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_languages) return;
 		CONFIG.DND5E.languages = {
 			common: "Common",
 			aarakocra: "Aarakocra",
@@ -69,10 +61,7 @@ export class INNIL_REPLACEMENTS {
 
 	// replace tools
 	static replace_tools = () => {
-		if (
-			!game.settings.get(MODULE_NAME, "replacementSettings").replace_tools
-		)
-			return;
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_tools) return;
 
 		// pluralising gaming set and instrument:
 		CONFIG.DND5E.toolTypes["game"] = "Gaming Sets";
@@ -138,11 +127,7 @@ export class INNIL_REPLACEMENTS {
 
 	// replace weapons
 	static replace_weapons = () => {
-		if (
-			!game.settings.get(MODULE_NAME, "replacementSettings")
-				.replace_weapons
-		)
-			return;
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_weapons) return;
 
 		const key = "innil-catalogs.catalog-of-items";
 
@@ -191,16 +176,10 @@ export class INNIL_REPLACEMENTS {
 
 	// replace status effects
 	static replace_status_effects = () => {
-		if (
-			!game.settings.get(MODULE_NAME, "replacementSettings")
-				.replace_status_effects
-		)
-			return;
+		if (!game.settings.get(MODULE_NAME, "replacementSettings").replace_status_effects) return;
 
 		// these are gotten from a different file, combined, and then sorted.
-		const statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort(
-			(a, b) => a.sort - b.sort
-		);
+		const statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort((a, b) => a.sort - b.sort);
 		CONFIG.statusEffects = statusEffects;
 	};
 }

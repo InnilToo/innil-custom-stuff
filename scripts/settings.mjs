@@ -51,8 +51,7 @@ class ReplacementsSubmenu extends FormApplication {
 			popOut: true,
 			width: "550",
 			height: "auto",
-			template:
-				"/modules/innil-custom-stuff/templates/settings_replacements.html",
+			template: "/modules/innil-custom-stuff/templates/settings_replacements.html",
 			id: "innil-settings-submenu-replacers",
 			title: "Replacements",
 			resizable: false,
@@ -60,28 +59,16 @@ class ReplacementsSubmenu extends FormApplication {
 	}
 	activateListeners(html) {
 		super.activateListeners(html);
-		const saveButton = html[0].offsetParent.querySelector(
-			".innil-settings-save"
-		);
+		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
 		const dialog = this;
 		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "replacementSettings", {
-				replace_status_effects: html[0].querySelector(
-					".innil-replace-status-effects"
-				).checked,
-				replace_languages: html[0].querySelector(
-					".innil-replace-languages"
-				).checked,
-				rename_currency_labels: html[0].querySelector(
-					".innil-rename-currency-labels"
-				).checked,
-				replace_tools: html[0].querySelector(".innil-replace-tools")
-					.checked,
-				replace_weapons: html[0].querySelector(".innil-replace-weapons")
-					.checked,
-				replace_consumable_types: html[0].querySelector(
-					".innil-replace-consumable-types"
-				).checked,
+				replace_status_effects: html[0].querySelector(".innil-replace-status-effects").checked,
+				replace_languages: html[0].querySelector(".innil-replace-languages").checked,
+				rename_currency_labels: html[0].querySelector(".innil-rename-currency-labels").checked,
+				replace_tools: html[0].querySelector(".innil-replace-tools").checked,
+				replace_weapons: html[0].querySelector(".innil-replace-weapons").checked,
+				replace_consumable_types: html[0].querySelector(".innil-replace-consumable-types").checked,
 			});
 			dialog.close();
 		});
@@ -110,8 +97,7 @@ class AdditionsSubmenu extends FormApplication {
 			popOut: true,
 			width: "550",
 			height: "auto",
-			template:
-				"/modules/innil-custom-stuff/templates/settings_additions.html",
+			template: "/modules/innil-custom-stuff/templates/settings_additions.html",
 			id: "innil-settings-submenu-additions",
 			title: "Additions",
 			resizable: false,
@@ -120,16 +106,11 @@ class AdditionsSubmenu extends FormApplication {
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
-		const saveButton = html[0].offsetParent.querySelector(
-			".innil-settings-save"
-		);
+		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
 		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "additionSettings", {
-				add_conditions: html[0].querySelector(".innil-add-conditions")
-					.checked,
-				add_equipment_types: html[0].querySelector(
-					".innil-add-equipment-types"
-				).checked,
+				add_conditions: html[0].querySelector(".innil-add-conditions").checked,
+				add_equipment_types: html[0].querySelector(".innil-add-equipment-types").checked,
 			});
 			dialog.close();
 		});
@@ -155,8 +136,7 @@ class SheetSubmenu extends FormApplication {
 			popOut: true,
 			width: "550",
 			height: "auto",
-			template:
-				"/modules/innil-custom-stuff/templates/settings_sheet.html",
+			template: "/modules/innil-custom-stuff/templates/settings_sheet.html",
 			id: "innil-settings-submenu-sheet",
 			title: "Sheet Adjustments",
 			resizable: false,
@@ -165,29 +145,15 @@ class SheetSubmenu extends FormApplication {
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
-		const saveButton = html[0].offsetParent.querySelector(
-			".innil-settings-save"
-		);
+		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
 		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "sheetSettings", {
-				rename_rest_labels: html[0].querySelector(
-					".innil-rename-rest-labels"
-				).checked,
-				remove_resources: html[0].querySelector(
-					".innil-remove-resources"
-				).checked,
-				remove_alignment: html[0].querySelector(
-					".innil-remove-alignment"
-				).checked,
-				disable_initiative_button: html[0].querySelector(
-					".innil-disable-initiative-button"
-				).checked,
-				pretty_trait_selector: html[0].querySelector(
-					".innil-pretty-trait-selector"
-				).checked,
-				collapsible_headers: html[0].querySelector(
-					".innil-collapsible-headers"
-				).checked,
+				rename_rest_labels: html[0].querySelector(".innil-rename-rest-labels").checked,
+				remove_resources: html[0].querySelector(".innil-remove-resources").checked,
+				remove_alignment: html[0].querySelector(".innil-remove-alignment").checked,
+				disable_initiative_button: html[0].querySelector(".innil-disable-initiative-button").checked,
+				pretty_trait_selector: html[0].querySelector(".innil-pretty-trait-selector").checked,
+				collapsible_headers: html[0].querySelector(".innil-collapsible-headers").checked,
 			});
 			dialog.close();
 		});
@@ -217,8 +183,7 @@ class ColorPickerSubmenu extends FormApplication {
 			popOut: true,
 			width: "550",
 			height: "auto",
-			template:
-				"/modules/innil-custom-stuff/templates/settings_colorpickers.html",
+			template: "/modules/innil-custom-stuff/templates/settings_colorpickers.html",
 			id: "innil-settings-submenu-colorpickers",
 			title: "Character Sheet Color Adjustments",
 			resizable: false,
@@ -227,44 +192,22 @@ class ColorPickerSubmenu extends FormApplication {
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
-		const saveButton = html[0].offsetParent.querySelector(
-			".innil-settings-save"
-		);
+		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
 		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "colorSettings", {
-				limited_use_dots: html[0].querySelector(
-					".innil-limited-use-dots"
-				).checked,
-				spell_slot_dots: html[0].querySelector(".innil-spell-slot-dots")
-					.checked,
+				limited_use_dots: html[0].querySelector(".innil-limited-use-dots").checked,
+				spell_slot_dots: html[0].querySelector(".innil-spell-slot-dots").checked,
 				color_full: html[0].querySelector(".innil-color-full").value,
-				color_attuned: html[0].querySelector(".innil-color-attuned")
-					.value,
-				color_not_attuned: html[0].querySelector(
-					".innil-color-not-attuned"
-				).value,
-				color_equipped: html[0].querySelector(".innil-color-equipped")
-					.value,
-				color_not_equipped: html[0].querySelector(
-					".innil-color-not-equipped"
-				).value,
-				color_prepared: html[0].querySelector(".innil-color-prepared")
-					.value,
-				color_not_prepared: html[0].querySelector(
-					".innil-color-not-prepared"
-				).value,
-				color_always_prepared: html[0].querySelector(
-					".innil-color-always-prepared"
-				).value,
-				color_proficient: html[0].querySelector(
-					".innil-color-proficient"
-				).value,
-				color_half_proficient: html[0].querySelector(
-					".innil-color-half-proficient"
-				).value,
-				color_twice_proficient: html[0].querySelector(
-					".innil-color-twice-proficient"
-				).value,
+				color_attuned: html[0].querySelector(".innil-color-attuned").value,
+				color_not_attuned: html[0].querySelector(".innil-color-not-attuned").value,
+				color_equipped: html[0].querySelector(".innil-color-equipped").value,
+				color_not_equipped: html[0].querySelector(".innil-color-not-equipped").value,
+				color_prepared: html[0].querySelector(".innil-color-prepared").value,
+				color_not_prepared: html[0].querySelector(".innil-color-not-prepared").value,
+				color_always_prepared: html[0].querySelector(".innil-color-always-prepared").value,
+				color_proficient: html[0].querySelector(".innil-color-proficient").value,
+				color_half_proficient: html[0].querySelector(".innil-color-half-proficient").value,
+				color_twice_proficient: html[0].querySelector(".innil-color-twice-proficient").value,
 			});
 			INNIL_SHEET.refreshColors();
 			dialog.close();
@@ -301,8 +244,7 @@ class RarityColorsSubmenu extends FormApplication {
 			popOut: true,
 			width: "550",
 			height: "auto",
-			template:
-				"/modules/innil-custom-stuff/templates/settings_raritycolors.html",
+			template: "/modules/innil-custom-stuff/templates/settings_raritycolors.html",
 			id: "innil-settings-submenu-raritycolors",
 			title: "Item Rarity Color Adjustments",
 			resizable: false,
@@ -311,17 +253,13 @@ class RarityColorsSubmenu extends FormApplication {
 	activateListeners(html) {
 		super.activateListeners(html);
 		const dialog = this;
-		const saveButton = html[0].offsetParent.querySelector(
-			".innil-settings-save"
-		);
+		const saveButton = html[0].offsetParent.querySelector(".innil-settings-save");
 		saveButton.addEventListener("click", async function () {
 			await game.settings.set(MODULE_NAME, "rarityColorSettings", {
 				uncommon: html[0].querySelector(".innil-color-uncommon").value,
 				rare: html[0].querySelector(".innil-color-rare").value,
-				very_rare: html[0].querySelector(".innil-color-very-rare")
-					.value,
-				legendary: html[0].querySelector(".innil-color-legendary")
-					.value,
+				very_rare: html[0].querySelector(".innil-color-very-rare").value,
+				legendary: html[0].querySelector(".innil-color-legendary").value,
 				artifact: html[0].querySelector(".innil-color-artifact").value,
 			});
 			INNIL_SHEET.refreshColors();

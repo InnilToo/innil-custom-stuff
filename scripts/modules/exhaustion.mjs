@@ -13,17 +13,10 @@ export function innil_exhaustion() {
 		header.setAttribute("data-action", "updateExhaustion");
 		// create listeners (black magic).
 		if (sheet.innil?.exhaustion === undefined) {
-			foundry.utils.setProperty(
-				sheet,
-				"innil.exhaustion",
-				exhaustionUpdate.bind(sheet.object)
-			);
+			foundry.utils.setProperty(sheet, "innil.exhaustion", exhaustionUpdate.bind(sheet.object));
 			sheet.element[0].addEventListener("click", sheet.innil.exhaustion);
 		} else {
-			sheet.element[0].removeEventListener(
-				"click",
-				sheet.innil.exhaustion
-			);
+			sheet.element[0].removeEventListener("click", sheet.innil.exhaustion);
 			sheet.element[0].addEventListener("click", sheet.innil.exhaustion);
 		}
 	});

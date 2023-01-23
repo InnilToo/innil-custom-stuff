@@ -5,15 +5,10 @@ export class INNIL_COMBAT {
 	static mark_defeated_combatant = async (tokenDoc, updates) => {
 		if (!game.settings.get(MODULE_NAME, "markDefeatedCombatants")) return;
 		if (tokenDoc.actor.hasPlayerOwner) return;
-		const hpUpdate = foundry.utils.getProperty(
-			updates,
-			"actorData.system.attributes.hp.value"
-		);
+		const hpUpdate = foundry.utils.getProperty(updates, "actorData.system.attributes.hp.value");
 		if (hpUpdate === undefined) return;
 		if (hpUpdate > 0) {
-			await tokenDoc.actor.effects
-				.find((i) => i.getFlag("core", "statusId") === "dead")
-				?.delete();
+			await tokenDoc.actor.effects.find((i) => i.getFlag("core", "statusId") === "dead")?.delete();
 			await tokenDoc.combatant.update({ defeated: false });
 		} else {
 			const effect = CONFIG.statusEffects.find((i) => i.id === "dead");
