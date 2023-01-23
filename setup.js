@@ -54,10 +54,7 @@ Hooks.once("ready", () => {
 	Hooks.on("renderActorSheet", INNIL_SHEET.color_magic_items);
 
 	// make the attunement button an actual toggle.
-	Hooks.on(
-		"renderActorSheet",
-		INNIL_SHEET.create_toggle_on_attunement_button
-	);
+	Hooks.on("renderActorSheet", INNIL_SHEET.create_toggle_on_attunement_button);
 
 	// make the trait and proficiency selectors less ugly.
 	Hooks.on("renderTraitSelector", INNIL_SHEET.pretty_trait_selector);
@@ -66,8 +63,7 @@ Hooks.once("ready", () => {
 	INNIL_SHEET.refreshColors();
 
 	// mark 0 hp combatants as defeated.
-	if (game.user.isGM)
-		Hooks.on("updateToken", INNIL_COMBAT.mark_defeated_combatant);
+	if (game.user.isGM) Hooks.on("updateToken", INNIL_COMBAT.mark_defeated_combatant);
 
 	// display ammo when you make an attack, if the ammo has a save.
 	Hooks.on("dnd5e.rollAttack", INNIL_COMBAT.show_ammo_if_it_has_save);
@@ -90,14 +86,9 @@ Hooks.once("ready", () => {
 	}
 
 	// hook for when measured templates are created to display animation.
-	const canAnimate = ["sequencer", "jb2a_patreon"].every(
-		(id) => !!game.modules.get(id)?.active
-	);
+	const canAnimate = ["sequencer", "jb2a_patreon"].every((id) => !!game.modules.get(id)?.active);
 	if (canAnimate) {
-		Hooks.on(
-			"createMeasuredTemplate",
-			INNIL_ANIMATIONS.onCreateMeasuredTemplate
-		);
+		Hooks.on("createMeasuredTemplate", INNIL_ANIMATIONS.onCreateMeasuredTemplate);
 		Hooks.on("dnd5e.useItem", INNIL_ANIMATIONS.onItemUse);
 		Hooks.on("dnd5e.rollAttack", INNIL_ANIMATIONS.onItemRollAttack);
 		Hooks.on("dnd5e.rollDamage", INNIL_ANIMATIONS.onItemRollDamage);
