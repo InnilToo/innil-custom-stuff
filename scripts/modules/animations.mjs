@@ -49,7 +49,7 @@ export class INNIL_ANIMATIONS {
 		check = item.name.includes("Gravity Wave");
 		if (check) {
 			const file = "jb2a.sphere_of_annihilation.600px.purplered";
-			return new Sequence().effect().file(file).attachTo(templateDoc).tieToDocuments(templateDoc).fadeIn(500).persist().play();
+			return new Sequence().effect().file(file).attachTo(templateDoc).tieToDocuments(templateDoc).scale(2).fadeIn(500).persist().play();
 		}
 
 		// LIGHTNING BOLT.
