@@ -216,8 +216,8 @@ class ColorPickerSubmenu extends FormApplication {
 	getData() {
 		const source = game.settings.get(MODULE_NAME, "colorSettings");
 		const defaults = {
-			limited_use_dots: false,
-			spell_slot_dots: false,
+			limited_use_dots: true,
+			spell_slot_dots: true,
 			color_full: "#1aa5c1",
 			color_attuned: "#31c431",
 			color_not_attuned: "#ff6347",
@@ -347,8 +347,8 @@ const registerSettingsMenus = function () {
 		config: false,
 		type: Object,
 		default: {
-			limited_use_dots: false,
-			spell_slot_dots: false,
+			limited_use_dots: true,
+			spell_slot_dots: true,
 			color_full: "#1aa5c1",
 			color_attuned: "#31c431",
 			color_not_attuned: "#ff6347",
