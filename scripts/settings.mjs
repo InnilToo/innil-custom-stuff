@@ -164,7 +164,7 @@ class SheetSubmenu extends FormApplication {
 			rename_rest_labels: true,
 			remove_resources: true,
 			remove_alignment: true,
-			disable_initiative_button: true,
+			disable_initiative_button: false,
 			pretty_trait_selector: true,
 			collapsible_headers: true,
 		};
@@ -329,7 +329,7 @@ const registerSettingsMenus = function () {
 			rename_rest_labels: true,
 			remove_resources: true,
 			remove_alignment: true,
-			disable_initiative_button: true,
+			disable_initiative_button: false,
 			pretty_trait_selector: true,
 			collapsible_headers: true,
 		},
