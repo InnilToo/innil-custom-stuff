@@ -216,25 +216,6 @@ export class INNIL_SHEET {
 		document.documentElement.style.setProperty("--rarity-color-artifact", artifact);
 	};
 
-	static set_hp_color = (sheet, html) => {
-		const actor = sheet.object;
-		const { value, max } = actor.system.attributes.hp;
-		const nearDeath = (Math.abs(value) ?? 0) / (max ?? 1) < 0.33;
-		const bloodied = (Math.abs(value) ?? 0) / (max ?? 1) < 0.66;
-
-		const hp = html[0].querySelector("input[name='system.attributes.hp.value']");
-		if (nearDeath) {
-			hp.classList.add("near-death");
-			hp.classList.remove("bloodied");
-		} else if (bloodied) {
-			hp.classList.remove("near-death");
-			hp.classList.add("bloodied");
-		} else {
-			hp.classList.remove("near-death");
-			hp.classList.remove("bloodied");
-		}
-	};
-
 	// pretty up the trait selectors.
 	static pretty_trait_selector = (selector, html, context) => {
 		if (!game.settings.get(MODULE_NAME, "sheetSettings").pretty_trait_selector) return;

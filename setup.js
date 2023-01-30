@@ -44,7 +44,6 @@ Hooks.once("ready", () => {
 	Hooks.on("renderActorSheet", INNIL_SHEET.remove_resources);
 	Hooks.on("renderActorSheet", INNIL_SHEET.remove_alignment);
 	Hooks.on("renderActorSheet", INNIL_SHEET.disable_initiative_button);
-	Hooks.on("renderActorSheet", INNIL_SHEET.set_hp_color);
 	Hooks.on("renderActorSheet", INNIL_SHEET.collapsible_headers);
 
 	// create dots for limited uses and spell slots.
