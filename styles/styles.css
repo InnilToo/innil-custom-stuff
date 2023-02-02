@@ -1,4 +1,4 @@
-/* Token HUD status effects. */
+/* BEGIN: Token HUD status effects. */
 #token-hud .status-effects .effect-control {
   width: 36px;
   height: 36px;
@@ -24,6 +24,7 @@
   border-radius: 4px;
   pointer-events: all;
 }
+/* END: Token HUD status effects. */
 
 /* Setting Submenus. */
 label.innil-custom-stuff.innil-label-name {
@@ -130,3 +131,9 @@ a:active {
 .tab#chat {
   margin: -5px 0px 0px;
 }
+
+/* BEGIN: NPC sheet Spellbook edits */
+.spell-school {
+  display: none;
+}
+/* END: NPC sheet Spellbook edits */
