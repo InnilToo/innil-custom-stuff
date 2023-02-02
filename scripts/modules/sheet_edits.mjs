@@ -62,8 +62,7 @@ export class INNIL_SHEET {
     }
   };
 
-  // BEGIN USES DOTS
-  // Create dots.
+  // Uses Dots.
   static create_dots = (sheet, html) => {
     const limited_use_dots = !!game.settings.get(MODULE_NAME, "colorSettings").limited_use_dots;
     const spell_slot_dots = !!game.settings.get(MODULE_NAME, "colorSettings").spell_slot_dots;
@@ -131,7 +130,7 @@ export class INNIL_SHEET {
       }
     }
 
-    // Create listeners.
+    // Create listeners for Uses Dots.
     if (spell_slot_dots || limited_use_dots) {
       for (let dot of html[0].querySelectorAll(".dot")) {
         dot.addEventListener("click", async (ev) => {
@@ -162,14 +161,13 @@ export class INNIL_SHEET {
       }
     }
   };
-  // END USES DOTS
 
   static create_toggle_on_attunement_button = (sheet, html) => {
     html[0].addEventListener("click", (event) => {
       const attunement_icon = event.target?.closest(".item-detail.attunement");
       if (!attunement_icon) return;
 
-      // Item attuned or nah.
+      // Item attuned or not.
       const attuned = attunement_icon.querySelector(".attuned");
       const not_attuned = attunement_icon.querySelector(".not-attuned");
       if (!attuned && !not_attuned) return;
