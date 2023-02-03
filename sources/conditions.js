@@ -14,7 +14,7 @@ export const SPELL_EFFECTS = [
     id: "bane",
     label: "Bane",
     sort: 1100,
-    icon: "assets/images/conditions/bane.webp",
+    icon: "assets/images/icons/conditions/bane.webp",
     duration: { seconds: 60 },
     flags: {
       convenientDescription: `
@@ -52,7 +52,7 @@ export const SPELL_EFFECTS = [
     id: "bless",
     label: "Bless",
     sort: 1000,
-    icon: "assets/images/conditions/bless.webp",
+    icon: "assets/images/icons/conditions/bless.webp",
     duration: { seconds: 60 },
     flags: {
       convenientDescription: `
@@ -90,7 +90,7 @@ export const SPELL_EFFECTS = [
     id: "haste",
     label: "Haste",
     sort: 1200,
-    icon: "assets/images/conditions/haste.webp",
+    icon: "assets/images/icons/conditions/haste.webp",
     duration: { seconds: 60 },
     flags: {
       convenientDescription: `
@@ -128,7 +128,7 @@ export const SPELL_EFFECTS = [
     id: "slow",
     label: "Slow",
     sort: 1300,
-    icon: "assets/images/conditions/slowed.webp",
+    icon: "assets/images/icons/conditions/slowed.webp",
     duration: { seconds: 60 },
     flags: {
       convenientDescription: `
@@ -171,7 +171,7 @@ export const SPELL_EFFECTS = [
     id: "invisible",
     label: "Invisible",
     sort: 1500,
-    icon: "assets/images/conditions/invisible.webp",
+    icon: "assets/images/icons/conditions/invisible.webp",
     duration: { seconds: 3600 },
     flags: {
       convenientDescription: `
@@ -183,7 +183,7 @@ export const SPELL_EFFECTS = [
     id: "fly",
     label: "Flying",
     sort: 1400,
-    icon: "assets/images/conditions/flying.webp",
+    icon: "assets/images/icons/conditions/flying.webp",
     duration: { seconds: 600 },
     flags: {
       convenientDescription: `
@@ -250,7 +250,7 @@ export const STATUS_EFFECTS = [
     id: "blind",
     label: "Blinded",
     sort: 300,
-    icon: "assets/images/conditions/blinded.webp",
+    icon: "assets/images/icons/conditions/blinded.webp",
     flags: {
       convenientDescription: `
             <p>You cannot see, and you automatically fail any ability checks that require sight.</p>
@@ -261,7 +261,7 @@ export const STATUS_EFFECTS = [
     id: "charm",
     label: "Charmed",
     sort: 200,
-    icon: "assets/images/conditions/charmed.webp",
+    icon: "assets/images/icons/conditions/charmed.webp",
     flags: {
       convenientDescription: `
             <p>You cannot attack the charmer or target them with harmful abilities or magical effects.</p>
@@ -272,7 +272,7 @@ export const STATUS_EFFECTS = [
     id: "dead",
     label: "Dead",
     sort: 100,
-    icon: "assets/images/conditions/dead.webp",
+    icon: "assets/images/icons/conditions/dead.webp",
     flags: {
       convenientDescription: `
             <p>You have met an unfortunate end.</p>`,
@@ -282,7 +282,7 @@ export const STATUS_EFFECTS = [
     id: "deaf",
     label: "Deafened",
     sort: 330,
-    icon: "assets/images/conditions/deafened.webp",
+    icon: "assets/images/icons/conditions/deafened.webp",
     flags: {
       convenientDescription: `
             <p>You cannot hear and automatically fail any ability checks that require hearing.</p>`,
@@ -292,7 +292,7 @@ export const STATUS_EFFECTS = [
     id: "mute",
     label: "Muted",
     sort: 360,
-    icon: "assets/images/conditions/muted.webp",
+    icon: "assets/images/icons/conditions/muted.webp",
     flags: {
       convenientDescription: `
             <p>You cannot speak and cannot cast spells with a verbal component.</p>
@@ -303,7 +303,7 @@ export const STATUS_EFFECTS = [
     id: "fear",
     label: "Frightened",
     sort: 250,
-    icon: "assets/images/conditions/frightened.webp",
+    icon: "assets/images/icons/conditions/frightened.webp",
     flags: {
       convenientDescription: `
             <p>You have disadvantage on all attack rolls and ability checks while the source of your fear is within your line of sight.</p>
@@ -314,7 +314,7 @@ export const STATUS_EFFECTS = [
     id: "grappled",
     label: "Grappled",
     sort: 430,
-    icon: "assets/images/conditions/grappled.webp",
+    icon: "assets/images/icons/conditions/grappled.webp",
     flags: {
       convenientDescription: `
             <p>Your speed is zero.</p>`,
@@ -346,7 +346,7 @@ export const STATUS_EFFECTS = [
     id: "incapacitated",
     label: "Incapacitated",
     sort: 500,
-    icon: "assets/images/conditions/incapacitated.webp",
+    icon: "assets/images/icons/conditions/incapacitated.webp",
     flags: {
       convenientDescription: `
             <p>You cannot take actions or reactions.</p>`,
@@ -356,7 +356,7 @@ export const STATUS_EFFECTS = [
     id: "paralysis",
     label: "Paralyzed",
     sort: 600,
-    icon: "assets/images/conditions/paralyzed.webp",
+    icon: "assets/images/icons/conditions/paralyzed.webp",
     flags: {
       convenientDescription: `
             <p>You are incapacitated, and you cannot move or speak.</p>
@@ -390,7 +390,7 @@ export const STATUS_EFFECTS = [
     id: "petrified",
     label: "Petrified",
     sort: 650,
-    icon: "assets/images/conditions/petrified.webp",
+    icon: "assets/images/icons/conditions/petrified.webp",
     flags: {
       convenientDescription: `
             <p>You are inanimate, incapacitated, and unaware of your surroundings.</p>
@@ -403,7 +403,7 @@ export const STATUS_EFFECTS = [
     id: "poison",
     label: "Poisoned",
     sort: 280,
-    icon: "assets/images/conditions/poisoned.webp",
+    icon: "assets/images/icons/conditions/poisoned.webp",
     flags: {
       convenientDescription: `
             <p>You have disadvantage on all attack rolls and ability checks.</p>`,
@@ -413,7 +413,7 @@ export const STATUS_EFFECTS = [
     id: "prone",
     label: "Prone",
     sort: 400,
-    icon: "assets/images/conditions/prone.webp",
+    icon: "assets/images/icons/conditions/prone.webp",
     flags: {
       convenientDescription: `
             <p>You can only crawl unless you expend half your movement to stand up.</p>
@@ -424,7 +424,7 @@ export const STATUS_EFFECTS = [
     id: "restrain",
     label: "Restrained",
     sort: 450,
-    icon: "assets/images/conditions/restrained.webp",
+    icon: "assets/images/icons/conditions/restrained.webp",
     flags: {
       convenientDescription: `
             <p>Your speed is zero, attack rolls against you have advantage, and your attack rolls have disadvantage.</p>
@@ -457,7 +457,7 @@ export const STATUS_EFFECTS = [
     id: "stun",
     label: "Stunned",
     sort: 540,
-    icon: "assets/images/conditions/stunned.webp",
+    icon: "assets/images/icons/conditions/stunned.webp",
     flags: {
       convenientDescription: `
             <p>You are incapacitated, cannot move, and can speak only falteringly.</p>
@@ -490,7 +490,7 @@ export const STATUS_EFFECTS = [
     id: "unconscious",
     label: "Unconscious",
     sort: 560,
-    icon: "assets/images/conditions/unconscious.webp",
+    icon: "assets/images/icons/conditions/unconscious.webp",
     flags: {
       convenientDescription: `
             <p>You are incapacitated, cannot move or speak, you fall prone, and you automatically fail all Strength and Dexterity saving throws.</p>
