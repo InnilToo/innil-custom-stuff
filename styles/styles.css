@@ -68,6 +68,7 @@ label.innil-custom-stuff.innil-label-name {
   width: max-content;
 }
 
+/* BEGIN: Collapsible headers */
 /* collapsible items and effect headers */
 .dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover,
 .dnd5e.sheet.actor .characteristics label:hover {
@@ -88,6 +89,7 @@ label.innil-custom-stuff.innil-label-name {
 .dnd5e.sheet.actor .characteristics label.no-edit + textarea {
   display: none;
 }
+/* END: Collapsible headers */
 
 /* whisper dialog */
 .form-fields {
