@@ -84,6 +84,14 @@ export class INNIL_ANIMATIONS {
 
     let check;
 
+    // CRACKLE.
+    check = name.includes("Crackle");
+    if (check) {
+      if (!target || !token) return;
+      const file = "jb2a.chain_lightning.primary.blue";
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
+    }
+
     // ELDRITCH BLAST.
     check = name.includes("Eldritch Blast");
     if (check) {
