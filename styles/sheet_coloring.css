@@ -108,10 +108,6 @@ body :root {
   background-color: burlywood;
 }
 
-.dnd5e.sheet.actor .traits :is(.trait-selector i.fas, .proficiency-selector i.fas, .config-button .fa-cog) {
-  color: blue;
-}
-
 /* make appearance, personality, etc slightly wider. */
 .dnd5e.sheet.actor.character .characteristics {
   flex: 0 0 250px;
