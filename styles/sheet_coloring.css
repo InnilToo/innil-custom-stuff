@@ -1,15 +1,15 @@
 /* Default colors. */
 body :root {
-  --full_color: #1aa5c1;
+  --full_color: #00c9cc;
   --attuned_color: #31c431;
   --not_attuned_color: #ff6347;
   --equipped_color: #31c431;
   --not_equipped_color: #9f9f94;
-  --prepared_color: #d6e600;
+  --prepared_color: #31c431;
   --not_prepared_color: #9f9f94;
-  --always_prepared_color: #31c431;
+  --always_prepared_color: #00c9cc;
   --color_proficient: #31c431;
-  --color_half_proficient: #1aa5c1;
+  --color_half_proficient: #00c9cc;
   --color_twice_proficient: #ff6347;
   color: rgb(0, 0, 0);
 }
