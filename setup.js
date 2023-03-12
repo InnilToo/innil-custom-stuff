@@ -8,6 +8,11 @@ import { INNIL_SHEET } from "./scripts/modules/sheet_edits.mjs";
 import { INNIL_COMBAT } from "./scripts/modules/combat_helpers.mjs";
 import { innil_exhaustion } from "./scripts/modules/exhaustion.mjs";
 import { INNIL_ANIMATIONS } from "./scripts/modules/animations.mjs";
+import { _heartOfTheStorm } from "./scripts/modules/heartOfTheStorm.mjs";
+import { _heartOfTheStormButton } from "./scripts/modules/heartOfTheStorm.mjs";
+
+Hooks.on("dnd5e.useItem", _heartOfTheStorm);
+Hooks.once("ready", _heartOfTheStormButton);
 
 Hooks.once("init", () => {
   console.log(`${MODULE_TITLE_SHORT} | Initializing ${MODULE_TITLE}`);
