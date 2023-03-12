@@ -5,7 +5,7 @@ export class INNIL_ADDITIONS {
   static add_equipment_types = () => {
     if (!game.settings.get(MODULE_NAME, "additionSettings").add_equipment_types) return;
 
-    // Want Equipement type
+    // Wand Equipement type
     const toAdd = { wand: "Wand" };
     foundry.utils.mergeObject(CONFIG.DND5E.equipmentTypes, toAdd);
     foundry.utils.mergeObject(CONFIG.DND5E.miscEquipmentTypes, toAdd);
