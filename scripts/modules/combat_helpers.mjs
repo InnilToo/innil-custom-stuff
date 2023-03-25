@@ -1,6 +1,7 @@
 import { MODULE_NAME } from "../const.mjs";
 
 export class INNIL_COMBAT {
+  // hooks on updateToken
   // mark defeated combatant as dead unless it's linked and/or player owned
   static mark_defeated_combatant = async (tokenDoc, updates) => {
     if (!game.settings.get(MODULE_NAME, "markDefeatedCombatants")) return;
@@ -17,6 +18,7 @@ export class INNIL_COMBAT {
     }
   };
 
+  // hooks on dnd5e.rollAttack
   // display saving throw on shot ammo
   static show_ammo_if_it_has_save = async (weapon, roll, ammoUpdate) => {
     if (!game.settings.get(MODULE_NAME, "displaySavingThrowAmmo")) return;
@@ -26,6 +28,23 @@ export class INNIL_COMBAT {
     if (ammo.hasSave) return ammo.displayCard();
     return;
   };
+
+  // hooks on dnd5e.useItem
+  // spend actors/tokens reaction
+  static spendReaction(item) {
+    if (item.system.activation?.type !== "reaction") return;
+    if (!game.combat) return;
+    const has = item.parent.effects.find((e) => e.flags.core?.statusId === "reaction");
+    if (has) return;
+    const combatant = item.parent.token?.combatant ?? item.parent.getActiveTokens()[0]?.combatant;
+    if (!combatant) return;
+    const reaction = foundry.utils.duplicate(CONFIG.statusEffects.find((e) => e.id === "reaction"));
+    reaction["flags.visual-active-effects.data"] = {
+      intro: "<p>" + game.i18n.format("INNIL.StatusConditionReactionDescription", { name: item.name }) + "</p>",
+      content: item.system.description.value,
+    };
+    return combatant.token.toggleActiveEffect(reaction, { active: true });
+  }
 }
 
 export function _replaceTokenHUD(hud, html, tokenData) {

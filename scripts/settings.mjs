@@ -1,4 +1,4 @@
-import { MODULE_NAME } from "./const.mjs";
+import { MODULE_NAME, TRACK_REACTIONS } from "./const.mjs";
 import { INNIL_SHEET } from "./modules/sheet_edits.mjs";
 
 export function registerSettings() {
@@ -38,6 +38,21 @@ function _registerSettings() {
     config: true,
     type: Boolean,
     default: true,
+  });
+
+  game.settings.register(MODULE, TRACK_REACTIONS, {
+    name: "ZHELL.SettingsTrackReactionsName",
+    hint: "ZHELL.SettingsTrackReactionsHint",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "all",
+    requiresReload: true,
+    choices: {
+      disabled: "Do not track reactions",
+      gm: "Track reactions for the GM",
+      all: "Track reactions for all actors",
+    },
   });
 }
 
