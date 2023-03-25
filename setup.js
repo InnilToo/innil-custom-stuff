@@ -1,17 +1,19 @@
-import { MODULE_TITLE, MODULE_TITLE_SHORT } from "./scripts/const.mjs";
+import { MODULE_NAME, MODULE_TITLE, MODULE_TITLE_SHORT, DEPEND, TRACK_REACTIONS } from "./scripts/const.mjs";
 import { registerSettings } from "./scripts/settings.mjs";
 import { api } from "./scripts/api.mjs";
 import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
 import { INNIL_ADDITIONS } from "./scripts/modules/game_additions.mjs";
 import { INNIL_REPLACEMENTS } from "./scripts/modules/game_replacements.mjs";
 import { INNIL_SHEET } from "./scripts/modules/sheet_edits.mjs";
-import { INNIL_COMBAT } from "./scripts/modules/combat_helpers.mjs";
+import { INNIL_COMBAT, _replaceTokenHUD } from "./scripts/modules/combat_helpers.mjs";
 import { innil_exhaustion } from "./scripts/modules/exhaustion.mjs";
 import { INNIL_ANIMATIONS } from "./scripts/modules/animations.mjs";
 import { _heartOfTheStorm } from "./scripts/modules/heartOfTheStorm.mjs";
 import { _heartOfTheStormButton } from "./scripts/modules/heartOfTheStorm.mjs";
 
 Hooks.on("dnd5e.useItem", _heartOfTheStorm);
+Hooks.on("renderTokenHUD", _replaceTokenHUD);
+
 Hooks.once("ready", _heartOfTheStormButton);
 
 Hooks.once("init", () => {
@@ -37,6 +39,13 @@ Hooks.once("setup", () => {
 
   // create a exhaustion pop up on click
   innil_exhaustion();
+});
+
+Hooks.once("ready", function () {
+  const reactionSetting = game.settings.get(MODULE_NAME, TRACK_REACTIONS);
+  if ((reactionSetting === "gm" && game.user.isGM) || reactionSetting === "all") {
+    Hooks.on("dnd5e.useItem", INNIL_COMBAT.spendReaction);
+  }
 });
 
 Hooks.once("ready", () => {
