@@ -1,4 +1,4 @@
-import { MODULE_TITLE, MODULE_TITLE_SHORT, DEPEND, TRACK_REACTIONS } from "./scripts/const.mjs";
+import { MODULE_NAME, MODULE_TITLE, MODULE_TITLE_SHORT, DEPEND, TRACK_REACTIONS } from "./scripts/const.mjs";
 import { registerSettings } from "./scripts/settings.mjs";
 import { api } from "./scripts/api.mjs";
 import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
@@ -42,9 +42,9 @@ Hooks.once("setup", () => {
 });
 
 Hooks.once("ready", function () {
-  const reactionSetting = game.settings.get(MODULE, TRACK_REACTIONS);
+  const reactionSetting = game.settings.get(MODULE_NAME, TRACK_REACTIONS);
   if ((reactionSetting === "gm" && game.user.isGM) || reactionSetting === "all") {
-    Hooks.on("dnd5e.useItem", ZHELL_COMBAT.spendReaction);
+    Hooks.on("dnd5e.useItem", INNIL_COMBAT.spendReaction);
   }
 });
 

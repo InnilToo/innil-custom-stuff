@@ -40,9 +40,9 @@ function _registerSettings() {
     default: true,
   });
 
-  game.settings.register(MODULE, TRACK_REACTIONS, {
-    name: "ZHELL.SettingsTrackReactionsName",
-    hint: "ZHELL.SettingsTrackReactionsHint",
+  game.settings.register(MODULE_NAME, TRACK_REACTIONS, {
+    name: "INNIL.SettingsTrackReactionsName",
+    hint: "INNIL.SettingsTrackReactionsHint",
     scope: "world",
     config: true,
     type: String,
