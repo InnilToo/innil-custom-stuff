@@ -5,13 +5,15 @@ import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
 import { INNIL_ADDITIONS } from "./scripts/modules/game_additions.mjs";
 import { INNIL_REPLACEMENTS } from "./scripts/modules/game_replacements.mjs";
 import { INNIL_SHEET } from "./scripts/modules/sheet_edits.mjs";
-import { INNIL_COMBAT } from "./scripts/modules/combat_helpers.mjs";
+import { INNIL_COMBAT, _replaceTokenHUD } from "./scripts/modules/combat_helpers.mjs";
 import { innil_exhaustion } from "./scripts/modules/exhaustion.mjs";
 import { INNIL_ANIMATIONS } from "./scripts/modules/animations.mjs";
 import { _heartOfTheStorm } from "./scripts/modules/heartOfTheStorm.mjs";
 import { _heartOfTheStormButton } from "./scripts/modules/heartOfTheStorm.mjs";
 
 Hooks.on("dnd5e.useItem", _heartOfTheStorm);
+Hooks.on("renderTokenHUD", _replaceTokenHUD);
+
 Hooks.once("ready", _heartOfTheStormButton);
 
 Hooks.once("init", () => {

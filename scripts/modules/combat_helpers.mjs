@@ -17,7 +17,7 @@ export class INNIL_COMBAT {
     }
   };
 
-  // display sawing throw on shot ammo
+  // display saving throw on shot ammo
   static show_ammo_if_it_has_save = async (weapon, roll, ammoUpdate) => {
     if (!game.settings.get(MODULE_NAME, "displaySavingThrowAmmo")) return;
     if (!ammoUpdate.length) return;
@@ -26,4 +26,30 @@ export class INNIL_COMBAT {
     if (ammo.hasSave) return ammo.displayCard();
     return;
   };
+}
+
+export function _replaceTokenHUD(hud, html, tokenData) {
+  const sorting = CONFIG.statusEffects.reduce((acc, e) => {
+    acc[e.id] = e.sort;
+    return acc;
+  }, {});
+  const innerHTML = Object.values(tokenData.statusEffects)
+    .sort((a, b) => {
+      return sorting[a.id] - sorting[b.id];
+    })
+    .reduce((acc, eff) => {
+      const condition = CONFIG.statusEffects.find((e) => e.id === eff.id) ?? {};
+      const clss = "status-effect effect-control";
+      const atts = (eff.isActive ? "active" : "") + " " + (eff.isOverlay ? "overlay" : "");
+      const tooltip = foundry.utils.getProperty(condition, "flags.visual-active-effects.data.intro") ?? "";
+      return (
+        acc +
+        `
+    <div src="${eff.src}" class="${clss} ${atts}" data-status-id="${eff.id}" data-tooltip="${tooltip}">
+      <img class="status-effect-img" src="${eff.src}">
+      <div class="status-effect-label">${eff.title}</div>
+    </div>`
+      );
+    }, "");
+  html[0].querySelector(".status-effects").innerHTML = innerHTML;
 }
