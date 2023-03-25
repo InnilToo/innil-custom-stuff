@@ -1,14 +1,12 @@
 {
   "id": "innil-custom-stuff",
   "title": "Innil's Custom Stuff",
-  "description": "Personal module for replacing or adding to many things. Modular (see settings).",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "authors": [
     {
       "name": "Innil",
       "url": "https://github.com/InnilToo",
-      "discord": "Innil#6666",
-      "flags": {}
+      "discord": "Innil#6666"
     }
   ],
   "compatibility": {
@@ -23,7 +21,7 @@
       "lang": "en",
       "name": "English",
       "path": "languages/en.json",
-      "flags": {}
+      "description": "Personal module for replacing or adding to many things. Modular (see settings)."
     }
   ],
   "url": "https://github.com/InnilToo/innil-custom-stuff",
