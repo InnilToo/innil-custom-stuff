@@ -1,5 +1,5 @@
 import { MODULE_NAME } from "../const.mjs";
-import { EXHAUSTION_EFFECTS } from "../../sources/conditions.js";
+import { EXHAUSTION_EFFECTS } from "../../sources/exhaustion.js";
 
 export class INNIL_REST {
   static toggleLR = async (bool) => {
