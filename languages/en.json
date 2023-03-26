@@ -30,5 +30,8 @@
   "INNIL.StatusConditionRestrained": "Restrained",
   "INNIL.StatusConditionSlow": "Slow",
   "INNIL.StatusConditionStunned": "Stunned",
-  "INNIL.StatusConditionUnconscious": "Unconscious"
+  "INNIL.StatusConditionUnconscious": "Unconscious",
+  "INNIL.StatusConditionHex": "Hexxed",
+  "INNIL.StatusConditionHexcurse": "Hexblade's Curse",
+  "INNIL.StatusConditionHmark": "Hunter's Mark"
 }
