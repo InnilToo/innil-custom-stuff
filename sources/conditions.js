@@ -146,9 +146,13 @@ export const SPELL_EFFECTS = [
     icon: "icons/magic/unholy/hand-marked-pink.webp",
     duration: { seconds: 3600 },
     flags: {
-      convenientDescription: `
-            <p>You take extra 1d6 necrotic damage when the caster hits you with an attack.</p>
-            <p>You also have disadvantage on ability checks made with the casters chosen ability.</p>`,
+      [DEPEND.VAE]: {
+        data: {
+          intro:
+            "<p>You take extra 1d6 necrotic damage when the caster hits you with an attack.</p>" +
+            "<p>You also have disadvantage on ability checks made with the casters chosen ability.</p>",
+        },
+      },
     },
   },
   {
@@ -158,10 +162,14 @@ export const SPELL_EFFECTS = [
     icon: "icons/magic/unholy/hand-light-pink.webp",
     duration: { seconds: 60 },
     flags: {
-      convenientDescription: `
-            <p>You take extra damage equal to the caster's proficiency bonus.</p>
-            <p>Any attacks from the caster are critical hit on a roll of 19 or 20 on the d20.</p>
-            <p>If you die the caster regains hit points equal to their warlock level + their Charisma modifier (minimum of 1 hit point).</p>`,
+      [DEPEND.VAE]: {
+        data: {
+          intro:
+            "<p>You take extra damage equal to the caster's proficiency bonus.</p>" +
+            "<p>Any attacks from the caster are critical hit on a roll of 19 or 20 on the d20.</p>" +
+            "<p>If you die the caster regains hit points equal to their warlock level + their Charisma modifier (minimum of 1 hit point).</p>",
+        },
+      },
     },
   },
   {
@@ -171,9 +179,13 @@ export const SPELL_EFFECTS = [
     icon: "icons/skills/targeting/crosshair-pointed-orange.webp",
     duration: { seconds: 3600 },
     flags: {
-      convenientDescription: `
-            <p>You take extra 1d6 damage when the caster hits you with an attack.</p>
-            <p>The casters has advantage on any Wisdom (Perception) or Wisdom (Survival) check to find you.</p>`,
+      [DEPEND.VAE]: {
+        data: {
+          intro:
+            "<p>You take extra 1d6 damage when the caster hits you with an attack.</p>" +
+            "<p>The casters has advantage on any Wisdom (Perception) or Wisdom (Survival) check to find you.</p>",
+        },
+      },
     },
   },
 ];
