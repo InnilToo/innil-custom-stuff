@@ -1,5 +1,4 @@
 /* BEGIN: Token HUD status effects. */
-
 #token-hud .col.right .status-effects {
   width: max-content;
   column-gap: 0.1em;
@@ -43,6 +42,14 @@
   font-size: 18px;
   text-align: left;
   margin: 0 0 0 3px;
+}
+
+/* Hide hex, hexcurse, hmark*/
+
+div[data-status-id="hex"],
+div[data-status-id="hexcurse"],
+div[data-status-id="hmark"] {
+  display: none!important;
 }
 
 /* END: Token HUD status effects. */
