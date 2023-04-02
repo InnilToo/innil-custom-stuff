@@ -6,8 +6,7 @@
     {
       "name": "Innil",
       "url": "https://github.com/InnilToo",
-      "discord": "Innil#6666",
-      "flags": {}
+      "discord": "Innil#6666"
     }
   ],
   "compatibility": {
@@ -15,21 +14,18 @@
     "maximum": "10",
     "verified": "10.291"
   },
-  "esmodules": [
-    "setup.js"
-  ],
+  "esmodules": ["setup.js"],
   "styles": [
     "styles/styles.css",
-    "styles/sheet_coloring.css",
-    "styles/raritycolors.css",
-    "styles/template-styles.css"
+    "styles/sheetEdits.css",
+    "styles/dm_tool.css"
   ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
       "path": "languages/en.json",
-      "flags": {}
+      "description": "Personal module for replacing or adding to many things. Coppied from Zhell."
     }
   ],
   "url": "https://github.com/InnilToo/innil-custom-stuff",

@@ -1,107 +1,112 @@
-import { MODULE_NAME, MODULE_TITLE, MODULE_TITLE_SHORT, DEPEND, TRACK_REACTIONS } from "./scripts/const.mjs";
 import { registerSettings } from "./scripts/settings.mjs";
 import { api } from "./scripts/api.mjs";
 import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
-import { INNIL_ADDITIONS } from "./scripts/modules/game_additions.mjs";
-import { INNIL_REPLACEMENTS } from "./scripts/modules/game_replacements.mjs";
-import { INNIL_SHEET } from "./scripts/modules/sheet_edits.mjs";
-import { INNIL_COMBAT, _replaceTokenHUD } from "./scripts/modules/combat_helpers.mjs";
-import { innil_exhaustion } from "./scripts/modules/exhaustion.mjs";
-import { INNIL_ANIMATIONS } from "./scripts/modules/animations.mjs";
-import { _heartOfTheStorm } from "./scripts/modules/heartOfTheStorm.mjs";
-import { _heartOfTheStormButton } from "./scripts/modules/heartOfTheStorm.mjs";
+import {
+  INNIL_COMBAT,
+  _rechargeMonsterFeatures,
+  _replaceTokenHUD,
+  _setupGroupSaves,
+  _visualActiveEffectsCreateEffectButtons,
+} from "./scripts/modules/combatHelpers.mjs";
+import {
+  INNIL_ANIMATIONS,
+  _rotateTokensOnMovement,
+  _setupCollapsibles,
+} from "./scripts/modules/animations.mjs";
+import {
+  _addContextMenuOptions,
+  _dropActorFolder,
+  _itemStatusCondition,
+  _miscAdjustments,
+  _preCreateActiveEffect,
+  _preCreateScene,
+  _restItemDeletion,
+  _sceneHeaderView,
+  _setUpGameChanges,
+  _visionModes,
+} from "./scripts/modules/gameChanges.mjs";
+import {
+  _addFlavorListenerToDamageRolls,
+  _appendDataToDamageRolls,
+} from "./scripts/modules/dm_tool.mjs";
+import { DEPEND, MODULE } from "./scripts/const.mjs";
+import { EXHAUSTION } from "./scripts/modules/innil_functions.mjs";
+import {
+  refreshColors,
+  _performSheetEdits,
+} from "./scripts/modules/applications/sheetEdits.mjs";
+import {
+  _heartOfTheStorm,
+  _heartOfTheStormButton,
+} from "./scripts/modules/heartOfTheStorm.mjs";
 
-Hooks.on("dnd5e.useItem", _heartOfTheStorm);
-Hooks.on("renderTokenHUD", _replaceTokenHUD);
-
+Hooks.once("init", registerSettings);
+Hooks.once("init", api.register);
+Hooks.once("init", _visionModes);
+Hooks.once("setup", _setUpGameChanges);
+Hooks.once("setup", _miscAdjustments);
+Hooks.once("ready", refreshColors);
+Hooks.once("ready", INNIL_SOCKETS.loadTextureForAllSocketOn);
+Hooks.once("ready", INNIL_SOCKETS.createTilesSocketOn);
+Hooks.once("ready", INNIL_SOCKETS.awardLootSocketOn);
+Hooks.once("ready", INNIL_SOCKETS.updateTokensSocketOn);
+Hooks.once("ready", INNIL_SOCKETS.grantItemsSocketOn);
+Hooks.once("ready", _setupCollapsibles);
 Hooks.once("ready", _heartOfTheStormButton);
 
-Hooks.once("init", () => {
-  console.log(`${MODULE_TITLE_SHORT} | Initializing ${MODULE_TITLE}`);
-  registerSettings();
-  api.register();
-});
-
-Hooks.once("setup", () => {
-  // additions.
-  INNIL_ADDITIONS.add_equipment_types();
-  INNIL_ADDITIONS.add_conditions();
-
-  // replacements.
-  INNIL_REPLACEMENTS.replace_consumable_types();
-  INNIL_REPLACEMENTS.replace_languages();
-  INNIL_REPLACEMENTS.replace_tools();
-  INNIL_REPLACEMENTS.replace_weapons();
-  INNIL_REPLACEMENTS.replace_status_effects();
-
-  // rename currency labels; this shows up on the sheet.
-  INNIL_SHEET.rename_currency_labels();
-
-  // create a exhaustion pop up on click
-  innil_exhaustion();
-});
+Hooks.on("dropCanvasData", INNIL_SOCKETS._onDropData);
+Hooks.on("renderItemSheet", _itemStatusCondition);
+Hooks.on("renderActorSheet", _performSheetEdits);
+Hooks.on("preUpdateToken", _rotateTokensOnMovement);
+Hooks.on("renderTokenHUD", _replaceTokenHUD);
+Hooks.on("dnd5e.preRollDamage", _appendDataToDamageRolls);
+Hooks.on("dnd5e.restCompleted", _restItemDeletion);
+Hooks.on("dnd5e.restCompleted", EXHAUSTION._longRestExhaustionReduction);
+Hooks.on("dnd5e.getItemContextOptions", _addContextMenuOptions);
+Hooks.on("preCreateActiveEffect", _preCreateActiveEffect);
+Hooks.on("updateCombat", _rechargeMonsterFeatures);
+Hooks.on("dnd5e.useItem", _heartOfTheStorm);
 
 Hooks.once("ready", function () {
-  const reactionSetting = game.settings.get(MODULE_NAME, TRACK_REACTIONS);
-  if ((reactionSetting === "gm" && game.user.isGM) || reactionSetting === "all") {
+  const reactionSetting = game.settings.get(MODULE, "trackReactions");
+  if (
+    (reactionSetting === "gm" && game.user.isGM) ||
+    reactionSetting === "all"
+  ) {
     Hooks.on("dnd5e.useItem", INNIL_COMBAT.spendReaction);
   }
-});
 
-Hooks.once("ready", () => {
-  // disable short and long rest.
-  Hooks.on("renderLongRestDialog", INNIL_SHEET.disable_long_rest);
-  Hooks.on("renderShortRestDialog", INNIL_SHEET.disable_short_rest);
-
-  // sheet edits.
-  Hooks.on("renderActorSheet", INNIL_SHEET.rename_rest_labels);
-  Hooks.on("renderActorSheet", INNIL_SHEET.remove_resources);
-  Hooks.on("renderActorSheet", INNIL_SHEET.remove_alignment);
-  Hooks.on("renderActorSheet", INNIL_SHEET.disable_initiative_button);
-  Hooks.on("renderActorSheet", INNIL_SHEET.collapsible_headers);
-
-  // create dots for limited uses and spell slots.
-  Hooks.on("renderActorSheet", INNIL_SHEET.create_dots);
-
-  // color magic items of uncommon or higher quality.
-  Hooks.on("renderActorSheet", INNIL_SHEET.color_magic_items);
-
-  // make the attunement button an actual toggle.
-  Hooks.on("renderActorSheet", INNIL_SHEET.create_toggle_on_attunement_button);
-
-  // make the trait and proficiency selectors less ugly.
-  Hooks.on("renderTraitSelector", INNIL_SHEET.pretty_trait_selector);
-
-  // refresh colors.
-  INNIL_SHEET.refreshColors();
-
-  // mark 0 hp combatants as defeated.
-  if (game.user.isGM) Hooks.on("updateToken", INNIL_COMBAT.mark_defeated_combatant);
-
-  // display ammo when you make an attack, if the ammo has a save.
-  Hooks.on("dnd5e.rollAttack", INNIL_COMBAT.show_ammo_if_it_has_save);
-
-  // set up sockets.
-  INNIL_SOCKETS.loadTextureSocketOn(); // loadTextureForAll
-  INNIL_SOCKETS.routeTilesThroughGM(); // let players create tiles.
-
-  // add 'view scene' to scene config headers.
-  if (game.user.isGM) {
-    Hooks.on("getSceneConfigHeaderButtons", (app, array) => {
-      const viewBtn = {
-        class: "innil-custom-stuff-view-scene",
-        icon: "fas fa-eye",
-        label: "View Scene",
-        onclick: async () => await app.object.view(),
-      };
-      array.unshift(viewBtn);
-    });
+  if (game.settings.get(MODULE, "displaySavingThrowAmmo")) {
+    Hooks.on("dnd5e.rollAttack", INNIL_COMBAT.displaySavingThrowAmmo);
   }
 
-  // hook for when measured templates are created to display animation.
-  const canAnimate = ["sequencer", "jb2a_patreon"].every((id) => !!game.modules.get(id)?.active);
+  if (game.user.isGM) {
+    if (game.settings.get(MODULE, "markDefeatedCombatants")) {
+      Hooks.on("updateToken", INNIL_COMBAT.markDefeatedCombatant);
+    }
+    Hooks.on("getSceneConfigHeaderButtons", _sceneHeaderView);
+    Hooks.on("renderChatMessage", _setupGroupSaves);
+    Hooks.on("renderChatMessage", _addFlavorListenerToDamageRolls);
+    Hooks.on("dropCanvasData", _dropActorFolder);
+    Hooks.on("preCreateScene", _preCreateScene);
+  }
+
+  if (game.modules.get(DEPEND.VAE)?.active) {
+    Hooks.on(
+      "visual-active-effects.createEffectButtons",
+      _visualActiveEffectsCreateEffectButtons
+    );
+  }
+
+  // hook for various actions are performed to display animations.
+  const canAnimate = [DEPEND.SEQ, DEPEND.JB2A].every(
+    (id) => !!game.modules.get(id)?.active
+  );
   if (canAnimate) {
-    Hooks.on("createMeasuredTemplate", INNIL_ANIMATIONS.onCreateMeasuredTemplate);
+    Hooks.on(
+      "createMeasuredTemplate",
+      INNIL_ANIMATIONS.onCreateMeasuredTemplate
+    );
     Hooks.on("dnd5e.useItem", INNIL_ANIMATIONS.onItemUse);
     Hooks.on("dnd5e.rollAttack", INNIL_ANIMATIONS.onItemRollAttack);
     Hooks.on("dnd5e.rollDamage", INNIL_ANIMATIONS.onItemRollDamage);
