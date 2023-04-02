@@ -1,4 +1,4 @@
-/* BEGIN: Token HUD status effects. */
+/* Token HUD status effects */
 #token-hud .col.right .status-effects {
   width: max-content;
   column-gap: 0.1em;
@@ -26,7 +26,7 @@
   opacity: 1;
 }
 
-#token-hud .col.right .status-effects .status-effect:is(.active, :hover) > * {
+#token-hud .col.right .status-effects .status-effect:is(.active, :hover)>* {
   opacity: 1;
 }
 
@@ -45,125 +45,645 @@
 }
 
 /* Hide hex, hexcurse, hmark*/
-
 div[data-status-id="hex"],
 div[data-status-id="hexcurse"],
 div[data-status-id="hmark"] {
-  display: none!important;
+  display: none !important;
 }
 
-/* END: Token HUD status effects. */
-
-/* Setting Submenus. */
-label.innil-custom-stuff.innil-label-name {
-  font-weight: bold;
-}
-
-.innil-custom-stuff.innil-settings-save {
-  width: 200px;
-  background-color: rgb(190, 189, 178);
-  border: 2px groove var(--color-border-light-highlight);
-}
-
-.innil-custom-stuff.innil-submenu-header {
-  display: flex;
-  align-content: flex-start;
-  justify-content: space-around;
-}
-
-/* traits list into columns...? */
-.trait-list li label.checkbox {
-  white-space: nowrap;
-}
-
-.trait-list.flexrow.innil-traits li {
-  flex-basis: 50%;
-  width: 50%;
-  min-width: 50%;
-}
-
-.trait-list.flexcol.innil-prof ol.trait-list {
-  display: grid;
-  grid-template-columns: 40% 60%;
-}
-
-.trait-list.flexcol.innil-profs {
-  flex-direction: row;
-  width: max-content;
-}
-
-.trait-list.flexcol.innil-profs li ol.trait-list {
-  width: max-content;
-}
-
-/* BEGIN: Collapsible headers */
 /* collapsible items and effect headers */
-.dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover,
-.dnd5e.sheet.actor .characteristics label:hover {
+.dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover {
   text-shadow: 0 0 8px var(--color-shadow-primary) !important;
   cursor: pointer;
 }
 
-/* Make collapsed header gray text color and slighly slimmer. */
-.dnd5e.sheet.actor .items-header.flexrow.no-create {
+/* Make collapsed header gray text color */
+.dnd5e.sheet.actor .items-header.flexrow.no-create,
+.dnd5e.sheet.actor .items-header.flexrow.no-create * {
   color: darkgray;
 }
 
-/* Hide 'ol' that follow a collapsed header, and hide all 'All' buttons. */
-.dnd5e.sheet.actor .items-header.flexrow.no-create + ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create + ol + ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create .item-control.item-create,
-.dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control,
-.dnd5e.sheet.actor .characteristics label.no-edit + textarea {
+/* Hide spell school from actor sheets */
+.dnd5e.sheet.actor .spell-school {
   display: none;
 }
-/* END: Collapsible headers */
 
-/* whisper dialog */
-.form-fields {
+/* Hide 'ol' that follow a collapsed header, and hide all 'All' buttons */
+.dnd5e.sheet.actor .items-header.flexrow.no-create+ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create+ol+ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create .item-control.item-create,
+.dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control,
+.dnd5e.sheet.actor .characteristics label.no-edit+textarea {
+  display: none;
+}
+
+/* WHISPER DIALOG */
+.innil-whisper form {
+  margin: 1em 0;
+}
+
+.innil-whisper .form-fields {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto;
+  gap: 3px;
 }
 
-.whisper-dialog-player-name.selected {
-  background-color: cornflowerblue;
-  font-weight: bold;
-}
-
-.whisper-dialog-player-name:hover {
-  text-shadow: 0 0 8px var(--color-shadow-primary) !important;
-}
-
-.whisper-dialog-player-name {
-  padding: 5px 0 5px 0;
-  border: 1px solid var(--color-border-dark-tertiary);
-  border-radius: 5px;
-  margin: 1px 1px 1px 1px;
-  text-align: center;
-  line-height: normal;
-}
-
-.whisper-dialog-textarea {
+.innil-whisper textarea {
   resize: none;
 }
 
-.form-fields.whisper-dialog {
-  display: grid;
-  grid-template-columns: 24% 24% 24% 24%;
-  justify-content: space-around;
+.innil-whisper .player-name {
+  padding: 5px 0;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
+  transition: 0.15s;
+  transform: scale(0.9);
+  font-family: "Modesto Condensed";
+  font-size: 23px;
 }
 
-button:active:not(.pm-dropdown),
-a:active {
+.innil-whisper .player-name.selected {
+  background-color: darkgray;
+  transform: scale(1);
+}
+
+.innil-whisper .player-name:not(.selected):hover {
+  box-shadow: 0 0 8px red;
+}
+
+/* TRAITS LISTS */
+/* removed until new app cometh */
+
+/* COLLAPSIBLES */
+section.innil-collapsible {
+  width: 100%;
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+
+section.innil-collapsible .innil-collapsible-header {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background-color: #411a13;
+  border: 1px solid #000;
+  border-radius: 4px 4px 0 0;
+  color: #efe6d8;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+section.innil-collapsible .innil-collapsible-header::after {
+  content: "\02795";
+  font-size: 13px;
+  float: right;
+  margin-left: 0.5rem;
+  color: #f7f3e8;
+}
+
+section.innil-collapsible.active .innil-collapsible-header::after {
+  content: "\2796";
+}
+
+section.innil-collapsible div.innil-collapsible-content {
+  max-height: 0;
+  padding: 0.5rem 1rem;
+  overflow: hidden;
+  opacity: 0;
+  border: 1px solid #000;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  transition: max-height 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+section.innil-collapsible.active div.innil-collapsible-content {
+  opacity: 1;
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+/* BUTTON FEEL */
+button:active:not(.pm-dropdown, :disabled),
+:not(:disabled) a:active {
   filter: brightness(0.7);
 }
 
 .tab#chat {
-  margin: -5px 0px 0px;
+  margin: -5px 0 0;
 }
 
-/* BEGIN: NPC sheet Spellbook edits */
-.spell-school {
-  display: none;
+/* APPLY DAMAGE */
+span.flavor-text.innil-apply-damage-flavor:hover {
+  text-shadow: 0 0 8px red;
+  cursor: pointer;
 }
-/* END: NPC sheet Spellbook edits */
+
+span.flavor-text.innil-apply-damage-flavor {
+  font-weight: bold;
+}
+
+/* MONSTER STAT BLOCKS */
+.monster-stat-block {
+  margin: 1em;
+  padding: 0.5em 1em;
+  background: burlywood;
+  border: inset 0.3em indianred;
+  border-radius: 5px;
+}
+
+:not(.actor) .monster-stat-block :is(.traits, .abilities) {
+  border-bottom: 2px groove indianred;
+  padding: 0.4em 0;
+  margin: 0;
+}
+
+.monster-stat-block .name {
+  font-size: 30px;
+  font-family: "Modesto Condensed";
+  border-bottom: 2px groove indianred;
+  margin: 0;
+  line-height: 28px;
+}
+
+.monster-stat-block .details {
+  font-style: italic;
+  padding: 3px 0 0 3px;
+  margin: 0;
+}
+
+.monster-stat-block .label {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.monster-stat-block .traits .trait {
+  margin: 0;
+}
+
+.monster-stat-block .abilities {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.monster-stat-block .abilities .score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.monster-stat-block .abilities .modifier {
+  text-align: center;
+}
+
+.monster-stat-block .header {
+  font-size: 25px;
+  font-family: "Modesto Condensed";
+  border-bottom: 2px groove indianred;
+  margin: 0;
+  line-height: 28px;
+}
+
+/* Elemental dialog coloring */
+.dialog.elemental {
+  height: auto;
+}
+
+.dialog.elemental .dialog-content {
+  text-align: center;
+  font-size: 20px;
+  margin: 0.5em 0 1em;
+}
+
+.dialog.elemental .dialog-buttons {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dialog.elemental .dialog-button {
+  font-size: 25px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 2fr;
+}
+
+.dialog.elemental .dialog-button i {
+  font-size: 40px;
+  padding: 7px;
+  margin: 0;
+}
+
+.dialog.elemental .dialog-button.acid:hover {
+  color: darkgreen;
+  background-color: yellowgreen;
+}
+
+.dialog.elemental .dialog-button.cold:hover {
+  color: blue;
+  background-color: lightblue;
+}
+
+.dialog.elemental .dialog-button.fire:hover {
+  color: red;
+  background-color: burlywood;
+}
+
+.dialog.elemental .dialog-button.lightning:hover {
+  color: darkblue;
+  background-color: cornflowerblue;
+}
+
+.dialog.elemental .dialog-button.thunder:hover {
+  color: white;
+  background-color: mediumslateblue;
+}
+
+.dialog.elemental .dialog-button.poison:hover {
+  color: purple;
+  background-color: plum;
+}
+
+/* ANCHOR SELECTOR DIALOG */
+.innil-custom-stuff.image-selector {
+  min-width: 400px;
+  height: auto !important;
+}
+
+.innil-custom-stuff.image-selector .selections {
+  margin: 1em 0;
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.innil-custom-stuff.image-selector img {
+  opacity: 0.2;
+  border: none;
+  transition: 0.2s;
+  width: 80%;
+}
+
+.innil-custom-stuff.image-selector img:hover {
+  opacity: 0.75;
+}
+
+.innil-custom-stuff.image-selector .row a {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex: 1;
+}
+
+.innil-custom-stuff.image-selector .active img {
+  opacity: 1;
+  filter: drop-shadow(2px 4px 6px black);
+}
+
+.innil-custom-stuff.image-selector .row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* EXPERIMENTAL ELIXIR */
+.dialog.elixir .dialog-buttons {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dialog.elixir .dialog-button:hover,
+.dialog.elixir-builder .dialog-button:hover {
+  color: purple;
+}
+
+.dialog.elixir .dialog-button {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.dialog.elixir .dialog-button i {
+  font-size: 40px;
+  align-self: center;
+  transition: 0.2s;
+}
+
+.dialog.elixir .dialog-button:hover i {
+  transform: scale(1.5);
+}
+
+.dialog.elixir-builder div.form-fields {
+  flex: 1;
+  justify-content: center;
+}
+
+.elixir-builder .form-group label {
+  line-height: var(--line-height-16);
+  margin: 0.5em 0;
+}
+
+/* SETTINGS MENU */
+.innil-custom-stuff.settings-menu form .form-group .form-fields input[type="checkbox"] {
+  margin-right: 5em;
+}
+
+.innil-custom-stuff.settings-menu .form-group:not(:last-of-type) {
+  border-bottom: 2px groove;
+}
+
+/* Column Dialog */
+.dialog.column-dialog {
+  height: auto !important;
+}
+
+.dialog.column-dialog .dialog-buttons {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dialog.column-dialog .dynamic-tooltip {
+  margin: 0 1em;
+  font-style: italic;
+  min-height: 100px;
+}
+
+/* Exhaustion Dialog */
+.exhaustion.dialog .dialog-content {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+/* MONEY SPENDER */
+.innil-custom-stuff.money-spender .form {
+  display: grid;
+  grid-template-rows: 1fr 2fr 0fr;
+  grid-template-columns: 1fr;
+}
+
+.innil-custom-stuff.money-spender .tally {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 30px;
+  margin: 0 1em;
+}
+
+.innil-custom-stuff.money-spender .total[data-denom="pp"]:after {
+  content: " pp";
+}
+
+.innil-custom-stuff.money-spender .total[data-denom="gp"]:after {
+  content: " gp";
+}
+
+.innil-custom-stuff.money-spender .total[data-denom="ep"]:after {
+  content: " ep";
+}
+
+.innil-custom-stuff.money-spender .total[data-denom="sp"]:after {
+  content: " sp";
+}
+
+.innil-custom-stuff.money-spender .total[data-denom="cp"]:after {
+  content: " cp";
+}
+
+.innil-custom-stuff.money-spender .utils {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.innil-custom-stuff.money-spender .util {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.innil-custom-stuff.money-spender .currency {
+  border-left: 2px groove;
+  width: 4em;
+  max-width: 4em;
+  border-right: 2px groove;
+  text-align: center;
+}
+
+.innil-custom-stuff.money-spender .adjust {
+  width: 4em;
+  max-width: 4em;
+  text-align: center;
+  border: 2px groove;
+  background-color: cornsilk;
+}
+
+.innil-custom-stuff.money-spender .adjust:hover {
+  text-shadow: none;
+}
+
+.innil-custom-stuff.money-spender .currency>* {
+  margin: 0.5em 0;
+  text-transform: uppercase;
+}
+
+.innil-custom-stuff.money-spender .current {
+  font-style: italic;
+  width: 4em;
+  text-align: center;
+  max-width: 4em;
+  padding-top: 0.5em;
+}
+
+/* PLAYABLE CLASSES LIST */
+.innil-custom-stuff.class-page-renderer {
+  min-width: 800px;
+  min-height: 100%;
+}
+
+.innil-custom-stuff.class-page-renderer .content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow-y: hidden;
+  height: 100%;
+}
+
+.innil-custom-stuff.class-page-renderer .tabs {
+  font-size: 20px;
+  font-family: "Modesto Condensed";
+  border-style: groove hidden;
+  padding: 0 1em;
+}
+
+.innil-custom-stuff.class-page-renderer .content-tabs {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.innil-custom-stuff.class-page-renderer .tab {
+  margin: 1em 1em 5em 1em;
+}
+
+.innil-custom-stuff.class-page-renderer .class-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.innil-custom-stuff.class-page-renderer .class-image {
+  border: none;
+  border-radius: 5px;
+  max-width: 100px;
+  min-width: 100px;
+  max-height: 100px;
+  min-height: 100px;
+  pointer-events: none;
+  position: absolute;
+  left: 25px;
+}
+
+/* the class item */
+.innil-custom-stuff.class-page-renderer .class-item .content-link {
+  border: none;
+  background: none;
+  height: 100px;
+  font-size: 100px;
+  font-family: "Modesto Condensed";
+}
+
+/* the subclass items */
+.innil-custom-stuff.class-page-renderer .subclass-header {
+  text-align: center;
+  font-size: 30px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 30px;
+  border-color: black;
+  margin: 20px auto;
+  padding: 5px 0;
+  font-family: "Modesto Condensed";
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.innil-custom-stuff.class-page-renderer .subclass-list {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+  margin: 0 2em;
+  row-gap: 5px;
+  column-gap: 1em;
+}
+
+.innil-custom-stuff.class-page-renderer .subclass-item .content-link {
+  display: block;
+  padding: 5px;
+  text-align: center;
+  transition: 0.3s;
+  font-family: "Modesto Condensed";
+  font-size: 30px;
+}
+
+.innil-custom-stuff.class-page-renderer .subclass-item .content-link:hover {
+  transform: scale(1.1);
+  background: darkgray;
+  box-shadow: 0 0 10px purple;
+  color: rebeccapurple;
+  text-shadow: none;
+}
+
+/* SPELL LISTS */
+/* main header of entire class spell list */
+.innil-custom-stuff.class-page-renderer .spell-header {
+  text-align: center;
+  font-size: 30px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 30px;
+  border-color: black;
+  margin: 20px auto;
+  padding: 5px 0;
+  font-family: "Modesto Condensed";
+  text-transform: uppercase;
+  width: 100%;
+}
+
+/* layout of spell list */
+.innil-custom-stuff.class-page-renderer .spell-section {
+  padding-bottom: 5em;
+}
+
+.innil-custom-stuff.class-page-renderer .spell-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1em;
+  align-items: start;
+}
+
+.innil-custom-stuff.class-page-renderer .spell-list {
+  display: grid;
+  gap: 0.2em;
+}
+
+.innil-custom-stuff.class-page-renderer .spell {
+  display: grid;
+  grid-template-columns: calc(100% - var(--form-field-height)) var(--form-field-height);
+  grid-template-areas: "link toggle" "text text";
+}
+
+/* spell-level headers */
+.innil-custom-stuff.class-page-renderer .spell-list-header {
+  text-align: center;
+  border: none;
+  font-weight: bold;
+}
+
+/* individual spells */
+.innil-custom-stuff.class-page-renderer .spell .content-link {
+  display: flex;
+  font-size: 12px;
+  padding-left: 0.5em;
+  overflow-x: hidden;
+  height: var(--form-field-height);
+  align-items: center;
+  grid-area: link;
+  border-radius: 8px 0 0 0;
+}
+
+.innil-custom-stuff.class-page-renderer .spell .content-link:first-child:nth-last-child(2) {
+  border-radius: 8px 0 0 8px;
+}
+
+.innil-custom-stuff.class-page-renderer [data-action="toggle-description"] {
+  background: purple;
+  color: white;
+  height: var(--form-field-height);
+  width: var(--form-field-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: toggle;
+  border-radius: 0 8px 0 0;
+}
+
+.innil-custom-stuff.class-page-renderer [data-action="toggle-description"]:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.innil-custom-stuff.class-page-renderer [data-action="toggle-description"]:not(:last-child) i::before {
+  content: "\2d";
+}
+
+/* toggleable content */
+.innil-custom-stuff.class-page-renderer .spell-description * {
+  user-select: none;
+  font-size: 11px;
+}
+
+.innil-custom-stuff.class-page-renderer .spell-description {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px groove black;
+  border-top: none;
+  grid-area: text;
+  border-radius: 0 0 8px 8px;
+  padding: 0 0.5em;
+}
