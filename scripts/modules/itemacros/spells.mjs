@@ -31,6 +31,7 @@ export const ITEMACRO_SPELLS = {
   FAR_STEP,
   FATHOMLESS_EVARDS_BLACK_TENTACLES,
   FIND_STEED,
+  FIND_STEED_ZED,
   FLAMING_SPHERE,
   MAGE_ARMOR,
   MISTY_STEP,
@@ -1244,7 +1245,7 @@ async function CHAOS_BOLT(item, speaker, actor, token, character, event, args) {
 }
 
 /**
- * Item Macro for the 'Find Steed' spell. Currently supports only Drazvik.
+ * Template Item Macro for the 'Find Steed' spell.
  */
 async function FIND_STEED(item, speaker, actor, token, character, event, args) {
   if (!_getDependencies(DEPEND.WG)) return item.use();
@@ -1260,7 +1261,37 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
     const update = { actor: { "flags.world.findSteed": actor.id } };
     const options = { crosshairs: { interval: 1 } };
     await actor.sheet?.minimize();
-    await _spawnHelper("Boi!", update, {}, options);
+    await _spawnHelper("Murrpau", update, {}, options);
+    await actor.sheet?.maximize();
+  }
+}
+
+/**
+ * Item Macro for the 'Find Steed' spell for Zedarr.
+ */
+async function FIND_STEED_ZED(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.WG)) return item.use();
+  const isZedarr = actor.name.includes("Zedarr");
+  if (isZedarr) {
+    const isSpawned = canvas.scene.tokens.find(
+      (t) => t.actor?.flags.world?.findSteed === actor.id
+    );
+    if (isSpawned)
+      return ui.notifications.warn("You already have a steed spawned.");
+    const use = await item.use();
+    if (!use) return;
+    const update = { actor: { "flags.world.findSteed": actor.id } };
+    const options = { crosshairs: { interval: 1 } };
+    await actor.sheet?.minimize();
+    await _spawnHelper("Murrpau", update, {}, options);
     await actor.sheet?.maximize();
   }
 }
