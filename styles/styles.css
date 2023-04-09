@@ -455,7 +455,7 @@ innil-custom-stuff.experimental-elixir .dialog-button {
   gap: 0.25em;
 }
 
-.zhell-custom-stuff.money-spender [data-denom=pp]:after {
+.innil-custom-stuff.money-spender [data-denom=pp]:after {
   content: "pp";
 }
 
