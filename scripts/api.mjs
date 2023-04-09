@@ -1,7 +1,5 @@
 import { drawCircle } from "./modules/animations.mjs";
 import { applyDamageToTokens, DM_TOOL } from "./modules/dm_tool.mjs";
-import { ITEMACRO } from "./modules/itemMacros.mjs";
-import { INNIL_SOCKETS } from "./modules/sockets.mjs";
 import {
   _checkTokenInTemplate,
   _getDocumentFromCompendium,
@@ -13,6 +11,8 @@ import {
   _titleCard,
   _whisperPlayers,
 } from "./modules/innil_functions.mjs";
+import { ITEMACRO } from "./modules/itemMacros.mjs";
+import { INNIL_SOCKETS } from "./modules/sockets.mjs";
 
 export class api {
   static register() {
@@ -37,6 +37,7 @@ export class api {
         awardLoot: INNIL_SOCKETS.awardLoot,
         updateToken: INNIL_SOCKETS.updateTokens,
         grantItems: INNIL_SOCKETS.grantItems,
+        healToken: INNIL_SOCKETS.healToken,
       },
       ITEMACRO,
     };
