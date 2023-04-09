@@ -1,6 +1,6 @@
 import { MODULE } from "../../const.mjs";
-import { MoneySpender } from "./moneySpender.mjs";
 import { EXHAUSTION } from "../innil_functions.mjs";
+import { MoneySpender } from "./moneySpender.mjs";
 
 export function _performSheetEdits(sheet, html) {
   if (!sheet.sheetEdits) {
@@ -47,9 +47,10 @@ export class SheetEdits {
 
   /** Remove the 'alignment' input. */
   _removeAlignment() {
-    this.html[0]
-      .querySelector("[name='system.details.alignment']")
-      ?.parentElement?.remove();
+    const par = this.html[0].querySelector(
+      "[name='system.details.alignment']"
+    )?.parentElement;
+    if (par) par.style.display = "none";
   }
 
   /** Set the color of magic items by adding css classes to them. */

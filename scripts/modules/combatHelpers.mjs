@@ -38,7 +38,7 @@ export class INNIL_COMBAT {
       item.parent.token?.combatant ??
       item.parent.getActiveTokens()[0]?.combatant;
     if (!combatant) return;
-    const reaction = foundry.utils.duplicate(
+    const reaction = foundry.utils.deepClone(
       CONFIG.statusEffects.find((e) => e.id === "reaction")
     );
     reaction["flags.visual-active-effects.data"] = {

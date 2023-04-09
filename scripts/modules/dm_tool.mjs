@@ -24,7 +24,7 @@ export class DM_TOOL {
 
   // create effect data from status id, optionally change duration.
   static createConditionData(statusId, duration) {
-    const data = foundry.utils.duplicate(
+    const data = foundry.utils.deepClone(
       CONFIG.statusEffects.find((eff) => eff.id === statusId)
     );
     delete data.id;
@@ -404,7 +404,7 @@ export function _addFlavorListenerToDamageRolls(message, html) {
   flavor.classList.add("innil-apply-damage-flavor");
   flavor.addEventListener("click", function (event) {
     const tokens = canvas.tokens.controlled;
-    const parts = foundry.utils.duplicate(totals);
+    const parts = foundry.utils.deepClone(totals);
     const global = event.ctrlKey ? -1 : event.shiftKey ? 0.5 : 1;
     const properties = message.flags[MODULE]?.properties ?? [];
     return INNIL.token.applyDamage(tokens, parts, { global, properties });
