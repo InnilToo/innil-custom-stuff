@@ -1,5 +1,5 @@
-import { MODULE } from "../const.mjs";
 import { SPELL_EFFECTS, STATUS_EFFECTS } from "../../sources/conditions.mjs";
+import { MODULE } from "../const.mjs";
 
 // hooks on setup.
 export function _setUpGameChanges() {
@@ -246,7 +246,7 @@ export async function _restItemDeletion(actor, data) {
   if (!data.longRest) return;
   const ids = actor.items
     .filter((item) => {
-      return !!item.flags[MODULE]?.experimentalElixir;
+      return item.flags[MODULE]?.experimentalElixir;
     })
     .map((i) => i.id);
   if (!ids.length) return;
