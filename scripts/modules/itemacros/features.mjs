@@ -791,7 +791,7 @@ async function EXPERIMENTAL_ELIXIR(
     transfer: false,
     flags: {
       [DEPEND.ET]: {
-        transferBlock: { button: true, chat: true, displayCard: true },
+        transferBlock: { button: true, chat: false, displayCard: false },
       },
       [MODULE]: { experimentalElixir: true },
     },
