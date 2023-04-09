@@ -1,5 +1,6 @@
 import { drawCircle } from "./modules/animations.mjs";
 import { applyDamageToTokens, DM_TOOL } from "./modules/dm_tool.mjs";
+import { gameTools } from "./modules/gameTools/_gameTools.mjs";
 import {
   _checkTokenInTemplate,
   _getDocumentFromCompendium,
@@ -38,6 +39,7 @@ export class api {
         updateToken: INNIL_SOCKETS.updateTokens,
         grantItems: INNIL_SOCKETS.grantItems,
         healToken: INNIL_SOCKETS.healToken,
+        ...gameTools,
       },
       ITEMACRO,
     };
