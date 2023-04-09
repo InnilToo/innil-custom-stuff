@@ -50,6 +50,7 @@ Hooks.once("ready", INNIL_SOCKETS.socketsOn);
 Hooks.once("ready", _setupCollapsibles);
 Hooks.once("ready", _heartOfTheStormButton);
 
+Hooks.on("dnd5e.useItem", _heartOfTheStorm);
 Hooks.on("dropCanvasData", INNIL_SOCKETS._onDropData);
 Hooks.on("renderItemSheet", _itemStatusCondition);
 Hooks.on("renderActorSheet", _performSheetEdits);
@@ -61,6 +62,8 @@ Hooks.on("dnd5e.restCompleted", EXHAUSTION._longRestExhaustionReduction);
 Hooks.on("dnd5e.getItemContextOptions", _addContextMenuOptions);
 Hooks.on("preCreateActiveEffect", _preCreateActiveEffect);
 Hooks.on("updateCombat", _rechargeMonsterFeatures);
+Hooks.on("renderChatMessage", _addFlavorListenerToDamageRolls);
+Hooks.on("renderChatMessage", _setupGroupSaves);
 Hooks.on("dnd5e.useItem", _heartOfTheStorm);
 
 Hooks.once("ready", function () {
@@ -81,8 +84,6 @@ Hooks.once("ready", function () {
       Hooks.on("updateToken", INNIL_COMBAT.markDefeatedCombatant);
     }
     Hooks.on("getSceneConfigHeaderButtons", _sceneHeaderView);
-    Hooks.on("renderChatMessage", _setupGroupSaves);
-    Hooks.on("renderChatMessage", _addFlavorListenerToDamageRolls);
     Hooks.on("dropCanvasData", _dropActorFolder);
     Hooks.on("preCreateScene", _preCreateScene);
   }

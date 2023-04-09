@@ -93,6 +93,7 @@ export function _replaceTokenHUD(hud, html, tokenData) {
 }
 
 export function _setupGroupSaves(message, html) {
+  if (!game.user.isGM) return;
   html[0]
     .querySelectorAll("button[data-action='save']")
     .forEach((saveButton) => {
