@@ -16,6 +16,10 @@ import {
   _visualActiveEffectsCreateEffectButtons,
 } from "./scripts/modules/combatHelpers.mjs";
 import {
+  _heartOfTheStorm,
+  _heartOfTheStormButton,
+} from "./scripts/modules/features/sorcerer-storm.mjs";
+import {
   _addContextMenuOptions,
   _dropActorFolder,
   _itemStatusCondition,
@@ -27,10 +31,6 @@ import {
   _setUpGameChanges,
   _visionModes,
 } from "./scripts/modules/gameChanges.mjs";
-import {
-  _heartOfTheStorm,
-  _heartOfTheStormButton,
-} from "./scripts/modules/heartOfTheStorm.mjs";
 import { EXHAUSTION } from "./scripts/modules/innil_functions.mjs";
 import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
 import { registerSettings } from "./scripts/settings.mjs";
