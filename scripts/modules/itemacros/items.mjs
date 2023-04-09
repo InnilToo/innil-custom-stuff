@@ -5,7 +5,7 @@ import {
   _getDependencies,
 } from "../itemMacros.mjs";
 
-export const ITEMACRO_ITEMS = {
+export const items = {
   HIT_DIE_APPLY,
   LANTERN_OF_TRACKING,
   RING_OF_LIGHT,
