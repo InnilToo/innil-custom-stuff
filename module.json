@@ -15,11 +15,7 @@
     "verified": "10.291"
   },
   "esmodules": ["setup.js"],
-  "styles": [
-    "styles/styles.css",
-    "styles/sheetEdits.css",
-    "styles/dm_tool.css"
-  ],
+  "styles": ["styles/styles.css", "styles/sheetEdits.css"],
   "languages": [
     {
       "lang": "en",

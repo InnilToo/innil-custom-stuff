@@ -1,5 +1,4 @@
 import { drawCircle } from "./modules/animations.mjs";
-import { applyDamageToTokens, DM_TOOL } from "./modules/dm_tool.mjs";
 import { gameTools } from "./modules/gameTools/_gameTools.mjs";
 import {
   _checkTokenInTemplate,
@@ -22,10 +21,8 @@ export class api {
         teleport: _teleportTokens,
         target: _targetTokens,
         getOwnerIds: _getTokenOwnerIds,
-        multiTool: DM_TOOL.RENDER,
         contained: _checkTokenInTemplate,
         selectContained: _selectContained,
-        applyDamage: applyDamageToTokens,
       },
       utils: {
         getDocument: _getDocumentFromCompendium,

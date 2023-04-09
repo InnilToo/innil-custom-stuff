@@ -13,13 +13,8 @@ import {
   INNIL_COMBAT,
   _rechargeMonsterFeatures,
   _replaceTokenHUD,
-  _setupGroupSaves,
   _visualActiveEffectsCreateEffectButtons,
 } from "./scripts/modules/combatHelpers.mjs";
-import {
-  _addFlavorListenerToDamageRolls,
-  _appendDataToDamageRolls,
-} from "./scripts/modules/dm_tool.mjs";
 import {
   _addContextMenuOptions,
   _dropActorFolder,
@@ -56,14 +51,11 @@ Hooks.on("renderItemSheet", _itemStatusCondition);
 Hooks.on("renderActorSheet", _performSheetEdits);
 Hooks.on("preUpdateToken", _rotateTokensOnMovement);
 Hooks.on("renderTokenHUD", _replaceTokenHUD);
-Hooks.on("dnd5e.preRollDamage", _appendDataToDamageRolls);
 Hooks.on("dnd5e.restCompleted", _restItemDeletion);
 Hooks.on("dnd5e.restCompleted", EXHAUSTION._longRestExhaustionReduction);
 Hooks.on("dnd5e.getItemContextOptions", _addContextMenuOptions);
 Hooks.on("preCreateActiveEffect", _preCreateActiveEffect);
 Hooks.on("updateCombat", _rechargeMonsterFeatures);
-Hooks.on("renderChatMessage", _addFlavorListenerToDamageRolls);
-Hooks.on("renderChatMessage", _setupGroupSaves);
 Hooks.on("dnd5e.useItem", _heartOfTheStorm);
 
 Hooks.once("ready", function () {
