@@ -1,6 +1,14 @@
-import { registerSettings } from "./scripts/settings.mjs";
 import { api } from "./scripts/api.mjs";
-import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
+import { DEPEND, MODULE } from "./scripts/const.mjs";
+import {
+  INNIL_ANIMATIONS,
+  _rotateTokensOnMovement,
+  _setupCollapsibles,
+} from "./scripts/modules/animations.mjs";
+import {
+  _performSheetEdits,
+  refreshColors,
+} from "./scripts/modules/applications/sheetEdits.mjs";
 import {
   INNIL_COMBAT,
   _rechargeMonsterFeatures,
@@ -9,10 +17,9 @@ import {
   _visualActiveEffectsCreateEffectButtons,
 } from "./scripts/modules/combatHelpers.mjs";
 import {
-  INNIL_ANIMATIONS,
-  _rotateTokensOnMovement,
-  _setupCollapsibles,
-} from "./scripts/modules/animations.mjs";
+  _addFlavorListenerToDamageRolls,
+  _appendDataToDamageRolls,
+} from "./scripts/modules/dm_tool.mjs";
 import {
   _addContextMenuOptions,
   _dropActorFolder,
@@ -26,19 +33,12 @@ import {
   _visionModes,
 } from "./scripts/modules/gameChanges.mjs";
 import {
-  _addFlavorListenerToDamageRolls,
-  _appendDataToDamageRolls,
-} from "./scripts/modules/dm_tool.mjs";
-import { DEPEND, MODULE } from "./scripts/const.mjs";
-import { EXHAUSTION } from "./scripts/modules/innil_functions.mjs";
-import {
-  refreshColors,
-  _performSheetEdits,
-} from "./scripts/modules/applications/sheetEdits.mjs";
-import {
   _heartOfTheStorm,
   _heartOfTheStormButton,
 } from "./scripts/modules/heartOfTheStorm.mjs";
+import { EXHAUSTION } from "./scripts/modules/innil_functions.mjs";
+import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
+import { registerSettings } from "./scripts/settings.mjs";
 
 Hooks.once("init", registerSettings);
 Hooks.once("init", api.register);
@@ -46,11 +46,7 @@ Hooks.once("init", _visionModes);
 Hooks.once("setup", _setUpGameChanges);
 Hooks.once("setup", _miscAdjustments);
 Hooks.once("ready", refreshColors);
-Hooks.once("ready", INNIL_SOCKETS.loadTextureForAllSocketOn);
-Hooks.once("ready", INNIL_SOCKETS.createTilesSocketOn);
-Hooks.once("ready", INNIL_SOCKETS.awardLootSocketOn);
-Hooks.once("ready", INNIL_SOCKETS.updateTokensSocketOn);
-Hooks.once("ready", INNIL_SOCKETS.grantItemsSocketOn);
+Hooks.once("ready", INNIL_SOCKETS.socketsOn);
 Hooks.once("ready", _setupCollapsibles);
 Hooks.once("ready", _heartOfTheStormButton);
 
