@@ -450,24 +450,29 @@ innil-custom-stuff.experimental-elixir .dialog-button {
   margin: 0 1em;
 }
 
-.innil-custom-stuff.money-spender .total[data-denom="pp"]:after {
-  content: " pp";
+.innil-custom-stuff.money-spender [data-denom] {
+  display: flex;
+  gap: 0.25em;
 }
 
-.innil-custom-stuff.money-spender .total[data-denom="gp"]:after {
-  content: " gp";
+.zhell-custom-stuff.money-spender [data-denom=pp]:after {
+  content: "pp";
 }
 
-.innil-custom-stuff.money-spender .total[data-denom="ep"]:after {
-  content: " ep";
+.innil-custom-stuff.money-spender [data-denom=gp]:after {
+  content: "gp";
 }
 
-.innil-custom-stuff.money-spender .total[data-denom="sp"]:after {
-  content: " sp";
+.innil-custom-stuff.money-spender [data-denom=ep]:after {
+  content: "ep";
 }
 
-.innil-custom-stuff.money-spender .total[data-denom="cp"]:after {
-  content: " cp";
+.innil-custom-stuff.money-spender [data-denom=sp]:after {
+  content: "sp";
+}
+
+.innil-custom-stuff.money-spender [data-denom=cp]:after {
+  content: "cp";
 }
 
 .innil-custom-stuff.money-spender .utils {
@@ -489,7 +494,7 @@ innil-custom-stuff.experimental-elixir .dialog-button {
   text-align: center;
 }
 
-.innil-custom-stuff.money-spender .adjust {
+.innil-custom-stuff.money-spender [data-action^="adjust"] {
   width: 4em;
   max-width: 4em;
   text-align: center;
@@ -497,7 +502,7 @@ innil-custom-stuff.experimental-elixir .dialog-button {
   background-color: cornsilk;
 }
 
-.innil-custom-stuff.money-spender .adjust:hover {
+.innil-custom-stuff.money-spender [data-action^="adjust"]:hover {
   text-shadow: none;
 }
 
