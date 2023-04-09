@@ -1,6 +1,5 @@
 import { DEPEND, MODULE } from "../const.mjs";
 import { drawCircle } from "./animations.mjs";
-import { arepo } from "./itemacros/boons/arepo.mjs";
 import { alchemist } from "./itemacros/features/artificer-alchemist.mjs";
 import { twilight } from "./itemacros/features/cleric-twilight.mjs";
 import { stars } from "./itemacros/features/druid-stars.mjs";
@@ -27,11 +26,6 @@ export const ITEMACRO = {
   ...sorcerer,
   ...fathomless,
   ...wizard,
-  // boons
-  ...arepo,
-  ...draconiz,
-  ...murk,
-  ...thrizur,
   // items
   ...items,
   // spells
