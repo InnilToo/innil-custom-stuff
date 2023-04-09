@@ -16,10 +16,6 @@ import {
   _visualActiveEffectsCreateEffectButtons,
 } from "./scripts/modules/combatHelpers.mjs";
 import {
-  _heartOfTheStorm,
-  _heartOfTheStormButton,
-} from "./scripts/modules/features/sorcerer-storm.mjs";
-import {
   _addContextMenuOptions,
   _dropActorFolder,
   _itemStatusCondition,
@@ -32,6 +28,10 @@ import {
   _visionModes,
 } from "./scripts/modules/gameChanges.mjs";
 import { EXHAUSTION } from "./scripts/modules/innil_functions.mjs";
+import {
+  _heartOfTheStorm,
+  _heartOfTheStormButton,
+} from "./scripts/modules/itemacros/features/sorcerer-storm.mjs";
 import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
 import { registerSettings } from "./scripts/settings.mjs";
 
@@ -56,7 +56,6 @@ Hooks.on("dnd5e.restCompleted", EXHAUSTION._longRestExhaustionReduction);
 Hooks.on("dnd5e.getItemContextOptions", _addContextMenuOptions);
 Hooks.on("preCreateActiveEffect", _preCreateActiveEffect);
 Hooks.on("updateCombat", _rechargeMonsterFeatures);
-Hooks.on("dnd5e.useItem", _heartOfTheStorm);
 
 Hooks.once("ready", function () {
   const reactionSetting = game.settings.get(MODULE, "trackReactions");
