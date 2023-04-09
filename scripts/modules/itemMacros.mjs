@@ -338,7 +338,10 @@ export function _getSpellLevel(use) {
 
 /**
  * Helper function to create very basic form for a Dialog.
- * Returns a string (the content).
+ * @param {string} [label=""]         The label before the select/input.
+ * @param {string} [type="text"]      The type of input ('text', 'number', 'select').
+ * @param {string} [options=""]       The string of options in case of a select input.
+ * @returns {string}                  The dialog content.
  */
 export function _basicFormContent({ label = "", type = "text", options = "" }) {
   const lab = label.length ? `<label>${label}</label>` : "";
@@ -348,7 +351,7 @@ export function _basicFormContent({ label = "", type = "text", options = "" }) {
       number: '<input type="number" autofocus>',
     }[type] ?? '<input type="text" autofocus>';
   return `
-  <form>
+  <form class="dnd5e">
     <div class="form-group">
       ${lab}
       <div class="form-fields">${inp}</div>
