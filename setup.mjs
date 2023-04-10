@@ -45,16 +45,16 @@ Hooks.once("ready", INNIL_SOCKETS.socketsOn);
 Hooks.once("ready", _setupCollapsibles);
 Hooks.once("ready", _heartOfTheStormButton);
 
-Hooks.on("dnd5e.useItem", _heartOfTheStorm);
-Hooks.on("dropCanvasData", INNIL_SOCKETS._onDropData);
-Hooks.on("renderItemSheet", _itemStatusCondition);
-Hooks.on("renderActorSheet", _performSheetEdits);
-Hooks.on("preUpdateToken", _rotateTokensOnMovement);
-Hooks.on("renderTokenHUD", _replaceTokenHUD);
+Hooks.on("dnd5e.getItemContextOptions", _addContextMenuOptions);
 Hooks.on("dnd5e.restCompleted", _restItemDeletion);
 Hooks.on("dnd5e.restCompleted", EXHAUSTION._longRestExhaustionReduction);
-Hooks.on("dnd5e.getItemContextOptions", _addContextMenuOptions);
+Hooks.on("dnd5e.useItem", _heartOfTheStorm);
+Hooks.on("dropCanvasData", INNIL_SOCKETS._onDropData);
+Hooks.on("preUpdateToken", _rotateTokensOnMovement);
 Hooks.on("preCreateActiveEffect", _preCreateActiveEffect);
+Hooks.on("renderActorSheet", _performSheetEdits);
+Hooks.on("renderItemSheet", _itemStatusCondition);
+Hooks.on("renderTokenHUD", _replaceTokenHUD);
 Hooks.on("updateCombat", _rechargeMonsterFeatures);
 
 Hooks.once("ready", function () {
