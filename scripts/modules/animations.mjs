@@ -397,7 +397,7 @@ export class INNIL_ANIMATIONS {
     }
 
     // HEX.
-    check = name.includes("Hex");
+    check = name === "Hex";
     if (check) {
       if (!target) return;
       const file = "jb2a.magic_signs.rune.enchantment.intro.purple";

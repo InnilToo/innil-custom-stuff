@@ -241,7 +241,7 @@ export const SPELL_EFFECTS = [
   },
   {
     id: "hex",
-    label: "Hexxed",
+    label: "Hex",
     sort: 2000,
     icon: "icons/magic/unholy/hand-marked-pink.webp",
     duration: { seconds: 3600 },
