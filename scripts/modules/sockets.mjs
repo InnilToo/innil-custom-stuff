@@ -3,8 +3,31 @@ import { ImageAnchorPicker } from "./applications/imageAnchorPicker.mjs";
 export class INNIL_SOCKETS {
   static socketsOn() {
     game.socket.on(`world.${game.world.id}`, function (request) {
+      console.log("REQUEST:", request);
       return INNIL_SOCKETS[request.action](request.data, false);
     });
+  }
+
+  static async socketTemplateFunction({ userId, stuff }, push = true) {
+    // Find a user who can do the thing unless one is provided.
+    userId ??= _getFirstGM();
+
+    // If no one can do the thing, cry about it.
+    if (!userId) return ui.notifications.warn("No user found, wah!");
+
+    // If someone ELSE can do it, push to them.
+    if (game.user.id !== userId) {
+      if (push)
+        game.socket.emit(`world.${game.world.id}`, {
+          actor: "socketTemplateFunction",
+          data: { stuff },
+        });
+    }
+
+    // Else if YOU can do it, just do it.
+    else if (game.user.id === userId) {
+      // Do the thing.
+    }
   }
 
   /**
@@ -36,7 +59,7 @@ export class INNIL_SOCKETS {
         action: "createTiles",
         data: { userId, tileData },
       });
-    } else {
+    } else if (game.user.id === userId) {
       return canvas.scene.createEmbeddedDocuments("Tile", tileData);
     }
   }
@@ -47,6 +70,7 @@ export class INNIL_SOCKETS {
    */
   static async awardLoot({ backpackUuid }, push = true) {
     if (push) {
+      ui.notifications.info("Showing awarded loot!");
       game.socket.emit(`world.${game.world.id}`, {
         action: "awardLoot",
         data: { backpackUuid },
@@ -81,7 +105,7 @@ export class INNIL_SOCKETS {
         action: "updateTokens",
         data: { userId, updates, options },
       });
-    } else {
+    } else if (game.user.id === userId) {
       return canvas.scene.updateEmbeddedDocuments("Token", updates, options);
     }
   }
@@ -108,7 +132,7 @@ export class INNIL_SOCKETS {
         action: "healToken",
         data: { tokenId, amount, temp, userId },
       });
-    } else {
+    } else if (game.user.id === userId) {
       const func = temp ? "applyTempHP" : "applyDamage";
       const heal = temp ? Math.abs(amount) : -Math.abs(amount);
       return canvas.scene.tokens.get(tokenId).actor[func](heal);
@@ -131,7 +155,7 @@ export class INNIL_SOCKETS {
         action: "grantItems",
         data: { userId, itemData, tokenId },
       });
-    } else {
+    } else if (game.user.id === userId) {
       const names = itemData.map((i) => i.name).join(", ");
       const actor = canvas.scene.tokens.get(tokenId).actor;
       const content = `${names} ${
