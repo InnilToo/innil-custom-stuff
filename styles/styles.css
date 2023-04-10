@@ -1,4 +1,26 @@
-/* Token HUD status effects */
+/* BUTTON FEEL */
+button:active:not(.pm-dropdown, :disabled),
+:not(:disabled) a:active {
+  filter: brightness(0.7);
+}
+
+.tab#chat {
+  margin: -5px 0 0;
+}
+
+/* Hide hex, hexcurse, hmark*/
+div[data-status-id="hex"],
+div[data-status-id="hexcurse"],
+div[data-status-id="hmark"] {
+  display: none !important;
+}
+
+/* Hide spell school from actor sheets */
+.dnd5e.sheet.actor .spell-school {
+  display: none;
+}
+
+/* TOKEN HUT STATUS EFFECTS */
 #token-hud .col.right .status-effects {
   width: max-content;
   column-gap: 0.1em;
@@ -44,39 +66,6 @@
   margin: 0 0 0 3px;
 }
 
-/* Hide hex, hexcurse, hmark*/
-div[data-status-id="hex"],
-div[data-status-id="hexcurse"],
-div[data-status-id="hmark"] {
-  display: none !important;
-}
-
-/* collapsible items and effect headers */
-.dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover {
-  text-shadow: 0 0 8px var(--color-shadow-primary) !important;
-  cursor: pointer;
-}
-
-/* Make collapsed header gray text color */
-.dnd5e.sheet.actor .items-header.flexrow.no-create,
-.dnd5e.sheet.actor .items-header.flexrow.no-create * {
-  color: darkgray;
-}
-
-/* Hide spell school from actor sheets */
-.dnd5e.sheet.actor .spell-school {
-  display: none;
-}
-
-/* Hide 'ol' that follow a collapsed header, and hide all 'All' buttons */
-.dnd5e.sheet.actor .items-header.flexrow.no-create+ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create+ol+ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create .item-control.item-create,
-.dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control,
-.dnd5e.sheet.actor .characteristics label.no-edit+textarea {
-  display: none;
-}
-
 /* WHISPER DIALOG */
 .innil-whisper form {
   margin: 1em 0;
@@ -111,9 +100,6 @@ div[data-status-id="hmark"] {
 .innil-whisper .player-name:not(.selected):hover {
   box-shadow: 0 0 8px red;
 }
-
-/* TRAITS LISTS */
-/* removed until new app cometh */
 
 /* COLLAPSIBLES */
 section.innil-collapsible {
@@ -162,24 +148,25 @@ section.innil-collapsible.active div.innil-collapsible-content {
   overflow-y: scroll;
 }
 
-/* BUTTON FEEL */
-button:active:not(.pm-dropdown, :disabled),
-:not(:disabled) a:active {
-  filter: brightness(0.7);
-}
-
-.tab#chat {
-  margin: -5px 0 0;
-}
-
-/* APPLY DAMAGE */
-span.flavor-text.innil-apply-damage-flavor:hover {
-  text-shadow: 0 0 8px red;
+/* collapsible items and effect headers */
+.dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover {
+  text-shadow: 0 0 8px var(--color-shadow-primary) !important;
   cursor: pointer;
 }
 
-span.flavor-text.innil-apply-damage-flavor {
-  font-weight: bold;
+/* Make collapsed header gray text color */
+.dnd5e.sheet.actor .items-header.flexrow.no-create,
+.dnd5e.sheet.actor .items-header.flexrow.no-create * {
+  color: darkgray;
+}
+
+/* Hide 'ol' that follow a collapsed header, and hide all 'All' buttons */
+.dnd5e.sheet.actor .items-header.flexrow.no-create+ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create+ol+ol,
+.dnd5e.sheet.actor .items-header.flexrow.no-create .item-control.item-create,
+.dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control,
+.dnd5e.sheet.actor .characteristics label.no-edit+textarea {
+  display: none;
 }
 
 /* MONSTER STAT BLOCKS */
@@ -517,20 +504,4 @@ innil-custom-stuff.experimental-elixir .dialog-button {
   text-align: center;
   max-width: 4em;
   padding-top: 0.5em;
-}
-
-/* toggleable content */
-.innil-custom-stuff.class-page-renderer .spell-description * {
-  user-select: none;
-  font-size: 11px;
-}
-
-.innil-custom-stuff.class-page-renderer .spell-description {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px groove black;
-  border-top: none;
-  grid-area: text;
-  border-radius: 0 0 8px 8px;
-  padding: 0 0.5em;
 }
