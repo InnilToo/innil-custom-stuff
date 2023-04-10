@@ -16,7 +16,7 @@ export const SPELL_EFFECTS = [
     id: "bane",
     label: "INNIL.StatusConditionBane",
     sort: 1100,
-    icon: "assets/images/icons/conditions/bane.webp",
+    icon: "assets/images/conditions/bane.webp",
     duration: { seconds: 60 },
     flags: {
       [DEPEND.VAE]: {
@@ -28,18 +28,38 @@ export const SPELL_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.bonuses.abilities.save", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "-1d4" },
-      { key: "system.bonuses.msak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "-1d4" },
-      { key: "system.bonuses.mwak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "-1d4" },
-      { key: "system.bonuses.rsak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "-1d4" },
-      { key: "system.bonuses.rwak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "-1d4" },
+      {
+        key: "system.bonuses.abilities.save",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "-1d4",
+      },
+      {
+        key: "system.bonuses.msak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "-1d4",
+      },
+      {
+        key: "system.bonuses.mwak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "-1d4",
+      },
+      {
+        key: "system.bonuses.rsak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "-1d4",
+      },
+      {
+        key: "system.bonuses.rwak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "-1d4",
+      },
     ],
   },
   {
     id: "bless",
     label: "INNIL.StatusConditionBless",
     sort: 1000,
-    icon: "assets/images/icons/conditions/bless.webp",
+    icon: "assets/images/conditions/bless.webp",
     duration: { seconds: 60 },
     flags: {
       [DEPEND.VAE]: {
@@ -51,18 +71,38 @@ export const SPELL_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.bonuses.abilities.save", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "+1d4" },
-      { key: "system.bonuses.msak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "+1d4" },
-      { key: "system.bonuses.mwak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "+1d4" },
-      { key: "system.bonuses.rsak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "+1d4" },
-      { key: "system.bonuses.rwak.attack", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: "+1d4" },
+      {
+        key: "system.bonuses.abilities.save",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "+1d4",
+      },
+      {
+        key: "system.bonuses.msak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "+1d4",
+      },
+      {
+        key: "system.bonuses.mwak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "+1d4",
+      },
+      {
+        key: "system.bonuses.rsak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "+1d4",
+      },
+      {
+        key: "system.bonuses.rwak.attack",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: "+1d4",
+      },
     ],
   },
   {
     id: "haste",
     label: "INNIL.StatusConditionHaste",
     sort: 1200,
-    icon: "assets/images/icons/conditions/haste.webp",
+    icon: "assets/images/conditions/haste.webp",
     duration: { seconds: 60 },
     flags: {
       [DEPEND.VAE]: {
@@ -74,19 +114,43 @@ export const SPELL_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.attributes.ac.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: 2 },
-      { key: "system.attributes.movement.walk", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 2 },
-      { key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 2 },
-      { key: "system.attributes.movement.swim", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 2 },
-      { key: "system.attributes.movement.climb", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 2 },
-      { key: "system.attributes.movement.burrow", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 2 },
+      {
+        key: "system.attributes.ac.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: 2,
+      },
+      {
+        key: "system.attributes.movement.walk",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 2,
+      },
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 2,
+      },
+      {
+        key: "system.attributes.movement.swim",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 2,
+      },
+      {
+        key: "system.attributes.movement.climb",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 2,
+      },
+      {
+        key: "system.attributes.movement.burrow",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 2,
+      },
     ],
   },
   {
     id: "slow",
     label: "INNIL.StatusConditionSlow",
     sort: 1300,
-    icon: "assets/images/icons/conditions/slowed.webp",
+    icon: "assets/images/conditions/slowed.webp",
     duration: { seconds: 60 },
     flags: {
       [DEPEND.VAE]: {
@@ -98,20 +162,48 @@ export const SPELL_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.attributes.ac.bonus", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -2 },
-      { key: "system.abilities.dex.bonuses.save", mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -2 },
-      { key: "system.attributes.movement.walk", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0.5 },
-      { key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0.5 },
-      { key: "system.attributes.movement.swim", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0.5 },
-      { key: "system.attributes.movement.climb", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0.5 },
-      { key: "system.attributes.movement.burrow", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0.5 },
+      {
+        key: "system.attributes.ac.bonus",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: -2,
+      },
+      {
+        key: "system.abilities.dex.bonuses.save",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: -2,
+      },
+      {
+        key: "system.attributes.movement.walk",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0.5,
+      },
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0.5,
+      },
+      {
+        key: "system.attributes.movement.swim",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0.5,
+      },
+      {
+        key: "system.attributes.movement.climb",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0.5,
+      },
+      {
+        key: "system.attributes.movement.burrow",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0.5,
+      },
     ],
   },
   {
     id: "invisible",
     label: "INNIL.StatusConditionInvisible",
     sort: 1500,
-    icon: "assets/images/icons/conditions/invisible.webp",
+    icon: "assets/images/conditions/invisible.webp",
     duration: { seconds: 3600 },
     flags: {
       [DEPEND.VAE]: {
@@ -128,20 +220,28 @@ export const SPELL_EFFECTS = [
     id: "fly",
     label: "INNIL.StatusConditionFlying",
     sort: 1400,
-    icon: "assets/images/icons/conditions/flying.webp",
+    icon: "assets/images/conditions/flying.webp",
     duration: { seconds: 600 },
     flags: {
       [DEPEND.VAE]: {
         data: {
-          intro: "<p>You are under the effects of the Fly spell.</p>" + "<p>You have a flying speed of 60 feet.</p>",
+          intro:
+            "<p>You are under the effects of the Fly spell.</p>" +
+            "<p>You have a flying speed of 60 feet.</p>",
         },
       },
     },
-    changes: [{ key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE, value: 60 }],
+    changes: [
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
+        value: 60,
+      },
+    ],
   },
   {
     id: "hex",
-    label: "Hexxed",
+    label: "Hex",
     sort: 2000,
     icon: "icons/magic/unholy/hand-marked-pink.webp",
     duration: { seconds: 3600 },
@@ -205,7 +305,7 @@ export const STATUS_EFFECTS = [
     id: "blind",
     label: "INNIL.StatusConditionBlinded",
     sort: 300,
-    icon: "assets/images/icons/conditions/blinded.webp",
+    icon: "assets/images/conditions/blinded.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -220,7 +320,7 @@ export const STATUS_EFFECTS = [
     id: "charm",
     label: "INNIL.StatusConditionCharmed",
     sort: 200,
-    icon: "assets/images/icons/conditions/charmed.webp",
+    icon: "assets/images/conditions/charmed.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -235,7 +335,7 @@ export const STATUS_EFFECTS = [
     id: "dead",
     label: "INNIL.StatusConditionDead",
     sort: 100,
-    icon: "assets/images/icons/conditions/dead.webp",
+    icon: "assets/images/conditions/dead.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -248,11 +348,12 @@ export const STATUS_EFFECTS = [
     id: "deaf",
     label: "INNIL.StatusConditionDeafened",
     sort: 330,
-    icon: "assets/images/icons/conditions/deafened.webp",
+    icon: "assets/images/conditions/deafened.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
-          intro: "<p>You cannot hear and automatically fail any ability checks that require hearing.</p>",
+          intro:
+            "<p>You cannot hear and automatically fail any ability checks that require hearing.</p>",
         },
       },
     },
@@ -261,7 +362,7 @@ export const STATUS_EFFECTS = [
     id: "mute",
     label: "INNIL.StatusConditionMuted",
     sort: 360,
-    icon: "assets/images/icons/conditions/muted.webp",
+    icon: "assets/images/conditions/muted.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -276,7 +377,7 @@ export const STATUS_EFFECTS = [
     id: "fear",
     label: "INNIL.StatusConditionFrightened",
     sort: 250,
-    icon: "assets/images/icons/conditions/frightened.webp",
+    icon: "assets/images/conditions/frightened.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -291,7 +392,7 @@ export const STATUS_EFFECTS = [
     id: "grappled",
     label: "INNIL.StatusConditionGrappled",
     sort: 430,
-    icon: "assets/images/icons/conditions/grappled.webp",
+    icon: "assets/images/conditions/grappled.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -300,18 +401,43 @@ export const STATUS_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.attributes.movement.walk", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.swim", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.climb", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.burrow", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
+      {
+        key: "system.attributes.movement.walk",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.swim",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.climb",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.burrow",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
     ],
   },
   {
     id: "incapacitated",
     label: "INNIL.StatusConditionIncapacitated",
     sort: 500,
-    icon: "assets/images/icons/conditions/incapacitated.webp",
+    icon: "assets/images/conditions/incapacitated.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -324,7 +450,7 @@ export const STATUS_EFFECTS = [
     id: "paralysis",
     label: "INNIL.StatusConditionParalyzed",
     sort: 600,
-    icon: "assets/images/icons/conditions/paralyzed.webp",
+    icon: "assets/images/conditions/paralyzed.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -336,18 +462,43 @@ export const STATUS_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.attributes.movement.walk", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.swim", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.climb", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.burrow", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
+      {
+        key: "system.attributes.movement.walk",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.swim",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.climb",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.burrow",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
     ],
   },
   {
     id: "petrified",
     label: "INNIL.StatusConditionPetrified",
     sort: 650,
-    icon: "assets/images/icons/conditions/petrified.webp",
+    icon: "assets/images/conditions/petrified.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -364,11 +515,12 @@ export const STATUS_EFFECTS = [
     id: "poison",
     label: "INNIL.StatusConditionPoisoned",
     sort: 280,
-    icon: "assets/images/icons/conditions/poisoned.webp",
+    icon: "assets/images/conditions/poisoned.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
-          intro: "<p>You have disadvantage on all attack rolls and ability checks.</p>",
+          intro:
+            "<p>You have disadvantage on all attack rolls and ability checks.</p>",
         },
       },
     },
@@ -377,7 +529,7 @@ export const STATUS_EFFECTS = [
     id: "prone",
     label: "INNIL.StatusConditionProne",
     sort: 400,
-    icon: "assets/images/icons/conditions/prone.webp",
+    icon: "assets/images/conditions/prone.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -392,7 +544,7 @@ export const STATUS_EFFECTS = [
     id: "restrain",
     label: "INNIL.StatusConditionRestrained",
     sort: 450,
-    icon: "assets/images/icons/conditions/restrained.webp",
+    icon: "assets/images/conditions/restrained.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -403,18 +555,43 @@ export const STATUS_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.attributes.movement.walk", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.swim", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.climb", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.burrow", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
+      {
+        key: "system.attributes.movement.walk",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.swim",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.climb",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.burrow",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
     ],
   },
   {
     id: "stun",
     label: "INNIL.StatusConditionStunned",
     sort: 540,
-    icon: "assets/images/icons/conditions/stunned.webp",
+    icon: "assets/images/conditions/stunned.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -425,18 +602,43 @@ export const STATUS_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.attributes.movement.walk", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.swim", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.climb", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.burrow", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
+      {
+        key: "system.attributes.movement.walk",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.swim",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.climb",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.burrow",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
     ],
   },
   {
     id: "unconscious",
     label: "INNIL.StatusConditionUnconscious",
     sort: 560,
-    icon: "assets/images/icons/conditions/unconscious.webp",
+    icon: "assets/images/conditions/unconscious.webp",
     flags: {
       [DEPEND.VAE]: {
         data: {
@@ -447,18 +649,43 @@ export const STATUS_EFFECTS = [
       },
     },
     changes: [
-      { key: "system.attributes.movement.walk", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.fly", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.swim", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.climb", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
-      { key: "system.attributes.movement.burrow", mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY, value: 0, priority: 60 },
+      {
+        key: "system.attributes.movement.walk",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.fly",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.swim",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.climb",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
+      {
+        key: "system.attributes.movement.burrow",
+        mode: CONST.ACTIVE_EFFECT_MODES.MULTIPLY,
+        value: 0,
+        priority: 60,
+      },
     ],
   },
   {
     id: "reaction",
     label: "INNIL.StatusConditionReaction",
     sort: 1600,
-    icon: "assets/images/icons/conditions/reaction.webp",
+    icon: "assets/images/conditions/reaction.webp",
     duration: { rounds: 1 },
     flags: {
       [DEPEND.VAE]: {

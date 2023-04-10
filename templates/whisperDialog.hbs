@@ -1,0 +1,10 @@
+<p>Whisper to:</p>
+<form>
+  <div class="form-fields">
+    {{#each characters as |c|}}
+      <span class="player-name {{c.selected}}" id="{{c.id}}">{{c.name}}</span>
+    {{/each}}
+  </div>
+</form>
+<label>Message:</label>
+<textarea name="message" cols="50" rows="6" autofocus></textarea>

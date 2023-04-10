@@ -1,13 +1,12 @@
 {
   "id": "innil-custom-stuff",
   "title": "Innil's Custom Stuff",
-  "version": "10.2.0",
+  "version": "10.3.0",
   "authors": [
     {
       "name": "Innil",
       "url": "https://github.com/InnilToo",
-      "discord": "Innil#6666",
-      "flags": {}
+      "discord": "Innil#6666"
     }
   ],
   "compatibility": {
@@ -15,21 +14,14 @@
     "maximum": "10",
     "verified": "10.291"
   },
-  "esmodules": [
-    "setup.js"
-  ],
-  "styles": [
-    "styles/styles.css",
-    "styles/sheet_coloring.css",
-    "styles/raritycolors.css",
-    "styles/template-styles.css"
-  ],
+  "esmodules": ["setup.mjs"],
+  "styles": ["styles/styles.css", "styles/sheetEdits.css"],
   "languages": [
     {
       "lang": "en",
       "name": "English",
       "path": "languages/en.json",
-      "flags": {}
+      "description": "Personal module for replacing or adding to many things. Coppied from Zhell."
     }
   ],
   "url": "https://github.com/InnilToo/innil-custom-stuff",
