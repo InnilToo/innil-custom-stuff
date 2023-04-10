@@ -43,6 +43,28 @@ export class SheetEdits {
     )
       this._createMoneySpender();
     if (this.sheet.document.type === "character") this._createNewDay();
+    if (this.sheet.document.type === "character")
+      this._createInspirationToggle();
+  }
+
+  /** Make 'Inspiration' a toggle. */
+  _createInspirationToggle() {
+    const insp = this.html[0].querySelector(".inspiration h4");
+    insp.classList.add("rollable");
+    insp.dataset.action = "inspiration";
+    insp.addEventListener("click", this._onClickInspiration.bind(this.sheet));
+  }
+
+  /**
+   * Toggle inspiration on or off when clicking the 'label'.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {Actor}                 The updated actor.
+   */
+  async _onClickInspiration(event) {
+    return this.document.update({
+      "system.attributes.inspiration":
+        !this.document.system.attributes.inspiration,
+    });
   }
 
   /** Remove the 'alignment' input. */
