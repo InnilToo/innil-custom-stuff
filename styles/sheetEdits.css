@@ -32,7 +32,7 @@ body :root {
  */
 .innil-custom-stuff.dot-container .dot:hover,
 .innil-custom-stuff.dot-container .dot:not(.empty):hover~.dot:not(.empty),
-.innil-custom-stuff.dot-container:hover .dot.empty:not(.dot:hover ~ .dot.empty) {
+.innil-custom-stuff.dot-container:hover .dot.empty:not(.dot:hover ~ .dot) {
   transform: scale(1.2);
 }
 
@@ -57,9 +57,9 @@ body :root {
 /* dot container */
 .innil-custom-stuff.dot-container {
   flex-direction: row-reverse;
-  min-width: 168px;
   gap: 2px;
   display: flex;
+  flex: 0;
 }
 
 /* show shadow overflow */
