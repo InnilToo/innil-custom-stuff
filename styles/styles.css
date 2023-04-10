@@ -505,3 +505,14 @@ innil-custom-stuff.experimental-elixir .dialog-button {
   max-width: 4em;
   padding-top: 0.5em;
 }
+
+/* Font of Magic */
+.innil-custom-stuff.font-of-magic .dialog-buttons {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.innil-custom-stuff.font-of-magic .dialog-buttons button {
+  display: flex;
+  justify-content: space-around;
+}

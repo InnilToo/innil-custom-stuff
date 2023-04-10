@@ -1,3 +1,6 @@
+import { MODULE } from "../../../const.mjs";
+import { _constructSpellSlotOptions } from "../../itemMacros.mjs";
+
 export const sorcerer = { FONT_OF_MAGIC };
 
 async function FONT_OF_MAGIC(
@@ -10,15 +13,8 @@ async function FONT_OF_MAGIC(
   args
 ) {
   const conversionMap = { 1: 2, 2: 3, 3: 5, 4: 6, 5: 7 };
-  const style = `
-<style>
-.font-of-magic .dialog-buttons {
-flex-direction: column;
-gap: 5px;
-}
-</style>`;
   const spellPoints = item.system.uses;
-  const spellSlots = actor.system.system.spells;
+  const spellSlots = actor.system.spells;
 
   // array of spell levels for converting points to slots.
   const validLevelsWithSpentSpellSlots = Object.entries(spellSlots).filter(
@@ -29,6 +25,7 @@ gap: 5px;
       return entry.max > 0 && entry.value < entry.max;
     }
   );
+
   // array of spell levels for converting slots to points.
   const spellLevelsWithAvailableSlots = Object.entries(spellSlots).filter(
     ([key, entry]) => {
@@ -49,19 +46,24 @@ gap: 5px;
 
   // set up available buttons.
   const buttons = {};
-  if (canConvertSlotToPoints)
+  if (canConvertSlotToPoints) {
     buttons["slotToPoint"] = {
       icon: "<i class='fa-solid fa-arrow-left'></i> <br>",
       label: "Convert a spell slot to sorcery points",
       callback: slotToPoints,
     };
-  if (canConvertPointsToSlot)
+  }
+  if (canConvertPointsToSlot) {
     buttons["pointToSlot"] = {
       icon: "<i class='fa-solid fa-arrow-right'></i> <br>",
       label: "Convert sorcery points to a spell slot",
       callback: pointsToSlot,
     };
-  new Dialog({ title: item.name, buttons }).render(true);
+  }
+  return new Dialog(
+    { title: item.name, buttons },
+    { id: `font-of-magic-${actor.uuid.replaceAll(".", "-")}` }
+  ).render(true);
 
   // Convert spell slot to sorcery points.
   async function slotToPoints() {
@@ -74,11 +76,9 @@ gap: 5px;
           key,
           {
             callback: () => key,
-            label: `
-<div class="flexrow">
-<span>${k} (${vals.value}/${vals.max})</span>
-<span>(+${vals.level ?? key.at(-1)} points)</span>
-</div>`,
+            label: `<span>${k} (${vals.value}/${vals.max})</span><span>(+${
+              vals.level ?? key.at(-1)
+            } points)</span>`,
           },
         ];
       })
@@ -89,15 +89,11 @@ gap: 5px;
         title: "Slot to Sorcery Points",
         buttons: slotToPointsButtons,
         close: () => null,
-        content:
-          style +
-          `
+        content: `
 <p>Pick a spell slot level to convert one spell slot to sorcery points (<strong>${spellPoints.value}/${spellPoints.max}</strong>).
 You regain a number of sorcery points equal to the level of the spell slot.</p>`,
       },
-      {
-        classes: ["dialog", "font-of-magic"],
-      }
+      { classes: [MODULE, "dialog", "font-of-magic"] }
     );
     if (!retKey) return null;
 
@@ -130,11 +126,7 @@ You regain a number of sorcery points equal to the level of the spell slot.</p>`
           key,
           {
             callback: () => key,
-            label: `
-<div class="flexrow">
-<span>${k} (${vals.value}/${vals.max})</span>
-<span>(&minus;${cost} points)</span>
-</div>`,
+            label: `<span>${k} (${vals.value}/${vals.max})</span><span>(&minus;${cost} points)</span>`,
           },
         ];
       })
@@ -145,13 +137,9 @@ You regain a number of sorcery points equal to the level of the spell slot.</p>`
         title: "Sorcery Points to Slot",
         buttons: pointsToSlotButtons,
         close: () => null,
-        content:
-          style +
-          `<p>Pick a spell slot level to regain from sorcery points (<strong>${spellPoints.value}/${spellPoints.max}</strong>).</p>`,
+        content: `<p>Pick a spell slot level to regain from sorcery points (<strong>${spellPoints.value}/${spellPoints.max}</strong>).</p>`,
       },
-      {
-        classes: ["dialog", "font-of-magic"],
-      }
+      { classes: [MODULE, "dialog", "font-of-magic"] }
     );
     if (!retKey) return null;
 
