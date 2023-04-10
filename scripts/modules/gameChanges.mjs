@@ -194,12 +194,6 @@ function _weapons() {
     warhammer: `${key}.YZzXPxRgpYcPh61M`,
     whip: `${key}.KGH7gJe5mvpbRoFZ`,
   };
-
-  // delete some weapon properties.
-  const del = ["fir", "rel"];
-  del.forEach((property) => {
-    delete CONFIG.DND5E.weaponProperties[property];
-  });
 }
 
 // replace conditions
