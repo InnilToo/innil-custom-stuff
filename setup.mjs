@@ -60,16 +60,16 @@ Hooks.once("ready", function () {
     (reactionSetting === "gm" && game.user.isGM) ||
     reactionSetting === "all"
   ) {
-    Hooks.on("dnd5e.useItem", COMBAT.spendReaction);
+    Hooks.on("dnd5e.useItem", COMBAT._spendReaction);
   }
 
   if (game.settings.get(MODULE, "displaySavingThrowAmmo")) {
-    Hooks.on("dnd5e.rollAttack", COMBAT.displaySavingThrowAmmo);
+    Hooks.on("dnd5e.rollAttack", COMBAT._displaySavingThrowAmmo);
   }
 
   if (game.user.isGM) {
     if (game.settings.get(MODULE, "markDefeatedCombatants")) {
-      Hooks.on("updateToken", COMBAT.markDefeatedCombatant);
+      Hooks.on("updateToken", COMBAT._markDefeatedCombatant);
     }
     Hooks.on("getSceneConfigHeaderButtons", _sceneHeaderView);
     Hooks.on("dropCanvasData", _dropActorFolder);
