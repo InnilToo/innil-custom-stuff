@@ -1,12 +1,13 @@
 {
   "id": "innil-custom-stuff",
   "title": "Innil's Custom Stuff",
-  "version": "10.3.0",
+  "version": "10.4.0",
   "authors": [
     {
       "name": "Innil",
       "url": "https://github.com/InnilToo",
-      "discord": "Innil#6666"
+      "discord": "Innil#6666",
+      "flags": {}
     }
   ],
   "compatibility": {
@@ -21,7 +22,7 @@
       "lang": "en",
       "name": "English",
       "path": "languages/en.json",
-      "description": "Personal module for replacing or adding to many things. Coppied from Zhell."
+      "flags": {}
     }
   ],
   "url": "https://github.com/InnilToo/innil-custom-stuff",
