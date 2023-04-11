@@ -101,7 +101,7 @@ ${item.system.description.value}
   const buttons = {
     heal: {
       icon: "<i class='fa-solid fa-hand-holding-heart'></i>",
-      label: "Heal! (1+)",
+      label: "Heal! (<span data-attr='lay'>1+</span>)",
       callback: heal,
     },
     cure: {
@@ -117,12 +117,15 @@ ${item.system.description.value}
     content,
     buttons,
     render: (html) => {
+      const range = html[0].querySelector("input");
       const target = html[0].querySelector(".range-value");
-      html[0]
-        .querySelector("input")
-        .addEventListener("change", function (event) {
-          target.innerText = event.currentTarget.value;
-        });
+      const button = range
+        .closest(".window-content")
+        .querySelector("[data-attr='lay']");
+      range.addEventListener("change", function (event) {
+        target.innerText = event.currentTarget.value;
+        button.innerText = event.currentTarget.value;
+      });
     },
   }).render(true);
 
