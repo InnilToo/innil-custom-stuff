@@ -9,12 +9,7 @@ import {
   _performSheetEdits,
   refreshColors,
 } from "./scripts/modules/applications/sheetEdits.mjs";
-import {
-  INNIL_COMBAT,
-  _rechargeMonsterFeatures,
-  _replaceTokenHUD,
-  _visualActiveEffectsCreateEffectButtons,
-} from "./scripts/modules/combatHelpers.mjs";
+import { COMBAT } from "./scripts/modules/combatHelpers.mjs";
 import {
   _addContextMenuOptions,
   _dropActorFolder,
@@ -22,10 +17,12 @@ import {
   _miscAdjustments,
   _preCreateActiveEffect,
   _preCreateScene,
+  _replaceTokenHUD,
   _restItemDeletion,
   _sceneHeaderView,
   _setUpGameChanges,
   _visionModes,
+  _visualActiveEffectsCreateEffectButtons,
 } from "./scripts/modules/gameChanges.mjs";
 import { EXHAUSTION } from "./scripts/modules/innil_functions.mjs";
 import {
@@ -55,7 +52,7 @@ Hooks.on("preCreateActiveEffect", _preCreateActiveEffect);
 Hooks.on("renderActorSheet", _performSheetEdits);
 Hooks.on("renderItemSheet", _itemStatusCondition);
 Hooks.on("renderTokenHUD", _replaceTokenHUD);
-Hooks.on("updateCombat", _rechargeMonsterFeatures);
+Hooks.on("updateCombat", COMBAT._rechargeMonsterFeatures);
 
 Hooks.once("ready", function () {
   const reactionSetting = game.settings.get(MODULE, "trackReactions");
@@ -63,16 +60,16 @@ Hooks.once("ready", function () {
     (reactionSetting === "gm" && game.user.isGM) ||
     reactionSetting === "all"
   ) {
-    Hooks.on("dnd5e.useItem", INNIL_COMBAT.spendReaction);
+    Hooks.on("dnd5e.useItem", COMBAT.spendReaction);
   }
 
   if (game.settings.get(MODULE, "displaySavingThrowAmmo")) {
-    Hooks.on("dnd5e.rollAttack", INNIL_COMBAT.displaySavingThrowAmmo);
+    Hooks.on("dnd5e.rollAttack", COMBAT.displaySavingThrowAmmo);
   }
 
   if (game.user.isGM) {
     if (game.settings.get(MODULE, "markDefeatedCombatants")) {
-      Hooks.on("updateToken", INNIL_COMBAT.markDefeatedCombatant);
+      Hooks.on("updateToken", COMBAT.markDefeatedCombatant);
     }
     Hooks.on("getSceneConfigHeaderButtons", _sceneHeaderView);
     Hooks.on("dropCanvasData", _dropActorFolder);
