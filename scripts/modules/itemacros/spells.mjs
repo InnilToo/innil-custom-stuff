@@ -27,6 +27,7 @@ export const spells = {
   CHAOS_BOLT,
   CREATE_OR_DESTROY_WATER,
   CROWN_OF_STARS,
+  DARKNESS,
   ELEMENTAL_WEAPON,
   FAR_STEP,
   FATHOMLESS_EVARDS_BLACK_TENTACLES,
@@ -673,6 +674,82 @@ async function CROWN_OF_STARS(
   return motes - 1 === 0
     ? isConc.delete()
     : isConc.setFlag(MODULE, "crownStars", motes - 1);
+}
+
+async function DARKNESS(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.CN, DEPEND.WG, DEPEND.SEQ, DEPEND.JB2A))
+    return item.use();
+
+  const isConc = CN.isActorConcentratingOnItem(actor, item);
+  if (!isConc) {
+    const use = await item.use();
+    if (!use) return;
+    const conc = await CN.waitForConcentrationStart(actor, { item });
+    if (!conc) return;
+
+    const file = "jb2a.darkness.black";
+
+    const dialog = new Dialog({
+      title: "Darkness",
+      content:
+        "<p style='text-align:center'>Either put the Darkness on yourself or spawn a token that carries it:</p>",
+      buttons: {
+        Self: {
+          icon: "<i class='fa-solid fa-user'></i>",
+          label: "Self",
+          callback: async () => {
+            // Play a sequence on token
+            await new Sequence()
+              .effect()
+              .attachTo(token)
+              .tieToDocuments(conc)
+              .file(file)
+              .persist()
+              .play();
+          },
+        },
+        Spawn: {
+          icon: "<i class='fa-regular fa-circle-dot'></i>",
+          label: "Spawn",
+          callback: async () => {
+            // Define the update and options objects for _spawnHelper
+            const updates = {
+              token: { name: `${actor.name.split(" ")[0]}'s Darkness` },
+            };
+            const range = 60;
+            const options = {
+              crosshairs: { interval: 1 },
+            };
+            // Draw the circle around the token
+            const p = drawCircle(token, range);
+            await actor.sheet?.minimize();
+            // Spawn the token
+            const [spawn] = await _spawnHelper("dummy", updates, {}, options);
+            await actor.sheet?.maximize();
+            canvas.app.stage.removeChild(p);
+
+            // Play a sequence on the spawn
+            await new Sequence()
+              .effect()
+              .attachTo(spawn)
+              .tieToDocuments(conc)
+              .file(file)
+              .persist()
+              .play();
+
+            // Add the token dismissal to the effect
+            const effect = CN.isActorConcentratingOnItem(actor, item);
+            if (!spawn) return effect.delete();
+            return _addTokenDismissalToEffect(effect, spawn);
+          },
+        },
+      },
+    });
+
+    return dialog.render(true);
+  } else {
+    return ui.notifications.warn("You are already concentrating on Darkness.");
+  }
 }
 
 async function VORTEX_WARP(
