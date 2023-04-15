@@ -718,7 +718,7 @@ async function DARKNESS(item, speaker, actor, token, character, event, args) {
             };
             const range = 60;
             const options = {
-              crosshairs: { interval: 1 },
+              crosshairs: { interval: -1 },
             };
             // Draw the circle around the token
             const p = drawCircle(token, range);
@@ -1336,7 +1336,7 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
     const use = await item.use();
     if (!use) return;
     const update = { actor: { "flags.world.findSteed": actor.id } };
-    const options = { crosshairs: { interval: 1 } };
+    const options = { crosshairs: { interval: -1 } };
     await actor.sheet?.minimize();
     await _spawnHelper("Murrpau", update, {}, options);
     await actor.sheet?.maximize();
@@ -1366,7 +1366,7 @@ async function FIND_STEED_ZED(
     const use = await item.use();
     if (!use) return;
     const update = { actor: { "flags.world.findSteed": actor.id } };
-    const options = { crosshairs: { interval: 1 } };
+    const options = { crosshairs: { interval: -1 } };
     await actor.sheet?.minimize();
     await _spawnHelper("Murrpau", update, {}, options);
     await actor.sheet?.maximize();
