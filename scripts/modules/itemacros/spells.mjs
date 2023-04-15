@@ -32,7 +32,6 @@ export const spells = {
   FAR_STEP,
   FATHOMLESS_EVARDS_BLACK_TENTACLES,
   FIND_STEED,
-  FIND_STEED_ZED,
   FLAMING_SPHERE,
   MAGE_ARMOR,
   MAGE_HAND,
@@ -1333,55 +1332,54 @@ async function CHAOS_BOLT(item, speaker, actor, token, character, event, args) {
 }
 
 /**
- * Template Item Macro for the 'Find Steed' spell.
+ * Item Macro for the 'Find Steed' spell.
  */
 async function FIND_STEED(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.WG)) return item.use();
-  const isZedarr = actor.name.includes("Zedarr");
-  if (isZedarr) {
-    const isSpawned = canvas.scene.tokens.find(
-      (t) => t.actor?.flags.world?.findSteed === actor.id
-    );
-    if (isSpawned)
-      return ui.notifications.warn("You already have a steed spawned.");
-    const use = await item.use();
-    if (!use) return;
-    const update = { actor: { "flags.world.findSteed": actor.id } };
-    const options = { crosshairs: { interval: -1 } };
-    await actor.sheet?.minimize();
-    await _spawnHelper("Murrpau", update, {}, options);
-    await actor.sheet?.maximize();
-  }
-}
+  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
 
-/**
- * Item Macro for the 'Find Steed' spell for Zedarr.
- */
-async function FIND_STEED_ZED(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.WG)) return item.use();
-  const isZedarr = actor.name.includes("Zedarr");
-  if (isZedarr) {
-    const isSpawned = canvas.scene.tokens.find(
-      (t) => t.actor?.flags.world?.findSteed === actor.id
-    );
-    if (isSpawned)
-      return ui.notifications.warn("You already have a steed spawned.");
-    const use = await item.use();
-    if (!use) return;
-    const update = { actor: { "flags.world.findSteed": actor.id } };
-    const options = { crosshairs: { interval: -1 } };
-    await actor.sheet?.minimize();
-    await _spawnHelper("Murrpau", update, {}, options);
-    await actor.sheet?.maximize();
+  const actorName = actor.name;
+  const steeds = {
+    "QA Bobby": {
+      name: "dummy",
+    },
+    "Zedarr T'sarran": {
+      name: "Murrpau",
+    },
+  };
+
+  const steed = steeds[actorName];
+  if (!steed)
+    return ui.notifications.warn("Can't spawn a steed for unknown actor.");
+
+  const isSteed = actor.effects.find((e) => {
+    return e.flags.core?.statusId === item.name.slugify({ strict: true });
+  });
+  if (isSteed) {
+    return ui.notifications.warn(`You already have a ${isSteed.name} spawned.`);
   }
+
+  const use = await item.use();
+  if (!use) return;
+
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
+  const update = { actor: { "flags.world.findSteed": actor.id } };
+  const options = { crosshairs: { interval: -1 } };
+  const range = 60;
+
+  // then spawn the actor:
+  const p = drawCircle(token, range);
+  await actor.sheet?.minimize();
+  const [spawn] = await _spawnHelper(steed.name, update, {}, options);
+  await actor.sheet?.maximize();
+  canvas.app.stage.removeChild(p);
+
+  if (!spawn) return effect.delete();
+  return _addTokenDismissalToEffect(effect, spawn);
 }
 
 /**
