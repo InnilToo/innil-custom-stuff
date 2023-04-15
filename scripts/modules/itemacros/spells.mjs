@@ -46,195 +46,6 @@ export const spells = {
   WIELDING,
 };
 
-async function FLAMING_SPHERE(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.WG, DEPEND.CN, DEPEND.EM)) return item.use();
-
-  const isConc = CN.isActorConcentratingOnItem(actor, item);
-  if (isConc) return CN.redisplayCard(actor, item);
-
-  const use = await item.use();
-  if (!use) return;
-
-  const updates = {
-    token: { name: `${actor.name.split(" ")[0]}'s Flaming Sphere` },
-  };
-  const options = { crosshairs: { interval: -1 } };
-
-  // then spawn the actor:
-  await actor.sheet?.minimize();
-  const [spawn] = await _spawnHelper("Flaming Sphere", updates, {}, options);
-  await actor.sheet?.maximize();
-  const effect = CN.isActorConcentratingOnItem(actor, item);
-  if (!spawn) return effect.delete();
-  return _addTokenDismissalToEffect(effect, spawn);
-}
-
-async function SPIRITUAL_WEAPON(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
-  const isActive = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
-  if (isActive) {
-    const level = isActive.flags[MODULE].spellLevel;
-    const data = item.toObject();
-    data.system.level = level;
-    const clone = new Item.implementation(data, { keepId: true });
-    clone.prepareFinalAttributes();
-    return clone.displayCard();
-  }
-
-  const use = await item.use();
-  if (!use) return;
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
-
-  const updates = {
-    token: { name: `${actor.name.split(" ")[0]}'s Spiritual Weapon` },
-  };
-  const options = { crosshairs: { interval: -1 } };
-
-  // then spawn the actor:
-  await actor.sheet?.minimize();
-  const [spawn] = await _spawnHelper("Spiritual Weapon", updates, {}, options);
-  await actor.sheet?.maximize();
-  if (!spawn) return effect.delete();
-  return _addTokenDismissalToEffect(effect, spawn);
-}
-
-async function MISTY_STEP(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG)) return item.use();
-  const vanish = "jb2a.misty_step.01.blue";
-  const appear = "jb2a.misty_step.02.blue";
-  const distance = 30;
-
-  const use = await item.use();
-  if (!use) return;
-
-  return _teleportationHelper({ item, actor, token, vanish, appear, distance });
-}
-
-async function THUNDER_STEP(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG)) return item.use();
-  const vanish = "jb2a.thunderwave.center.blue";
-  const appear = "jb2a.thunderwave.center.blue";
-  const distance = 90;
-
-  const use = await item.use();
-  if (!use) return;
-
-  return _teleportationHelper({ item, actor, token, vanish, appear, distance });
-}
-
-async function FAR_STEP(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG, DEPEND.CN))
-    return item.use();
-  const vanish = "jb2a.misty_step.01.purple";
-  const appear = "jb2a.misty_step.02.purple";
-  const distance = 60;
-
-  const conc = CN.isActorConcentratingOnItem(actor, item);
-
-  if (!conc) {
-    const use = await item.use();
-    if (!use) return;
-  }
-
-  return _teleportationHelper({ item, actor, token, vanish, appear, distance });
-}
-
-async function SPIRIT_SHROUD(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.CN, DEPEND.VAE)) return item.use();
-
-  const use = await item.use();
-  if (!use) return;
-
-  return new Dialog({
-    title: "Spirit Shroud",
-    content: "<p style='text-align:center'>Pick a damage type.</p>",
-    buttons: {
-      cold: {
-        icon: "<i class='fa-solid fa-snowflake'></i>",
-        label: "Cold",
-        callback: () => flagEffect("cold"),
-      },
-      necrotic: {
-        icon: "<i class='fa-solid fa-skull'></i>",
-        label: "Necrotic",
-        callback: () => flagEffect("necrotic"),
-      },
-      radiant: {
-        icon: "<i class='fa-solid fa-holly-berry'></i>",
-        label: "Radiant",
-        callback: () => flagEffect("radiant"),
-      },
-    },
-  }).render(true);
-
-  async function flagEffect(type) {
-    const effect = CN.isActorConcentratingOnItem(actor, item);
-    const level = effect.flags[DEPEND.CN].data.castData.castLevel;
-    const value = `+${Math.ceil(level / 2) - 1}d8[${type}]`;
-    const mode = CONST.ACTIVE_EFFECT_MODES.ADD;
-    const changes = [
-      { key: "system.bonuses.mwak.damage", mode, value },
-      { key: "system.bonuses.msak.damage", mode, value },
-    ];
-    return effect.update({ changes });
-  }
-}
-
-async function ARMOR_OF_AGATHYS(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  const use = await item.use();
-  if (!use) return;
-
-  const level = _getSpellLevel(use);
-  return actor.applyTempHP(5 * level);
-}
-
 async function ABSORB_ELEMENTS(
   item,
   speaker,
@@ -282,7 +93,60 @@ async function ABSORB_ELEMENTS(
   }
 }
 
-async function CALL_LIGHTNING(
+async function AID(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.WG, DEPEND.EM, DEPEND.VAE)) return item.use();
+
+  const targets = game.user.targets;
+  if (!targets.size.between(1, 3)) {
+    ui.notifications.warn("You need to have between 1 and 3 targets.");
+    return null;
+  }
+
+  const use = await item.use();
+  if (!use) return;
+
+  const spellLevel = _getSpellLevel(use);
+
+  async function onCreate() {
+    const level = effect.flags.effectmacro.data.spellLevel;
+    const value = 5 * (level - 1);
+    return actor.applyDamage(-value);
+  }
+
+  const effectData = {
+    label: item.name,
+    icon: item.img,
+    duration: _getItemDuration(item),
+    changes: [
+      {
+        key: "system.attributes.hp.tempmax",
+        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+        value: 5 * (spellLevel - 1),
+      },
+    ],
+    "flags.core.statusId": item.name.slugify({ strict: true }),
+    "flags.visual-active-effects.data.intro": `<p>Your hit point maximum is increased by ${
+      5 * (spellLevel - 1)
+    }.</p>`,
+    "flags.effectmacro.data.spellLevel": spellLevel,
+    "flags.effectmacro.onCreate.script": `(${onCreate.toString()})()`,
+  };
+
+  const updates = {
+    embedded: { ActiveEffect: { [effectData.label]: effectData } },
+  };
+  const options = {
+    permanent: true,
+    description: `${actor.name} is casting ${item.name} on you.`,
+    comparisonKeys: { ActiveEffect: "label" },
+  };
+
+  ui.notifications.info("Granting hit points to your targets!");
+  for (const target of targets)
+    await warpgate.mutate(target.document, updates, {}, options);
+}
+
+async function ARMOR_OF_AGATHYS(
   item,
   speaker,
   actor,
@@ -291,19 +155,151 @@ async function CALL_LIGHTNING(
   event,
   args
 ) {
-  if (!_getDependencies(DEPEND.CN, DEPEND.VAE)) return item.use();
-  const concentrating = CN.isActorConcentratingOnItem(actor, item);
-  if (!concentrating) {
-    const use = await item.use();
-    if (!use) return;
-  }
-  return lightningStrike();
+  const use = await item.use();
+  if (!use) return;
 
-  async function lightningStrike() {
-    const template = dnd5e.canvas.AbilityTemplate.fromItem(item);
-    template.document.updateSource({ distance: 5 });
-    return template.drawPreview();
-  }
+  const level = _getSpellLevel(use);
+  return actor.applyTempHP(5 * level);
+}
+
+/**
+ * Item Macro for the 'Ashardalon's Stride' spell. Simply updates the concentration effect
+ * to grant the movement speed increase to any movement values that are already greater than 0ft.
+ */
+async function ASHARDALONS_STRIDE(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.VAE, DEPEND.CN)) return item.use();
+  const use = await item.use();
+  if (!use) return;
+  const conc = await CN.waitForConcentrationStart(actor, { item });
+
+  const value =
+    conc.flags.concentrationnotifier.data.castData.castLevel * 5 + 5;
+  const mode = CONST.ACTIVE_EFFECT_MODES.ADD;
+
+  const changes = Object.keys(CONFIG.DND5E.movementTypes).reduce(
+    (acc, type) => {
+      const feet = actor.system.attributes.movement[type];
+      if (feet > 0)
+        acc.push({ key: `system.attributes.movement.${type}`, mode, value });
+      return acc;
+    },
+    []
+  );
+  return conc.update({ changes });
+}
+
+async function BLADE_CANTRIP(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.EM)) return item.use();
+
+  const use = await item.use();
+  if (!use) return;
+
+  const deleteMe = async function () {
+    return effect.delete();
+  };
+
+  const { formula, type } = _bladeCantripDamageBonus(item);
+
+  const effectData = [
+    {
+      icon: item.img,
+      label: item.name,
+      changes: [
+        {
+          key: "system.bonuses.mwak.damage",
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          value: `+${formula}[${type}]`,
+        },
+      ],
+      "flags.core.statusId": item.name.slugify({ strict: true }),
+      "flags.visual-active-effects.data": {
+        intro: `<p>You deal ${formula} additional ${type} damage on your next damage roll.</p>`,
+        content: item.system.description.value,
+      },
+      "flags.effectmacro": {
+        "dnd5e.rollDamage.script": `(${deleteMe.toString()})()`,
+        "onCombatEnd.script": `(${deleteMe.toString()})()`,
+      },
+    },
+  ];
+  return actor.createEmbeddedDocuments("ActiveEffect", effectData);
+}
+
+async function BORROWED_KNOWLEDGE(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  const use = await item.use();
+  if (!use) return;
+
+  const options = Object.entries(actor.system.skills).reduce(
+    (acc, [id, { value }]) => {
+      if (value > 0) return acc;
+      const name = CONFIG.DND5E.skills[id].label;
+      return acc + `<option value="${id}">${name}</option>`;
+    },
+    ""
+  );
+
+  const content = _basicFormContent({
+    label: "Choose a skill:",
+    type: "select",
+    options,
+  });
+  const skl = await Dialog.prompt({
+    title: item.name,
+    rejectClose: false,
+    label: "Cast",
+    content,
+    callback: (html) => html[0].querySelector("select").value,
+  });
+  if (!skl) return;
+
+  const has = actor.effects.find(
+    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
+  );
+  if (has) await has.delete();
+
+  return actor.createEmbeddedDocuments("ActiveEffect", [
+    {
+      label: item.name,
+      icon: item.img,
+      duration: _getItemDuration(item),
+      changes: [
+        {
+          key: `system.skills.${skl}.value`,
+          mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
+          value: 1,
+        },
+      ],
+      "flags.core.statusId": item.name.slugify({ strict: true }),
+      "flags.visual-active-effects.data": {
+        intro: `<p>You have proficiency in the ${CONFIG.DND5E.skills[skl].label} skill.</p>`,
+        content: item.system.description.value,
+      },
+    },
+  ]);
 }
 
 async function BREATH_WEAPON(
@@ -371,6 +367,323 @@ async function BREATH_WEAPON(
   return clone.use({}, { "flags.dnd5e.itemData": clone.toObject() });
 }
 
+async function CALL_LIGHTNING(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.CN, DEPEND.VAE)) return item.use();
+  const concentrating = CN.isActorConcentratingOnItem(actor, item);
+  if (!concentrating) {
+    const use = await item.use();
+    if (!use) return;
+  }
+  return lightningStrike();
+
+  async function lightningStrike() {
+    const template = dnd5e.canvas.AbilityTemplate.fromItem(item);
+    template.document.updateSource({ distance: 5 });
+    return template.drawPreview();
+  }
+}
+
+async function CHAOS_BOLT(item, speaker, actor, token, character, event, args) {
+  /* Dialog to allow for attack rerolls in case of Seeking Spell. */
+  const castOrAttack = await Dialog.wait({
+    title: "Is this a casting, or a reroll of an attack?",
+    buttons: {
+      cast: {
+        icon: '<i class="fas fa-check"></i>',
+        label: "Cast",
+        callback: () => "cast",
+      },
+      attack: {
+        icon: '<i class="fas fa-times"></i>',
+        label: "Reroll",
+        callback: () => "reroll",
+      },
+    },
+  });
+
+  /* Bail out of dialog was cancelled. */
+  if (!castOrAttack) return;
+
+  /**
+   * If "cast" was selected, cast the spell normally, and save a flag noting its most recent level.
+   * To be used in damage rolls and if reroll is ever selected.
+   */
+  if (castOrAttack === "cast") {
+    const use = await item.use();
+    if (!use) return;
+    item._recentLevel = use.flags.dnd5e?.use?.spellLevel ?? 1;
+  }
+
+  return throwChaos();
+
+  /* The main function. */
+  async function throwChaos() {
+    const attack = await item.rollAttack();
+    if (!attack) return;
+
+    const spellLevel = item._recentLevel ?? 1;
+    const damage = await item.rollDamage({ spellLevel });
+    if (!damage) return;
+
+    const isChaining = await decideDamage(damage);
+    if (isChaining) return throwChaos();
+  }
+
+  /**
+   * Function to decide on damage depending on the dice results.
+   * User gets no prompt if there is no decision to be made.
+   */
+  async function decideDamage(damage) {
+    const totals = damage.dice[0].results.map((r) => r.result);
+
+    const damageTypes = [
+      "acid",
+      "cold",
+      "fire",
+      "force",
+      "lightning",
+      "poison",
+      "psychic",
+      "thunder",
+    ];
+
+    /* Async dialog */
+    const buttons = {};
+    const entries = damageTypes.map((type) => [
+      type,
+      CONFIG.DND5E.damageTypes[type],
+    ]);
+    for (const { result } of damage.dice[0].results) {
+      buttons[entries[result - 1][0]] = {
+        label: entries[result - 1][1],
+        callback: () => entries[result - 1],
+      };
+    }
+    const dmgType = await Dialog.wait({
+      title: "Choose damage type.",
+      buttons,
+    });
+    let flavor = "<p><strong>Chaos Bolt</strong></p>";
+    flavor += `<p>Damage type: ${dmgType[1]}</p>`;
+    const chain = totals.length > new Set(totals).size;
+    if (chain)
+      flavor +=
+        '<p style="text-align: center;"><strong><em>Chaining!</em></strong></p>';
+    await ChatMessage.create({ content: flavor, speaker });
+    return chain;
+  }
+}
+
+async function CROWN_OF_STARS(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.CN)) return item.use();
+  const isConc = CN.isActorConcentratingOnItem(actor, item);
+  if (!isConc) {
+    const use = await item.use();
+    if (!use) return;
+    const conc = await CN.waitForConcentrationStart(actor, { item });
+    if (!conc) return;
+    const level = _getSpellLevel(use);
+    const motes = 2 * level - 7;
+    return conc.setFlag(MODULE, "crownStars", motes);
+  }
+
+  const motes = isConc.flags[MODULE]?.crownStars ?? 1;
+  if (motes < 1) return isConc.delete();
+  await CN.redisplayCard(actor);
+  return motes - 1 === 0
+    ? isConc.delete()
+    : isConc.setFlag(MODULE, "crownStars", motes - 1);
+}
+
+async function DARKNESS(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.CN, DEPEND.WG, DEPEND.SEQ, DEPEND.JB2A))
+    return item.use();
+
+  const isConc = CN.isActorConcentratingOnItem(actor, item);
+  if (!isConc) {
+    const use = await item.use();
+    if (!use) return;
+    const conc = await CN.waitForConcentrationStart(actor, { item });
+    if (!conc) return;
+
+    const file = "jb2a.darkness.black";
+
+    const dialog = new Dialog({
+      title: "Darkness",
+      content:
+        "<p style='text-align:center'>Either put the Darkness on yourself or spawn a token that carries it:</p>",
+      buttons: {
+        Self: {
+          icon: "<i class='fa-solid fa-user'></i>",
+          label: "Self",
+          callback: async () => {
+            // Play a sequence on token
+            await new Sequence()
+              .effect()
+              .attachTo(token)
+              .tieToDocuments(conc)
+              .file(file)
+              .persist()
+              .play();
+          },
+        },
+        Spawn: {
+          icon: "<i class='fa-regular fa-circle-dot'></i>",
+          label: "Spawn",
+          callback: async () => {
+            // Define the update and options objects for _spawnHelper
+            const updates = {
+              token: { name: `${actor.name.split(" ")[0]}'s Darkness` },
+            };
+            const range = 60;
+            const options = { crosshairs: { interval: -1 } };
+            // Draw the circle around the token
+            const p = drawCircle(token, range);
+            await actor.sheet?.minimize();
+            // Spawn the token
+            const [spawn] = await _spawnHelper("dummy", updates, {}, options);
+            await actor.sheet?.maximize();
+            canvas.app.stage.removeChild(p);
+
+            // Play a sequence on the spawn
+            await new Sequence()
+              .effect()
+              .attachTo(spawn)
+              .tieToDocuments(conc)
+              .file(file)
+              .persist()
+              .play();
+
+            // Add the token dismissal to the effect
+            const effect = CN.isActorConcentratingOnItem(actor, item);
+            if (!spawn) return effect.delete();
+            return _addTokenDismissalToEffect(effect, spawn);
+          },
+        },
+      },
+    });
+
+    return dialog.render(true);
+  } else {
+    return ui.notifications.warn("You are already concentrating on Darkness.");
+  }
+}
+
+async function ELEMENTAL_WEAPON(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.BAB, DEPEND.VAE, DEPEND.CN)) return item.use();
+
+  const has = actor.effects.find(
+    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
+  );
+  if (has) {
+    await CN.isActorConcentratingOnItem(actor, item)?.delete();
+    return has.delete();
+  }
+
+  const use = await item.use();
+  if (!use) return;
+  const level = _getSpellLevel(use);
+  const bonus = Math.min(3, Math.floor((level - 1) / 2));
+  const dice = `${bonus}d4`;
+
+  const type = await elementalDialog({
+    types: ["acid", "cold", "fire", "lightning", "thunder"],
+    title: item.name,
+  });
+
+  const options = actor.itemTypes.weapon.reduce((acc, e) => {
+    return acc + `<option value="${e.id}">${e.name}</option>`;
+  }, "");
+  const content = _basicFormContent({
+    label: "Choose Weapon:",
+    options,
+    type: "select",
+  });
+  const weaponId = await Dialog.prompt({
+    content,
+    rejectClose: false,
+    title: item.name,
+    callback: (html) => html[0].querySelector("select").value,
+    label: "Enhance",
+  });
+  const weapon = actor.items.get(weaponId);
+
+  const atk = babonus
+    .createBabonus({
+      type: "attack",
+      name: "atk",
+      bonuses: { bonus },
+      description: item.system.description.value,
+      filters: { customScripts: `return item.id === "${weaponId}";` },
+    })
+    .toObject();
+  const dmg = api
+    .createBabonus({
+      type: "damage",
+      name: "dmg",
+      bonuses: { bonus: `${dice}[${type}]` },
+      description: item.system.description.value,
+      filters: { customScripts: `return item.id === "${weaponId}";` },
+    })
+    .toObject();
+
+  const conc = CN.isActorConcentratingOnItem(actor, item);
+
+  const effectData = [
+    {
+      icon: item.img,
+      label: `${item.name} (${weapon.name})`,
+      duration: foundry.utils.deepClone(conc.duration),
+      "flags.core.statusId": item.name.slugify({ strict: true }),
+      "flags.babonus.bonuses": { [atk.id]: atk, [dmg.id]: dmg },
+      "flags.visual-active-effects.data.intro": `<p>You have a +${bonus} to attack rolls made with the chosen weapon (${weapon.name}) and it deals an additional ${dice} ${type} damage on a hit.</p>`,
+    },
+  ];
+
+  return actor.createEmbeddedDocuments("ActiveEffect", effectData);
+}
+
+async function FAR_STEP(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG, DEPEND.CN))
+    return item.use();
+  const vanish = "jb2a.misty_step.01.purple";
+  const appear = "jb2a.misty_step.02.purple";
+  const distance = 60;
+
+  const conc = CN.isActorConcentratingOnItem(actor, item);
+
+  if (!conc) {
+    const use = await item.use();
+    if (!use) return;
+  }
+
+  return _teleportationHelper({ item, actor, token, vanish, appear, distance });
+}
+
 async function FATHOMLESS_EVARDS_BLACK_TENTACLES(
   item,
   speaker,
@@ -383,6 +696,201 @@ async function FATHOMLESS_EVARDS_BLACK_TENTACLES(
   const use = await item.use();
   if (!use) return;
   return actor.applyTempHP(actor.getRollData().classes.warlock.levels);
+}
+
+/**
+ * Item Macro for the 'Find Steed' spell.
+ */
+async function FIND_STEED(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
+
+  const actorName = actor.name;
+  const steeds = {
+    "QA Bobby": {
+      name: "dummy",
+    },
+    "Zedarr T'sarran": {
+      name: "Murrpau",
+    },
+  };
+
+  const steed = steeds[actorName];
+  if (!steed)
+    return ui.notifications.warn("Can't spawn a steed for unknown actor.");
+
+  const isSteed = actor.effects.find((e) => {
+    return e.flags.core?.statusId === item.name.slugify({ strict: true });
+  });
+  if (isSteed) {
+    return ui.notifications.warn(`You already have a ${isSteed.name} spawned.`);
+  }
+
+  const use = await item.use();
+  if (!use) return;
+
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
+  const update = { actor: { "flags.world.findSteed": actor.id } };
+  const options = { crosshairs: { interval: -1 } };
+  const range = 60;
+
+  // then spawn the actor:
+  const p = drawCircle(token, range);
+  await actor.sheet?.minimize();
+  const [spawn] = await _spawnHelper(steed.name, update, {}, options);
+  await actor.sheet?.maximize();
+  canvas.app.stage.removeChild(p);
+
+  if (!spawn) return effect.delete();
+  return _addTokenDismissalToEffect(effect, spawn);
+}
+
+async function FLAMING_SPHERE(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.WG, DEPEND.CN, DEPEND.EM)) return item.use();
+
+  const isConc = CN.isActorConcentratingOnItem(actor, item);
+  if (isConc) return CN.redisplayCard(actor, item);
+
+  const use = await item.use();
+  if (!use) return;
+
+  const updates = {
+    token: { name: `${actor.name.split(" ")[0]}'s Flaming Sphere` },
+  };
+  const options = { crosshairs: { interval: -1 } };
+
+  // then spawn the actor:
+  await actor.sheet?.minimize();
+  const [spawn] = await _spawnHelper("Flaming Sphere", updates, {}, options);
+  await actor.sheet?.maximize();
+  const effect = CN.isActorConcentratingOnItem(actor, item);
+  if (!spawn) return effect.delete();
+  return _addTokenDismissalToEffect(effect, spawn);
+}
+
+async function MAGE_ARMOR(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.WG)) return item.use();
+
+  const mutName = `${item.name} (${actor.name})`;
+  const statusId = `${item.name.slugify({ strict: true })}-${actor.name.slugify(
+    { strict: true }
+  )}`;
+
+  const hasArmor = canvas.scene.tokens.filter((token) => {
+    return token.actor.effects.find((e) => {
+      return e.flags.core?.statusId === statusId;
+    });
+  });
+
+  if (hasArmor.length) {
+    hasArmor.forEach((token) => warpgate.revert(token, mutName));
+    ui.notifications.info("Dismissing Mage Armor on all previous targets.");
+  }
+
+  const use = await item.use();
+  if (!use) return;
+
+  const top = canvas.scene.tokens.reduce((acc, t) => {
+    if (t.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE) return acc;
+    acc.push({ name: t.id, src: t.texture.src });
+    return acc;
+  }, []);
+
+  return new ImageAnchorPicker({
+    label: "Cast!",
+    title: item.name,
+    callback: _mageArmor,
+    top,
+  }).render(true);
+
+  async function _mageArmor(event, { top }) {
+    const tokenId = top[0];
+    const target = canvas.scene.tokens.get(tokenId);
+    ui.notifications.info(`Applying Mage Armor to ${target.name}!`);
+    return warpgate.mutate(
+      target,
+      {
+        embedded: {
+          ActiveEffect: {
+            [statusId]: {
+              label: item.name,
+              icon: item.img,
+              origin: actor.uuid,
+              duration: _getItemDuration(item),
+              changes: [
+                {
+                  key: "system.attributes.ac.calc",
+                  mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
+                  value: "mage",
+                },
+              ],
+              "flags.core.statusId": statusId,
+              "flags.visual-active-effects.data": {
+                intro: "<p>Your AC is increased by Mage Armor.</p>",
+                content: item.system.description.value,
+              },
+            },
+          },
+        },
+      },
+      {},
+      { name: mutName, comparisonKeys: { ActiveEffect: "flags.core.statusId" } }
+    );
+  }
+}
+
+async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
+  const isActive = actor.effects.find((e) => {
+    return e.flags.core?.statusId === item.name.slugify({ strict: true });
+  });
+  if (isActive)
+    return ui.notifications.warn("You are already have a Mage Hand.");
+
+  const use = await item.use();
+  if (!use) return;
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
+
+  const updates = {
+    token: { name: `${actor.name.split(" ")[0]}'s Mage Hand` },
+  };
+  const options = { crosshairs: { interval: -1 } };
+
+  // then spawn the actor:
+  await actor.sheet?.minimize();
+  const [spawn] = await _spawnHelper("Mage Hand", updates, {}, options);
+  await actor.sheet?.maximize();
+  if (!spawn) return effect.delete();
+  return _addTokenDismissalToEffect(effect, spawn);
+}
+
+async function MISTY_STEP(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG)) return item.use();
+  const vanish = "jb2a.misty_step.01.blue";
+  const appear = "jb2a.misty_step.02.blue";
+  const distance = 30;
+
+  const use = await item.use();
+  if (!use) return;
+
+  return _teleportationHelper({ item, actor, token, vanish, appear, distance });
 }
 
 async function MOONBEAM(item, speaker, actor, token, character, event, args) {
@@ -404,36 +912,6 @@ async function MOONBEAM(item, speaker, actor, token, character, event, args) {
   const effect = CN.isActorConcentratingOnItem(actor, item);
   if (!spawn) return effect.delete();
   return _addTokenDismissalToEffect(effect, spawn);
-}
-
-async function SHIELD(item, speaker, actor, token, character, event, args) {
-  const use = await item.use();
-  if (!use) return;
-
-  return actor.createEmbeddedDocuments("ActiveEffect", [
-    {
-      changes: [
-        {
-          key: "system.attributes.ac.bonus",
-          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-          value: 5,
-        },
-      ],
-      icon: item.img,
-      label: item.name,
-      origin: item.uuid,
-      duration: { rounds: 1 },
-      "flags.core.statusId": item.name.slugify({ strict: true }),
-      "flags.visual-active-effects.data": {
-        intro:
-          "<p>You have a +5 bonus to your AC and immunity to damage from the Magic Missile spell.</p>",
-        content: item.system.description.value,
-      },
-      "flags.effectmacro.onTurnStart.script": `(${function () {
-        return effect.delete();
-      }})()`,
-    },
-  ]);
 }
 
 async function RAINBOW_RECURVE(
@@ -575,7 +1053,7 @@ async function RAINBOW_RECURVE(
   }
 }
 
-async function CROWN_OF_STARS(
+async function SEE_INVISIBILITY(
   item,
   speaker,
   actor,
@@ -584,98 +1062,166 @@ async function CROWN_OF_STARS(
   event,
   args
 ) {
-  if (!_getDependencies(DEPEND.CN)) return item.use();
-  const isConc = CN.isActorConcentratingOnItem(actor, item);
-  if (!isConc) {
-    const use = await item.use();
-    if (!use) return;
-    const conc = await CN.waitForConcentrationStart(actor, { item });
-    if (!conc) return;
-    const level = _getSpellLevel(use);
-    const motes = 2 * level - 7;
-    return conc.setFlag(MODULE, "crownStars", motes);
-  }
-
-  const motes = isConc.flags[MODULE]?.crownStars ?? 1;
-  if (motes < 1) return isConc.delete();
-  await CN.redisplayCard(actor);
-  return motes - 1 === 0
-    ? isConc.delete()
-    : isConc.setFlag(MODULE, "crownStars", motes - 1);
+  const data = _constructDetectionModeEffectData({
+    item,
+    modes: [
+      {
+        id: "seeInvisibility",
+        range: token.document.sight.range ?? 60,
+        enabled: true,
+      },
+    ],
+  });
+  foundry.utils.mergeObject(data[0], {
+    "flags.visual-active-effects.data": {
+      intro: "<p>You can see invisible creatures.</p>",
+      content: item.system.description.value,
+    },
+  });
+  return actor.createEmbeddedDocuments("ActiveEffect", data);
 }
 
-async function DARKNESS(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.CN, DEPEND.WG, DEPEND.SEQ, DEPEND.JB2A))
-    return item.use();
+async function SHIELD(item, speaker, actor, token, character, event, args) {
+  const use = await item.use();
+  if (!use) return;
 
-  const isConc = CN.isActorConcentratingOnItem(actor, item);
-  if (!isConc) {
-    const use = await item.use();
-    if (!use) return;
-    const conc = await CN.waitForConcentrationStart(actor, { item });
-    if (!conc) return;
-
-    const file = "jb2a.darkness.black";
-
-    const dialog = new Dialog({
-      title: "Darkness",
-      content:
-        "<p style='text-align:center'>Either put the Darkness on yourself or spawn a token that carries it:</p>",
-      buttons: {
-        Self: {
-          icon: "<i class='fa-solid fa-user'></i>",
-          label: "Self",
-          callback: async () => {
-            // Play a sequence on token
-            await new Sequence()
-              .effect()
-              .attachTo(token)
-              .tieToDocuments(conc)
-              .file(file)
-              .persist()
-              .play();
-          },
+  return actor.createEmbeddedDocuments("ActiveEffect", [
+    {
+      changes: [
+        {
+          key: "system.attributes.ac.bonus",
+          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+          value: 5,
         },
-        Spawn: {
-          icon: "<i class='fa-regular fa-circle-dot'></i>",
-          label: "Spawn",
-          callback: async () => {
-            // Define the update and options objects for _spawnHelper
-            const updates = {
-              token: { name: `${actor.name.split(" ")[0]}'s Darkness` },
-            };
-            const range = 60;
-            const options = { crosshairs: { interval: -1 } };
-            // Draw the circle around the token
-            const p = drawCircle(token, range);
-            await actor.sheet?.minimize();
-            // Spawn the token
-            const [spawn] = await _spawnHelper("dummy", updates, {}, options);
-            await actor.sheet?.maximize();
-            canvas.app.stage.removeChild(p);
-
-            // Play a sequence on the spawn
-            await new Sequence()
-              .effect()
-              .attachTo(spawn)
-              .tieToDocuments(conc)
-              .file(file)
-              .persist()
-              .play();
-
-            // Add the token dismissal to the effect
-            const effect = CN.isActorConcentratingOnItem(actor, item);
-            if (!spawn) return effect.delete();
-            return _addTokenDismissalToEffect(effect, spawn);
-          },
-        },
+      ],
+      icon: item.img,
+      label: item.name,
+      origin: item.uuid,
+      duration: { rounds: 1 },
+      "flags.core.statusId": item.name.slugify({ strict: true }),
+      "flags.visual-active-effects.data": {
+        intro:
+          "<p>You have a +5 bonus to your AC and immunity to damage from the Magic Missile spell.</p>",
+        content: item.system.description.value,
       },
-    });
+      "flags.effectmacro.onTurnStart.script": `(${function () {
+        return effect.delete();
+      }})()`,
+    },
+  ]);
+}
 
-    return dialog.render(true);
-  } else {
-    return ui.notifications.warn("You are already concentrating on Darkness.");
+async function SPIRIT_SHROUD(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.CN, DEPEND.VAE)) return item.use();
+
+  const use = await item.use();
+  if (!use) return;
+
+  return new Dialog({
+    title: "Spirit Shroud",
+    content: "<p style='text-align:center'>Pick a damage type.</p>",
+    buttons: {
+      cold: {
+        icon: "<i class='fa-solid fa-snowflake'></i>",
+        label: "Cold",
+        callback: () => flagEffect("cold"),
+      },
+      necrotic: {
+        icon: "<i class='fa-solid fa-skull'></i>",
+        label: "Necrotic",
+        callback: () => flagEffect("necrotic"),
+      },
+      radiant: {
+        icon: "<i class='fa-solid fa-holly-berry'></i>",
+        label: "Radiant",
+        callback: () => flagEffect("radiant"),
+      },
+    },
+  }).render(true);
+
+  async function flagEffect(type) {
+    const effect = CN.isActorConcentratingOnItem(actor, item);
+    const level = effect.flags[DEPEND.CN].data.castData.castLevel;
+    const value = `+${Math.ceil(level / 2) - 1}d8[${type}]`;
+    const mode = CONST.ACTIVE_EFFECT_MODES.ADD;
+    const changes = [
+      { key: "system.bonuses.mwak.damage", mode, value },
+      { key: "system.bonuses.msak.damage", mode, value },
+    ];
+    return effect.update({ changes });
   }
+}
+
+async function SPIRITUAL_WEAPON(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
+  const isActive = actor.effects.find((e) => {
+    return e.flags.core?.statusId === item.name.slugify({ strict: true });
+  });
+  if (isActive) {
+    const level = isActive.flags[MODULE].spellLevel;
+    const data = item.toObject();
+    data.system.level = level;
+    const clone = new Item.implementation(data, { keepId: true });
+    clone.prepareFinalAttributes();
+    return clone.displayCard();
+  }
+
+  const use = await item.use();
+  if (!use) return;
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
+
+  const updates = {
+    token: { name: `${actor.name.split(" ")[0]}'s Spiritual Weapon` },
+  };
+  const options = { crosshairs: { interval: -1 } };
+
+  // then spawn the actor:
+  await actor.sheet?.minimize();
+  const [spawn] = await _spawnHelper("Spiritual Weapon", updates, {}, options);
+  await actor.sheet?.maximize();
+  if (!spawn) return effect.delete();
+  return _addTokenDismissalToEffect(effect, spawn);
+}
+
+async function THUNDER_STEP(
+  item,
+  speaker,
+  actor,
+  token,
+  character,
+  event,
+  args
+) {
+  if (!_getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG)) return item.use();
+  const vanish = "jb2a.thunderwave.center.blue";
+  const appear = "jb2a.thunderwave.center.blue";
+  const distance = 90;
+
+  const use = await item.use();
+  if (!use) return;
+
+  return _teleportationHelper({ item, actor, token, vanish, appear, distance });
 }
 
 async function VORTEX_WARP(
@@ -814,550 +1360,4 @@ async function WIELDING(item, speaker, actor, token, character, event, args) {
   ]);
 
   return conc.setFlag("world", "storedFlag", id);
-}
-
-async function MAGE_ARMOR(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.WG)) return item.use();
-
-  const mutName = `${item.name} (${actor.name})`;
-  const statusId = `${item.name.slugify({ strict: true })}-${actor.name.slugify(
-    { strict: true }
-  )}`;
-
-  const hasArmor = canvas.scene.tokens.filter((token) => {
-    return token.actor.effects.find((e) => {
-      return e.flags.core?.statusId === statusId;
-    });
-  });
-
-  if (hasArmor.length) {
-    hasArmor.forEach((token) => warpgate.revert(token, mutName));
-    ui.notifications.info("Dismissing Mage Armor on all previous targets.");
-  }
-
-  const use = await item.use();
-  if (!use) return;
-
-  const top = canvas.scene.tokens.reduce((acc, t) => {
-    if (t.disposition === CONST.TOKEN_DISPOSITIONS.HOSTILE) return acc;
-    acc.push({ name: t.id, src: t.texture.src });
-    return acc;
-  }, []);
-
-  return new ImageAnchorPicker({
-    label: "Cast!",
-    title: item.name,
-    callback: _mageArmor,
-    top,
-  }).render(true);
-
-  async function _mageArmor(event, { top }) {
-    const tokenId = top[0];
-    const target = canvas.scene.tokens.get(tokenId);
-    ui.notifications.info(`Applying Mage Armor to ${target.name}!`);
-    return warpgate.mutate(
-      target,
-      {
-        embedded: {
-          ActiveEffect: {
-            [statusId]: {
-              label: item.name,
-              icon: item.img,
-              origin: actor.uuid,
-              duration: _getItemDuration(item),
-              changes: [
-                {
-                  key: "system.attributes.ac.calc",
-                  mode: CONST.ACTIVE_EFFECT_MODES.OVERRIDE,
-                  value: "mage",
-                },
-              ],
-              "flags.core.statusId": statusId,
-              "flags.visual-active-effects.data": {
-                intro: "<p>Your AC is increased by Mage Armor.</p>",
-                content: item.system.description.value,
-              },
-            },
-          },
-        },
-      },
-      {},
-      { name: mutName, comparisonKeys: { ActiveEffect: "flags.core.statusId" } }
-    );
-  }
-}
-
-async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
-  const isActive = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
-  if (isActive)
-    return ui.notifications.warn("You are already have a Mage Hand.");
-
-  const use = await item.use();
-  if (!use) return;
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
-
-  const updates = {
-    token: { name: `${actor.name.split(" ")[0]}'s Mage Hand` },
-  };
-  const options = { crosshairs: { interval: -1 } };
-
-  // then spawn the actor:
-  await actor.sheet?.minimize();
-  const [spawn] = await _spawnHelper("Mage Hand", updates, {}, options);
-  await actor.sheet?.maximize();
-  if (!spawn) return effect.delete();
-  return _addTokenDismissalToEffect(effect, spawn);
-}
-
-async function BORROWED_KNOWLEDGE(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  const use = await item.use();
-  if (!use) return;
-
-  const options = Object.entries(actor.system.skills).reduce(
-    (acc, [id, { value }]) => {
-      if (value > 0) return acc;
-      const name = CONFIG.DND5E.skills[id].label;
-      return acc + `<option value="${id}">${name}</option>`;
-    },
-    ""
-  );
-
-  const content = _basicFormContent({
-    label: "Choose a skill:",
-    type: "select",
-    options,
-  });
-  const skl = await Dialog.prompt({
-    title: item.name,
-    rejectClose: false,
-    label: "Cast",
-    content,
-    callback: (html) => html[0].querySelector("select").value,
-  });
-  if (!skl) return;
-
-  const has = actor.effects.find(
-    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
-  );
-  if (has) await has.delete();
-
-  return actor.createEmbeddedDocuments("ActiveEffect", [
-    {
-      label: item.name,
-      icon: item.img,
-      duration: _getItemDuration(item),
-      changes: [
-        {
-          key: `system.skills.${skl}.value`,
-          mode: CONST.ACTIVE_EFFECT_MODES.UPGRADE,
-          value: 1,
-        },
-      ],
-      "flags.core.statusId": item.name.slugify({ strict: true }),
-      "flags.visual-active-effects.data": {
-        intro: `<p>You have proficiency in the ${CONFIG.DND5E.skills[skl].label} skill.</p>`,
-        content: item.system.description.value,
-      },
-    },
-  ]);
-}
-
-async function AID(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.WG, DEPEND.EM, DEPEND.VAE)) return item.use();
-
-  const targets = game.user.targets;
-  if (!targets.size.between(1, 3)) {
-    ui.notifications.warn("You need to have between 1 and 3 targets.");
-    return null;
-  }
-
-  const use = await item.use();
-  if (!use) return;
-
-  const spellLevel = _getSpellLevel(use);
-
-  async function onCreate() {
-    const level = effect.flags.effectmacro.data.spellLevel;
-    const value = 5 * (level - 1);
-    return actor.applyDamage(-value);
-  }
-
-  const effectData = {
-    label: item.name,
-    icon: item.img,
-    duration: _getItemDuration(item),
-    changes: [
-      {
-        key: "system.attributes.hp.tempmax",
-        mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-        value: 5 * (spellLevel - 1),
-      },
-    ],
-    "flags.core.statusId": item.name.slugify({ strict: true }),
-    "flags.visual-active-effects.data.intro": `<p>Your hit point maximum is increased by ${
-      5 * (spellLevel - 1)
-    }.</p>`,
-    "flags.effectmacro.data.spellLevel": spellLevel,
-    "flags.effectmacro.onCreate.script": `(${onCreate.toString()})()`,
-  };
-
-  const updates = {
-    embedded: { ActiveEffect: { [effectData.label]: effectData } },
-  };
-  const options = {
-    permanent: true,
-    description: `${actor.name} is casting ${item.name} on you.`,
-    comparisonKeys: { ActiveEffect: "label" },
-  };
-
-  ui.notifications.info("Granting hit points to your targets!");
-  for (const target of targets)
-    await warpgate.mutate(target.document, updates, {}, options);
-}
-
-async function ELEMENTAL_WEAPON(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.BAB, DEPEND.VAE, DEPEND.CN)) return item.use();
-
-  const has = actor.effects.find(
-    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
-  );
-  if (has) {
-    await CN.isActorConcentratingOnItem(actor, item)?.delete();
-    return has.delete();
-  }
-
-  const use = await item.use();
-  if (!use) return;
-  const level = _getSpellLevel(use);
-  const bonus = Math.min(3, Math.floor((level - 1) / 2));
-  const dice = `${bonus}d4`;
-
-  const type = await elementalDialog({
-    types: ["acid", "cold", "fire", "lightning", "thunder"],
-    title: item.name,
-  });
-
-  const options = actor.itemTypes.weapon.reduce((acc, e) => {
-    return acc + `<option value="${e.id}">${e.name}</option>`;
-  }, "");
-  const content = _basicFormContent({
-    label: "Choose Weapon:",
-    options,
-    type: "select",
-  });
-  const weaponId = await Dialog.prompt({
-    content,
-    rejectClose: false,
-    title: item.name,
-    callback: (html) => html[0].querySelector("select").value,
-    label: "Enhance",
-  });
-  const weapon = actor.items.get(weaponId);
-
-  const atk = babonus
-    .createBabonus({
-      type: "attack",
-      name: "atk",
-      bonuses: { bonus },
-      description: item.system.description.value,
-      filters: { customScripts: `return item.id === "${weaponId}";` },
-    })
-    .toObject();
-  const dmg = api
-    .createBabonus({
-      type: "damage",
-      name: "dmg",
-      bonuses: { bonus: `${dice}[${type}]` },
-      description: item.system.description.value,
-      filters: { customScripts: `return item.id === "${weaponId}";` },
-    })
-    .toObject();
-
-  const conc = CN.isActorConcentratingOnItem(actor, item);
-
-  const effectData = [
-    {
-      icon: item.img,
-      label: `${item.name} (${weapon.name})`,
-      duration: foundry.utils.deepClone(conc.duration),
-      "flags.core.statusId": item.name.slugify({ strict: true }),
-      "flags.babonus.bonuses": { [atk.id]: atk, [dmg.id]: dmg },
-      "flags.visual-active-effects.data.intro": `<p>You have a +${bonus} to attack rolls made with the chosen weapon (${weapon.name}) and it deals an additional ${dice} ${type} damage on a hit.</p>`,
-    },
-  ];
-
-  return actor.createEmbeddedDocuments("ActiveEffect", effectData);
-}
-
-async function BLADE_CANTRIP(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.EM)) return item.use();
-
-  const use = await item.use();
-  if (!use) return;
-
-  const deleteMe = async function () {
-    return effect.delete();
-  };
-
-  const { formula, type } = _bladeCantripDamageBonus(item);
-
-  const effectData = [
-    {
-      icon: item.img,
-      label: item.name,
-      changes: [
-        {
-          key: "system.bonuses.mwak.damage",
-          mode: CONST.ACTIVE_EFFECT_MODES.ADD,
-          value: `+${formula}[${type}]`,
-        },
-      ],
-      "flags.core.statusId": item.name.slugify({ strict: true }),
-      "flags.visual-active-effects.data": {
-        intro: `<p>You deal ${formula} additional ${type} damage on your next damage roll.</p>`,
-        content: item.system.description.value,
-      },
-      "flags.effectmacro": {
-        "dnd5e.rollDamage.script": `(${deleteMe.toString()})()`,
-        "onCombatEnd.script": `(${deleteMe.toString()})()`,
-      },
-    },
-  ];
-  return actor.createEmbeddedDocuments("ActiveEffect", effectData);
-}
-
-async function SEE_INVISIBILITY(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  const data = _constructDetectionModeEffectData({
-    item,
-    modes: [
-      {
-        id: "seeInvisibility",
-        range: token.document.sight.range ?? 60,
-        enabled: true,
-      },
-    ],
-  });
-  foundry.utils.mergeObject(data[0], {
-    "flags.visual-active-effects.data": {
-      intro: "<p>You can see invisible creatures.</p>",
-      content: item.system.description.value,
-    },
-  });
-  return actor.createEmbeddedDocuments("ActiveEffect", data);
-}
-
-async function CHAOS_BOLT(item, speaker, actor, token, character, event, args) {
-  /* Dialog to allow for attack rerolls in case of Seeking Spell. */
-  const castOrAttack = await Dialog.wait({
-    title: "Is this a casting, or a reroll of an attack?",
-    buttons: {
-      cast: {
-        icon: '<i class="fas fa-check"></i>',
-        label: "Cast",
-        callback: () => "cast",
-      },
-      attack: {
-        icon: '<i class="fas fa-times"></i>',
-        label: "Reroll",
-        callback: () => "reroll",
-      },
-    },
-  });
-
-  /* Bail out of dialog was cancelled. */
-  if (!castOrAttack) return;
-
-  /**
-   * If "cast" was selected, cast the spell normally, and save a flag noting its most recent level.
-   * To be used in damage rolls and if reroll is ever selected.
-   */
-  if (castOrAttack === "cast") {
-    const use = await item.use();
-    if (!use) return;
-    item._recentLevel = use.flags.dnd5e?.use?.spellLevel ?? 1;
-  }
-
-  return throwChaos();
-
-  /* The main function. */
-  async function throwChaos() {
-    const attack = await item.rollAttack();
-    if (!attack) return;
-
-    const spellLevel = item._recentLevel ?? 1;
-    const damage = await item.rollDamage({ spellLevel });
-    if (!damage) return;
-
-    const isChaining = await decideDamage(damage);
-    if (isChaining) return throwChaos();
-  }
-
-  /**
-   * Function to decide on damage depending on the dice results.
-   * User gets no prompt if there is no decision to be made.
-   */
-  async function decideDamage(damage) {
-    const totals = damage.dice[0].results.map((r) => r.result);
-
-    const damageTypes = [
-      "acid",
-      "cold",
-      "fire",
-      "force",
-      "lightning",
-      "poison",
-      "psychic",
-      "thunder",
-    ];
-
-    /* Async dialog */
-    const buttons = {};
-    const entries = damageTypes.map((type) => [
-      type,
-      CONFIG.DND5E.damageTypes[type],
-    ]);
-    for (const { result } of damage.dice[0].results) {
-      buttons[entries[result - 1][0]] = {
-        label: entries[result - 1][1],
-        callback: () => entries[result - 1],
-      };
-    }
-    const dmgType = await Dialog.wait({
-      title: "Choose damage type.",
-      buttons,
-    });
-    let flavor = "<p><strong>Chaos Bolt</strong></p>";
-    flavor += `<p>Damage type: ${dmgType[1]}</p>`;
-    const chain = totals.length > new Set(totals).size;
-    if (chain)
-      flavor +=
-        '<p style="text-align: center;"><strong><em>Chaining!</em></strong></p>';
-    await ChatMessage.create({ content: flavor, speaker });
-    return chain;
-  }
-}
-
-/**
- * Item Macro for the 'Find Steed' spell.
- */
-async function FIND_STEED(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
-
-  const actorName = actor.name;
-  const steeds = {
-    "QA Bobby": {
-      name: "dummy",
-    },
-    "Zedarr T'sarran": {
-      name: "Murrpau",
-    },
-  };
-
-  const steed = steeds[actorName];
-  if (!steed)
-    return ui.notifications.warn("Can't spawn a steed for unknown actor.");
-
-  const isSteed = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
-  if (isSteed) {
-    return ui.notifications.warn(`You already have a ${isSteed.name} spawned.`);
-  }
-
-  const use = await item.use();
-  if (!use) return;
-
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
-  const update = { actor: { "flags.world.findSteed": actor.id } };
-  const options = { crosshairs: { interval: -1 } };
-  const range = 60;
-
-  // then spawn the actor:
-  const p = drawCircle(token, range);
-  await actor.sheet?.minimize();
-  const [spawn] = await _spawnHelper(steed.name, update, {}, options);
-  await actor.sheet?.maximize();
-  canvas.app.stage.removeChild(p);
-
-  if (!spawn) return effect.delete();
-  return _addTokenDismissalToEffect(effect, spawn);
-}
-
-/**
- * Item Macro for the 'Ashardalon's Stride' spell. Simply updates the concentration effect
- * to grant the movement speed increase to any movement values that are already greater than 0ft.
- */
-async function ASHARDALONS_STRIDE(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!_getDependencies(DEPEND.VAE, DEPEND.CN)) return item.use();
-  const use = await item.use();
-  if (!use) return;
-  const conc = await CN.waitForConcentrationStart(actor, { item });
-
-  const value =
-    conc.flags.concentrationnotifier.data.castData.castLevel * 5 + 5;
-  const mode = CONST.ACTIVE_EFFECT_MODES.ADD;
-
-  const changes = Object.keys(CONFIG.DND5E.movementTypes).reduce(
-    (acc, type) => {
-      const feet = actor.system.attributes.movement[type];
-      if (feet > 0)
-        acc.push({ key: `system.attributes.movement.${type}`, mode, value });
-      return acc;
-    },
-    []
-  );
-  return conc.update({ changes });
 }
