@@ -517,7 +517,10 @@ async function DARKNESS(item, speaker, actor, token, character, event, args) {
 
   const isConc = CN.isActorConcentratingOnItem(actor, item);
   if (!isConc) {
-    const use = await item.use();
+    const use = await item.use(
+      { createMeasuredTemplate: false },
+      { configureDialog: false }
+    );
     if (!use) return;
     const conc = await CN.waitForConcentrationStart(actor, { item });
     if (!conc) return;
