@@ -737,14 +737,14 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
     "ActiveEffect",
     effectData
   );
-  const update = { actor: { "flags.world.findSteed": actor.id } };
+  const updates = { actor: { "flags.world.findSteed": actor.id } };
   const options = { crosshairs: { interval: -1 } };
   const range = 60;
 
   // then spawn the actor:
   const p = drawCircle(token, range);
   await actor.sheet?.minimize();
-  const [spawn] = await _spawnHelper(steed.name, update, {}, options);
+  const [spawn] = await _spawnHelper(steed.name, updates, {}, options);
   await actor.sheet?.maximize();
   canvas.app.stage.removeChild(p);
 
@@ -864,22 +864,26 @@ async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
 
   const use = await item.use();
   if (!use) return;
+
   const level = _getSpellLevel(use);
   const effectData = _constructGenericEffectData({ item, level });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
     effectData
   );
-
   const updates = {
     token: { name: `${actor.name.split(" ")[0]}'s Mage Hand` },
   };
   const options = { crosshairs: { interval: -1 } };
+  const range = 30;
 
   // then spawn the actor:
+  const p = drawCircle(token, range);
   await actor.sheet?.minimize();
   const [spawn] = await _spawnHelper("Mage Hand", updates, {}, options);
   await actor.sheet?.maximize();
+  canvas.app.stage.removeChild(p);
+
   if (!spawn) return effect.delete();
   return _addTokenDismissalToEffect(effect, spawn);
 }
@@ -1268,7 +1272,7 @@ async function VORTEX_WARP(
 
   const offset = (target.document.height * canvas.scene.grid.size) / 2;
 
-  const update = { token: { x: pos.x - offset, y: pos.y - offset, alpha: 0 } };
+  const updates = { token: { x: pos.x - offset, y: pos.y - offset, alpha: 0 } };
   const options = {
     updateOpts: { token: { animate: false } },
     name: item.name,
@@ -1293,7 +1297,7 @@ async function VORTEX_WARP(
   };
   ui.notifications.info(`Attempting to warp ${target.document.name}!`);
   await actor.sheet?.maximize();
-  return warpgate.mutate(target.document, update, callbacks, options);
+  return warpgate.mutate(target.document, updates, callbacks, options);
 }
 
 async function WIELDING(item, speaker, actor, token, character, event, args) {
