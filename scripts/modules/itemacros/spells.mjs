@@ -25,7 +25,6 @@ export const spells = {
   BREATH_WEAPON,
   CALL_LIGHTNING,
   CHAOS_BOLT,
-  CREATE_OR_DESTROY_WATER,
   CROWN_OF_STARS,
   DARKNESS,
   ELEMENTAL_WEAPON,
@@ -405,59 +404,6 @@ async function MOONBEAM(item, speaker, actor, token, character, event, args) {
   const effect = CN.isActorConcentratingOnItem(actor, item);
   if (!spawn) return effect.delete();
   return _addTokenDismissalToEffect(effect, spawn);
-}
-
-async function CREATE_OR_DESTROY_WATER(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  new Dialog({
-    title: item.name,
-    buttons: {
-      container: {
-        icon: "<i class='fa-solid fa-glass-water'></i>",
-        label: "Create/destroy water in a container",
-        callback: container,
-      },
-      rain: {
-        icon: "<i class='fa-solid fa-cloud-showers-water'></i>",
-        label: "Conjure rain in a cube",
-        callback: createDestroy,
-      },
-      fog: {
-        icon: "<i class='fa-solid fa-smog'></i>",
-        label: "Destroy fog in a cube",
-        callback: createDestroy,
-      },
-    },
-  }).render(true);
-
-  async function container() {
-    return item.use();
-  }
-
-  async function createDestroy() {
-    return item.use();
-    /*const clone = item.clone({
-      "system.target.value": null,
-      "system.target.width": null,
-      "system.target.untis": null,
-      "system.target.type": null
-    }, {keepId: true});
-    clone.prepareFinalAttributes();
-    const use = await clone.use();
-    if (!use) return;
-    const level = _getSpellLevel(use);
-    const cube = 5 * level + 25;
-    const template = dnd5e.canvas.AbilityTemplate.fromItem(item);
-    template.document.updateSource({ t: "ray", distance: cube, width: cube });
-    return template.drawPreview();*/
-  }
 }
 
 async function SHIELD(item, speaker, actor, token, character, event, args) {
