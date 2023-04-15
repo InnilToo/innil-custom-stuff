@@ -67,13 +67,7 @@ async function FLAMING_SPHERE(
   const updates = {
     token: { name: `${actor.name.split(" ")[0]}'s Flaming Sphere` },
   };
-  const options = {
-    crosshairs: {
-      drawIcon: false,
-      icon: "icons/svg/dice-target.svg",
-      interval: -1,
-    },
-  };
+  const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
   await actor.sheet?.minimize();
@@ -118,13 +112,7 @@ async function SPIRITUAL_WEAPON(
   const updates = {
     token: { name: `${actor.name.split(" ")[0]}'s Spiritual Weapon` },
   };
-  const options = {
-    crosshairs: {
-      drawIcon: false,
-      icon: "icons/svg/dice-target.svg",
-      interval: -1,
-    },
-  };
+  const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
   await actor.sheet?.minimize();
@@ -408,13 +396,7 @@ async function MOONBEAM(item, speaker, actor, token, character, event, args) {
   if (!use) return;
 
   const updates = { token: { name: `${actor.name.split(" ")[0]}'s Moonbeam` } };
-  const options = {
-    crosshairs: {
-      drawIcon: false,
-      icon: "icons/svg/dice-target.svg",
-      interval: -1,
-    },
-  };
+  const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
   await actor.sheet?.minimize();
@@ -717,9 +699,7 @@ async function DARKNESS(item, speaker, actor, token, character, event, args) {
               token: { name: `${actor.name.split(" ")[0]}'s Darkness` },
             };
             const range = 60;
-            const options = {
-              crosshairs: { interval: -1 },
-            };
+            const options = { crosshairs: { interval: -1 } };
             // Draw the circle around the token
             const p = drawCircle(token, range);
             await actor.sheet?.minimize();
