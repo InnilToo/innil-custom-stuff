@@ -35,6 +35,7 @@ export const spells = {
   FIND_STEED_ZED,
   FLAMING_SPHERE,
   MAGE_ARMOR,
+  MAGE_HAND,
   MISTY_STEP,
   MOONBEAM,
   RAINBOW_RECURVE,
@@ -939,6 +940,36 @@ async function MAGE_ARMOR(item, speaker, actor, token, character, event, args) {
       { name: mutName, comparisonKeys: { ActiveEffect: "flags.core.statusId" } }
     );
   }
+}
+
+async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
+  const isActive = actor.effects.find((e) => {
+    return e.flags.core?.statusId === item.name.slugify({ strict: true });
+  });
+  if (isActive)
+    return ui.notifications.warn("You are already have a Mage Hand.");
+
+  const use = await item.use();
+  if (!use) return;
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
+
+  const updates = {
+    token: { name: `${actor.name.split(" ")[0]}'s Mage Hand` },
+  };
+  const options = { crosshairs: { interval: -1 } };
+
+  // then spawn the actor:
+  await actor.sheet?.minimize();
+  const [spawn] = await _spawnHelper("Mage Hand", updates, {}, options);
+  await actor.sheet?.maximize();
+  if (!spawn) return effect.delete();
+  return _addTokenDismissalToEffect(effect, spawn);
 }
 
 async function BORROWED_KNOWLEDGE(
