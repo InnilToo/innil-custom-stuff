@@ -30,8 +30,8 @@ export const spells = {
   ELEMENTAL_WEAPON,
   FAR_STEP,
   FATHOMLESS_EVARDS_BLACK_TENTACLES,
-  FIND_STEED,
   FIND_FAMILIAR,
+  FIND_STEED,
   FLAMING_SPHERE,
   MAGE_ARMOR,
   MAGE_HAND,
@@ -703,61 +703,6 @@ async function FATHOMLESS_EVARDS_BLACK_TENTACLES(
 }
 
 /**
- * Item Macro for the 'Find Steed' spell.
- */
-async function FIND_STEED(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
-
-  const actorName = actor.name;
-  const steeds = {
-    "QA Bobby": {
-      name: "dummy",
-    },
-    "Zedarr T'sarran": {
-      name: "Murrpau",
-    },
-  };
-
-  const steed = steeds[actorName];
-  if (!steed)
-    return ui.notifications.warn("Can't spawn a steed for an unknown actor.");
-
-  const isSpawned = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
-  if (isSpawned) {
-    return ui.notifications.warn(`You already have ${steed.name} spawned.`);
-  }
-
-  const use = await item.use();
-  if (!use) return;
-
-  const updates = { actor: { "flags.world.findSteed": actor.id } };
-  const options = { crosshairs: { interval: -1 } };
-  const range = 60;
-
-  // then spawn the actor:
-  const p = drawCircle(token, range);
-  await actor.sheet?.minimize();
-  const [spawn] = await _spawnHelper(steed.name, updates, {}, options);
-  await actor.sheet?.maximize();
-  canvas.app.stage.removeChild(p);
-
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({
-    item,
-    level,
-    types: ["redisplay", "attack", "damage"],
-  });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
-  if (!spawn) return effect.delete();
-  return _addTokenDismissalToEffect(effect, spawn);
-}
-
-/**
  * Item Macro for the 'Find Familiar' spell.
  * Currently supports only Devinn (Alyk) and Drazvik (Vrax).
  */
@@ -803,6 +748,61 @@ async function FIND_FAMILIAR(
   const p = drawCircle(token, range);
   await actor.sheet?.minimize();
   const [spawn] = await _spawnHelper(familiar.name, updates, {}, options);
+  await actor.sheet?.maximize();
+  canvas.app.stage.removeChild(p);
+
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({
+    item,
+    level,
+    types: ["redisplay", "attack", "damage"],
+  });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
+  if (!spawn) return effect.delete();
+  return _addTokenDismissalToEffect(effect, spawn);
+}
+
+/**
+ * Item Macro for the 'Find Steed' spell.
+ */
+async function FIND_STEED(item, speaker, actor, token, character, event, args) {
+  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
+
+  const actorName = actor.name;
+  const steeds = {
+    "QA Bobby": {
+      name: "dummy",
+    },
+    "Zedarr T'sarran": {
+      name: "Murrpau",
+    },
+  };
+
+  const steed = steeds[actorName];
+  if (!steed)
+    return ui.notifications.warn("Can't spawn a steed for an unknown actor.");
+
+  const isSpawned = actor.effects.find((e) => {
+    return e.flags.core?.statusId === item.name.slugify({ strict: true });
+  });
+  if (isSpawned) {
+    return ui.notifications.warn(`You already have ${steed.name} spawned.`);
+  }
+
+  const use = await item.use();
+  if (!use) return;
+
+  const updates = { actor: { "flags.world.findSteed": actor.id } };
+  const options = { crosshairs: { interval: -1 } };
+  const range = 60;
+
+  // then spawn the actor:
+  const p = drawCircle(token, range);
+  await actor.sheet?.minimize();
+  const [spawn] = await _spawnHelper(steed.name, updates, {}, options);
   await actor.sheet?.maximize();
   canvas.app.stage.removeChild(p);
 
