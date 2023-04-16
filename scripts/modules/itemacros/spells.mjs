@@ -755,7 +755,7 @@ async function FIND_FAMILIAR(
   const effectData = _constructGenericEffectData({
     item,
     level,
-    types: ["redisplay", "attack", "damage"],
+    types: ["redisplay"],
   });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
@@ -810,7 +810,7 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
   const effectData = _constructGenericEffectData({
     item,
     level,
-    types: ["redisplay", "attack", "damage"],
+    types: ["redisplay"],
   });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
@@ -950,7 +950,7 @@ async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
   const effectData = _constructGenericEffectData({
     item,
     level,
-    types: ["redisplay", "attack", "damage"],
+    types: ["redisplay"],
   });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
