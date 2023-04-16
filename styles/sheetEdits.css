@@ -1,5 +1,5 @@
 /* Default colors */
-body :root {
+:root {
   --usesUnexpended: #00c9cc;
   --itemAttuned: #31c431;
   --itemNotAttuned: #9f9f94;
