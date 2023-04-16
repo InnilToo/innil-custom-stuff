@@ -732,12 +732,6 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
   const use = await item.use();
   if (!use) return;
 
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
   const updates = { actor: { "flags.world.findSteed": actor.id } };
   const options = { crosshairs: { interval: -1 } };
   const range = 60;
@@ -749,6 +743,12 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
   await actor.sheet?.maximize();
   canvas.app.stage.removeChild(p);
 
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
   if (!spawn) return effect.delete();
   return _addTokenDismissalToEffect(effect, spawn);
 }
@@ -791,12 +791,6 @@ async function FIND_FAMILIAR(
   const use = await item.use();
   if (!use) return;
 
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
   const updates = { actor: { "flags.world.findFamiliar": actor.id } };
   const options = { crosshairs: { interval: -1 } };
   const range = 10;
@@ -808,6 +802,12 @@ async function FIND_FAMILIAR(
   await actor.sheet?.maximize();
   canvas.app.stage.removeChild(p);
 
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
   if (!spawn) return effect.delete();
   return _addTokenDismissalToEffect(effect, spawn);
 }
@@ -925,12 +925,6 @@ async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
   const use = await item.use();
   if (!use) return;
 
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
   const updates = {
     token: { name: `${actor.name.split(" ")[0]}'s Mage Hand` },
   };
@@ -944,6 +938,12 @@ async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
   await actor.sheet?.maximize();
   canvas.app.stage.removeChild(p);
 
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
   if (!spawn) return effect.delete();
   return _addTokenDismissalToEffect(effect, spawn);
 }
@@ -1251,12 +1251,6 @@ async function SPIRITUAL_WEAPON(
 
   const use = await item.use();
   if (!use) return;
-  const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
 
   const updates = {
     token: { name: `${actor.name.split(" ")[0]}'s Spiritual Weapon` },
@@ -1267,6 +1261,13 @@ async function SPIRITUAL_WEAPON(
   await actor.sheet?.minimize();
   const [spawn] = await _spawnHelper("Spiritual Weapon", updates, {}, options);
   await actor.sheet?.maximize();
+
+  const level = _getSpellLevel(use);
+  const effectData = _constructGenericEffectData({ item, level });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
   if (!spawn) return effect.delete();
   return _addTokenDismissalToEffect(effect, spawn);
 }
