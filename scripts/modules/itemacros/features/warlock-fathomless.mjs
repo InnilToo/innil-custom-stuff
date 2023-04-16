@@ -25,7 +25,10 @@ async function TENTACLE_OF_THE_DEEPS(
 
   const use = await item.use();
   if (!use) return;
-  const effectData = _constructGenericEffectData({ item });
+  const effectData = _constructGenericEffectData({
+    item,
+    types: ["redisplay", "attack", "damage"],
+  });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
     effectData

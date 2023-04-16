@@ -744,7 +744,11 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
   canvas.app.stage.removeChild(p);
 
   const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
+  const effectData = _constructGenericEffectData({
+    item,
+    level,
+    types: ["redisplay", "attack", "damage"],
+  });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
     effectData
@@ -803,7 +807,11 @@ async function FIND_FAMILIAR(
   canvas.app.stage.removeChild(p);
 
   const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
+  const effectData = _constructGenericEffectData({
+    item,
+    level,
+    types: ["redisplay", "attack", "damage"],
+  });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
     effectData
@@ -939,7 +947,11 @@ async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
   canvas.app.stage.removeChild(p);
 
   const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
+  const effectData = _constructGenericEffectData({
+    item,
+    level,
+    types: ["redisplay", "attack", "damage"],
+  });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
     effectData
@@ -1241,12 +1253,8 @@ async function SPIRITUAL_WEAPON(
     return e.flags.core?.statusId === item.name.slugify({ strict: true });
   });
   if (isActive) {
-    const level = isActive.flags[MODULE].spellLevel;
-    const data = item.toObject();
-    data.system.level = level;
-    const clone = new Item.implementation(data, { keepId: true });
-    clone.prepareFinalAttributes();
-    return clone.displayCard();
+    ui.notifications.warn("You already have a weapon summoned!");
+    return null;
   }
 
   const use = await item.use();
@@ -1263,7 +1271,11 @@ async function SPIRITUAL_WEAPON(
   await actor.sheet?.maximize();
 
   const level = _getSpellLevel(use);
-  const effectData = _constructGenericEffectData({ item, level });
+  const effectData = _constructGenericEffectData({
+    item,
+    level,
+    types: ["redisplay", "attack", "damage"],
+  });
   const [effect] = await actor.createEmbeddedDocuments(
     "ActiveEffect",
     effectData

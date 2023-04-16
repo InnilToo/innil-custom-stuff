@@ -187,7 +187,7 @@ export function _constructDetectionModeEffectData({ modes = [], item }) {
  * which does not require concentration.
  * Returns an array of effect data.
  */
-export function _constructGenericEffectData({ item, level = null }) {
+export function _constructGenericEffectData({ item, level = null, types }) {
   return [
     {
       label: item.name,
@@ -198,8 +198,10 @@ export function _constructGenericEffectData({ item, level = null }) {
         content: item.system.description.value,
       },
       [`flags.${MODULE}`]: {
-        itemData: item.clone({ "system.level": level }).toObject(),
-        types: ["redisplay"],
+        itemData: item
+          .clone({ "system.level": level }, { keepId: true })
+          .toObject(),
+        types: types ? types : ["redisplay"],
       },
     },
   ];
