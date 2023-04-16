@@ -726,7 +726,7 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
     return e.flags.core?.statusId === item.name.slugify({ strict: true });
   });
   if (isSpawned) {
-    return ui.notifications.warn(`You already have ${isSpawned.name} spawned.`);
+    return ui.notifications.warn(`You already have ${steed.name} spawned.`);
   }
 
   const use = await item.use();
@@ -785,7 +785,7 @@ async function FIND_FAMILIAR(
     return e.flags.core?.statusId === item.name.slugify({ strict: true });
   });
   if (isSpawned) {
-    return ui.notifications.warn(`You already have ${isSpawned.name} spawned.`);
+    return ui.notifications.warn(`You already have ${familiar.name} spawned.`);
   }
 
   const use = await item.use();
