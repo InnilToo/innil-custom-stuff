@@ -720,13 +720,13 @@ async function FIND_STEED(item, speaker, actor, token, character, event, args) {
 
   const steed = steeds[actorName];
   if (!steed)
-    return ui.notifications.warn("Can't spawn a steed for unknown actor.");
+    return ui.notifications.warn("Can't spawn a steed for an unknown actor.");
 
-  const isSteed = actor.effects.find((e) => {
+  const isSpawned = actor.effects.find((e) => {
     return e.flags.core?.statusId === item.name.slugify({ strict: true });
   });
-  if (isSteed) {
-    return ui.notifications.warn(`You already have a ${isSteed.name} spawned.`);
+  if (isSpawned) {
+    return ui.notifications.warn(`You already have ${isSpawned.name} spawned.`);
   }
 
   const use = await item.use();
