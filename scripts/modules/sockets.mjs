@@ -19,7 +19,7 @@ export class INNIL_SOCKETS {
     if (game.user.id !== userId) {
       if (push)
         game.socket.emit(`world.${game.world.id}`, {
-          actor: "socketTemplateFunction",
+          action: "socketTemplateFunction",
           data: { stuff },
         });
     }
