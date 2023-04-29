@@ -1,9 +1,8 @@
 import { DEPEND } from "../../../const.mjs";
+import { drawCircle } from "../../animations.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export const fathomless = { TENTACLE_OF_THE_DEEPS };
-
-async function TENTACLE_OF_THE_DEEPS(
+export async function MAGE_HAND(
   item,
   speaker,
   actor,
@@ -17,38 +16,39 @@ async function TENTACLE_OF_THE_DEEPS(
   const isActive = actor.effects.find((e) => {
     return e.flags.core?.statusId === item.name.slugify({ strict: true });
   });
-  if (isActive) return item.displayCard();
+  if (isActive)
+    return ui.notifications.warn("You are already have a Mage Hand.");
 
   const use = await item.use();
   if (!use) return;
-  const effectData = ItemMacroHelpers._constructGenericEffectData({
-    item,
-    types: ["redisplay", "attack", "damage"],
-  });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
+
   const updates = {
-    token: { name: `${actor.name.split(" ")[0]}'s Fathomless Tentacle` },
+    token: { name: `${actor.name.split(" ")[0]}'s Mage Hand` },
   };
-  const options = {
-    crosshairs: {
-      drawIcon: false,
-      icon: "icons/svg/dice-target.svg",
-      interval: -1,
-    },
-  };
+  const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
+  const p = drawCircle(token, item.system.range.value);
   await actor.sheet.minimize();
   const [spawn] = await ItemMacroHelpers._spawnHelper(
-    "Fathomless Tentacle",
+    "Mage Hand",
     updates,
     {},
     options
   );
   await actor.sheet.maximize();
+  canvas.app.stage.removeChild(p);
+
+  const level = ItemMacroHelpers._getSpellLevel(use);
+  const effectData = ItemMacroHelpers._constructGenericEffectData({
+    item,
+    level,
+    types: ["redisplay"],
+  });
+  const [effect] = await actor.createEmbeddedDocuments(
+    "ActiveEffect",
+    effectData
+  );
   if (!spawn) return effect.delete();
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }
