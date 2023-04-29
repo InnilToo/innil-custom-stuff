@@ -48,6 +48,8 @@
   "INNIL.SettingsDisplayAmmoName": "Show Saving Throw Ammo",
   "INNIL.SettingsMenuColorSettingsHint": "Settings for the colors that are applied to the actor sheets.",
   "INNIL.SettingsMenuColorSettingsName": "Sheet Colors",
+  "INNIL.SettingsMenuIdentifierSettingsHint": "Menu of various ids, identifiers, uuids, and keys.",
+  "INNIL.SettingsMenuIdentifierSettingsName": "Identifiers and Keys",
   "INNIL.SettingsMenuRarityColorsName": "Rarity Colors",
   "INNIL.SettingsMenuWorldSettingsHint": "A collection of additions and replacements for core and system content.",
   "INNIL.SettingsMenuWorldSettingsName": "Additions and Replacements",

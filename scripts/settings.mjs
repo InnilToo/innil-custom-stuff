@@ -2,6 +2,7 @@ import { COLOR_DEFAULTS, MODULE, WORLD_DEFAULTS } from "./const.mjs";
 import {
   ColorationMenu,
   GameChangesMenu,
+  IdentifiersMenu,
 } from "./modules/applications/settingsMenu.mjs";
 import { refreshColors } from "./modules/applications/sheetEdits.mjs";
 
@@ -60,7 +61,7 @@ function _registerSettingsMenus() {
   game.settings.registerMenu(MODULE, "worldSettings", {
     name: "INNIL.SettingsMenuWorldSettingsName",
     hint: "INNIL.SettingsMenuWorldSettingsHint",
-    label: "Game Changes",
+    label: "INNIL.SettingsMenuWorldSettingsName",
     icon: "fa-solid fa-atlas",
     type: GameChangesMenu,
     restricted: true,
@@ -78,9 +79,25 @@ function _registerSettingsMenus() {
   game.settings.registerMenu(MODULE, "colorSettings", {
     name: "INNIL.SettingsMenuColorSettingsName",
     hint: "INNIL.SettingsMenuColorSettingsHint",
-    label: "Sheet Colors",
+    label: "INNIL.SettingsMenuColorSettingsName",
     icon: "fa-solid fa-paint-roller",
     type: ColorationMenu,
     restricted: false,
+  });
+
+  game.settings.register(MODULE, "identifierSettings", {
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {},
+  });
+
+  game.settings.registerMenu(MODULE, "identifierSettings", {
+    name: "INNIL.SettingsMenuIdentifierSettingsName",
+    hint: "INNIL.SettingsMenuIdentifierSettingsHint",
+    label: "INNIL.SettingsMenuIdentifierSettingsName",
+    icon: "fa-solid fa-key",
+    type: IdentifiersMenu,
+    restricted: true,
   });
 }
