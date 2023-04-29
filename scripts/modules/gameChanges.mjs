@@ -90,7 +90,7 @@ export class GameChangesHandler {
   }
 
   static _tools() {
-    const key = "zhell-catalogs.items";
+    const key = "innil-catalogs.items";
 
     CONFIG.DND5E.toolIds = {
       alchemist: `${key}.4tStn8Ym5IHOZMEn`,
@@ -147,7 +147,7 @@ export class GameChangesHandler {
   }
 
   static _weapons() {
-    const key = "zhell-catalogs.items";
+    const key = "innil-catalogs.items";
 
     CONFIG.DND5E.weaponIds = {
       battleaxe: `${key}.5YvvZ5KsGgzlVBJg`,
@@ -380,7 +380,7 @@ export class GameChangesHandler {
 
     const DIV = document.createElement("DIV");
     DIV.innerHTML = await renderTemplate(
-      "modules/zhell-custom-stuff/templates/statusConditionSelect.hbs"
+      "modules/innil-custom-stuff/templates/statusConditionSelect.hbs"
     );
     list.append(...DIV.children);
 
