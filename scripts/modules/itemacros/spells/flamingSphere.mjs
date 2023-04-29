@@ -1,7 +1,5 @@
 import { DEPEND } from "../../../const.mjs";
-import { drawCircle } from "../../animations.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
-drawCircle;
 
 export async function FLAMING_SPHERE(
   item,
@@ -31,7 +29,7 @@ export async function FLAMING_SPHERE(
 
   // then spawn the actor:
   await actor.sheet.minimize();
-  const p = drawCircle(token, item.system.range.value);
+  const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     "Flaming Sphere",
     updates,

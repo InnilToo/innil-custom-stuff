@@ -40,7 +40,7 @@ export async function FIND_FAMILIAR(
   const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
-  const p = drawCircle(token, item.system.range.value);
+  const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
   await actor.sheet.minimize();
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     familiar.name,

@@ -60,7 +60,7 @@ export async function _teleportTokens(
     for (const tokenDoc of tokenDocs) {
       sequence.animation().on(tokenDoc).fadeOut(fadeDuration);
     }
-    await sequence.play();
+    await sequence.play({ remote: true });
     await warpgate.wait(fadeDuration);
   }
 
@@ -82,7 +82,7 @@ export async function _teleportTokens(
     for (const tokenDoc of tokenDocs) {
       sequence.animation().on(tokenDoc).fadeIn(fadeDuration);
     }
-    await sequence.play();
+    await sequence.play({ remote: true });
   }
   return update;
 }
@@ -227,7 +227,7 @@ export function _romanize(number) {
   return str;
 }
 
-export class EXHAUSTION {
+export class ExhaustionHandler {
   // Increase exhaustion.
   static async increaseExhaustion(actor) {
     if (!(actor instanceof Actor)) {
@@ -373,7 +373,7 @@ export class EXHAUSTION {
   // Reduce exhaustion on a long rest.
   static async _longRestExhaustionReduction(actor, data) {
     if (!data.longRest) return;
-    return EXHAUSTION.decreaseExhaustion(actor, true);
+    return ExhaustionHandler.decreaseExhaustion(actor, true);
   }
 }
 
@@ -402,15 +402,15 @@ export async function _titleCard(text, fontSize = 80) {
     fontFamily: "Old Evils",
   };
 
-  const sequence = new Sequence()
+  return new Sequence()
     .effect()
     .text(text, textStyle)
     .screenSpace()
     .screenSpaceAnchor({ x: 0.5, y: 0.34 })
     .duration(12000)
     .fadeIn(2000)
-    .fadeOut(2000);
-  return sequence.play();
+    .fadeOut(2000)
+    .play({ remote: true });
 }
 
 /**

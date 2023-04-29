@@ -1,5 +1,4 @@
 import { DEPEND } from "../../../const.mjs";
-import { drawCircle } from "../../animations.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export async function DARKNESS(
@@ -49,7 +48,7 @@ export async function DARKNESS(
               .tieToDocuments(conc)
               .file(file)
               .persist()
-              .play();
+              .play({ remote: true });
           },
         },
         Spawn: {
@@ -62,7 +61,10 @@ export async function DARKNESS(
             };
             const options = { crosshairs: { interval: -1 } };
             // Draw the circle around the token
-            const p = drawCircle(token, item.system.range.value);
+            const p = ItemMacroHelpers.drawCircle(
+              token,
+              item.system.range.value
+            );
             await actor.sheet.minimize();
             // Spawn the token
             const [spawn] = await ItemMacroHelpers._spawnHelper(
@@ -81,7 +83,7 @@ export async function DARKNESS(
               .tieToDocuments(conc)
               .file(file)
               .persist()
-              .play();
+              .play({ remote: true });
 
             // Add the token dismissal to the effect
             const effect = CN.isActorConcentratingOnItem(actor, item);

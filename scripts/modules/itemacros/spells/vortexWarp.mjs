@@ -1,5 +1,4 @@
 import { DEPEND } from "../../../const.mjs";
-import { drawCircle } from "../../animations.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export async function VORTEX_WARP(
@@ -26,7 +25,7 @@ export async function VORTEX_WARP(
   const level = ItemMacroHelpers._getSpellLevel(use);
   const range = 30 * (level + 1);
 
-  const p = drawCircle(token, range);
+  const p = ItemMacroHelpers.drawCircle(token, range);
 
   await actor.sheet.minimize();
 
@@ -64,7 +63,7 @@ export async function VORTEX_WARP(
         .on(tokenDoc)
         .fadeIn(1000)
         .waitUntilFinished()
-        .play();
+        .play({ remote: true });
     },
   };
   ui.notifications.info(`Attempting to warp ${target.document.name}!`);

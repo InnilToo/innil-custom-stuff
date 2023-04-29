@@ -1,10 +1,10 @@
 import { ImageAnchorPicker } from "./applications/imageAnchorPicker.mjs";
 
-export class INNIL_SOCKETS {
+export class SocketsHandler {
   static socketsOn() {
     game.socket.on(`world.${game.world.id}`, function (request) {
       console.log("REQUEST:", request);
-      return INNIL_SOCKETS[request.action](request.data, false);
+      return SocketsHandler[request.action](request.data, false);
     });
   }
 
@@ -200,7 +200,7 @@ export class INNIL_SOCKETS {
     ui.notifications.info(`Adding item to ${tokens[0].document.name}!`);
     const valid = await tokens[0].actor.sheet._onDropSingleItem(itemData);
     if (!valid) return;
-    return INNIL_SOCKETS.grantItems({
+    return SocketsHandler.grantItems({
       itemData: [itemData],
       tokenId: tokens[0].id,
     });
@@ -246,7 +246,7 @@ function _getFirstGM() {
     const tokenId = top[0];
     const target = canvas.scene.tokens.get(tokenId);
     ui.notifications.info(`Adding item to ${target.name}!`);
-    return INNIL_SOCKETS.grantItems({ itemData: [itemData], tokenId });
+    return SocketsHandler.grantItems({ itemData: [itemData], tokenId });
   };
   return new ImageAnchorPicker({ top, title, callback }).render(true);
 }

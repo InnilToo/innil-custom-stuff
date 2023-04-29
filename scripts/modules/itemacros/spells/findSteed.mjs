@@ -1,7 +1,5 @@
 import { DEPEND } from "../../../const.mjs";
-import { drawCircle } from "../../animations.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
-drawCircle;
 
 export async function FIND_STEED(
   item,
@@ -43,7 +41,7 @@ export async function FIND_STEED(
   const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
-  const p = drawCircle(token, item.system.range.value);
+  const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
   await actor.sheet.minimize();
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     steed.name,
