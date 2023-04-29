@@ -1327,10 +1327,11 @@ async function SPIRITUAL_WEAPON(
     token: { name: `${actor.name.split(" ")[0]}'s Spiritual Weapon` },
   };
   const options = { crosshairs: { interval: -1 } };
+  const range = 60;
 
   // then spawn the actor:
   await actor.sheet.minimize();
-  const p = drawCircle(token, item.system.range.value);
+  const p = drawCircle(token, range);
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     "Spiritual Weapon",
     updates,
