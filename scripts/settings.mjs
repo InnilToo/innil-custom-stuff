@@ -73,7 +73,7 @@ function _registerSettingsMenus() {
     config: false,
     type: Object,
     default: COLOR_DEFAULTS,
-    onChange: SheetEdits,
+    onChange: SheetEdits.refreshColors,
   });
 
   game.settings.registerMenu(MODULE, "colorSettings", {

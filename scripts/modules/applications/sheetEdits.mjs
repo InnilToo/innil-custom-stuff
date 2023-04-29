@@ -274,10 +274,12 @@ export class SheetEdits {
       ? `system.spells.${data.spellLevel}.value`
       : "system.uses.value";
     const current = foundry.utils.getProperty(target, path);
+
     let value;
     if (list.contains("has-more"))
       value = current + (list.contains("empty") ? 1 : -1);
     else value = Number(data.idx) + (list.contains("empty") ? 1 : 0);
+
     return target.update({ [path]: value });
   }
 
