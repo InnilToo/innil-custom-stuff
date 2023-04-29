@@ -1,10 +1,5 @@
 import { DEPEND } from "../../../const.mjs";
-import {
-  _addTokenDismissalToEffect,
-  _constructGenericEffectData,
-  _getDependencies,
-  _spawnHelper,
-} from "../../itemMacros.mjs";
+import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const fathomless = { TENTACLE_OF_THE_DEEPS };
 
@@ -17,7 +12,8 @@ async function TENTACLE_OF_THE_DEEPS(
   event,
   args
 ) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG))
+    return item.use();
   const isActive = actor.effects.find((e) => {
     return e.flags.core?.statusId === item.name.slugify({ strict: true });
   });
@@ -25,7 +21,7 @@ async function TENTACLE_OF_THE_DEEPS(
 
   const use = await item.use();
   if (!use) return;
-  const effectData = _constructGenericEffectData({
+  const effectData = ItemMacroHelpers._constructGenericEffectData({
     item,
     types: ["redisplay", "attack", "damage"],
   });
@@ -46,7 +42,7 @@ async function TENTACLE_OF_THE_DEEPS(
 
   // then spawn the actor:
   await actor.sheet?.minimize();
-  const [spawn] = await _spawnHelper(
+  const [spawn] = await ItemMacroHelpers._spawnHelper(
     "Fathomless Tentacle",
     updates,
     {},
@@ -54,5 +50,5 @@ async function TENTACLE_OF_THE_DEEPS(
   );
   await actor.sheet?.maximize();
   if (!spawn) return effect.delete();
-  return _addTokenDismissalToEffect(effect, spawn);
+  return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }

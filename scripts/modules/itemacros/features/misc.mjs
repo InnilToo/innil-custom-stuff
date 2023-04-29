@@ -1,7 +1,4 @@
-import {
-  _basicFormContent,
-  _constructSpellSlotOptions,
-} from "../../itemMacros.mjs";
+import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const misc = { HARNESS_DIVINE_POWER };
 
@@ -15,7 +12,7 @@ async function HARNESS_DIVINE_POWER(
   args
 ) {
   const maxLevel = Math.ceil(actor.getRollData().attributes.prof / 2);
-  const options = _constructSpellSlotOptions(actor, {
+  const options = ItemMacroHelpers._constructSpellSlotOptions(actor, {
     missing: true,
     maxLevel,
   });
@@ -38,7 +35,7 @@ async function HARNESS_DIVINE_POWER(
     return;
   }
 
-  const content = _basicFormContent({
+  const content = ItemMacroHelpers._basicFormContent({
     label: "Spell Slot:",
     type: "select",
     options,

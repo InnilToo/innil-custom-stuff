@@ -1,5 +1,5 @@
 import { DEPEND } from "../../../const.mjs";
-import { _getDependencies } from "../../itemMacros.mjs";
+import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const twilight = { EYES_OF_NIGHT, STEPS_OF_NIGHT, TWILIGHT_SANCTUARY };
 
@@ -12,7 +12,7 @@ async function EYES_OF_NIGHT(
   event,
   args
 ) {
-  if (!_getDependencies(DEPEND.WG)) return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.WG)) return item.use();
   const range = 120;
   const mod = Math.max(actor.system.abilities.wis.mod, 1);
   if (!game.user.targets.size.between(1, mod)) {
@@ -86,7 +86,8 @@ async function TWILIGHT_SANCTUARY(
   event,
   args
 ) {
-  if (!_getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG)) return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG))
+    return item.use();
 
   // CONSTS
   const id = item.name.slugify({ strict: true });
@@ -128,7 +129,7 @@ async function TWILIGHT_SANCTUARY(
       .scaleOut(0, 500, { ease: "easeOutCubic" })
       .fadeOut(500, { ease: "easeOutCubic" })
       .tieToDocuments(eff)
-      .play();
+      .play({ remote: true });
   }
 
   new Dialog({
