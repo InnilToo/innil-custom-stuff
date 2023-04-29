@@ -1,13 +1,3 @@
-/* BUTTON FEEL */
-button:active:not(.pm-dropdown, :disabled),
-:not(:disabled) a:active {
-  filter: brightness(0.7);
-}
-
-.tab#chat {
-  margin: -5px 0 0;
-}
-
 /* Hide hex, hexcurse, hmark*/
 div[data-status-id="hex"],
 div[data-status-id="hexcurse"],
@@ -20,7 +10,7 @@ div[data-status-id="hmark"] {
   display: none;
 }
 
-/* TOKEN HUT STATUS EFFECTS */
+/* Token HUD status effects */
 #token-hud .col.right .status-effects {
   width: max-content;
   column-gap: 0.1em;
@@ -88,13 +78,13 @@ div[data-status-id="hmark"] {
   text-align: center;
   transition: 0.15s;
   transform: scale(0.9);
-  font-family: "Modesto Condensed";
+  font-family: 'Modesto Condensed';
   font-size: 23px;
 }
 
 .innil-whisper .player-name.selected {
   background-color: darkgray;
-  transform: scale(1);
+  transform: scale(1.0);
 }
 
 .innil-whisper .player-name:not(.selected):hover {
@@ -117,6 +107,9 @@ section.innil-collapsible .innil-collapsible-header {
   color: #efe6d8;
   font-weight: bold;
   margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 section.innil-collapsible .innil-collapsible-header::after {
@@ -148,25 +141,24 @@ section.innil-collapsible.active div.innil-collapsible-content {
   overflow-y: scroll;
 }
 
-/* collapsible items and effect headers */
-.dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover {
-  text-shadow: 0 0 8px var(--color-shadow-primary) !important;
+/* BUTTON FEEL */
+button:active:not(.pm-dropdown, :disabled),
+:not(:disabled) a:active {
+  filter: brightness(0.7);
+}
+
+.tab#chat {
+  margin: -5px 0 0;
+}
+
+/* APPLY DAMAGE */
+span.flavor-text.innil-apply-damage-flavor:hover {
+  text-shadow: 0 0 8px red;
   cursor: pointer;
 }
 
-/* Make collapsed header gray text color */
-.dnd5e.sheet.actor .items-header.flexrow.no-create,
-.dnd5e.sheet.actor .items-header.flexrow.no-create * {
-  color: darkgray;
-}
-
-/* Hide 'ol' that follow a collapsed header, and hide all 'All' buttons */
-.dnd5e.sheet.actor .items-header.flexrow.no-create+ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create+ol+ol,
-.dnd5e.sheet.actor .items-header.flexrow.no-create .item-control.item-create,
-.dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control,
-.dnd5e.sheet.actor .characteristics label.no-edit+textarea {
-  display: none;
+span.flavor-text.innil-apply-damage-flavor {
+  font-weight: bold;
 }
 
 /* MONSTER STAT BLOCKS */
@@ -345,14 +337,13 @@ section.innil-collapsible.active div.innil-collapsible-content {
   gap: 5px;
 }
 
-innil-custom-stuff.experimental-elixir .dialog-button {
+.innil-custom-stuff.experimental-elixir .dialog-button {
   display: flex;
   padding: 0.5em 0;
 }
 
-.dialog.elixir .dialog-button {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
+.innil-custom-stuff.experimental-elixir .dialog-button:hover {
+  color: purple;
 }
 
 .innil-custom-stuff.experimental-elixir .dialog-button i {
@@ -392,12 +383,38 @@ innil-custom-stuff.experimental-elixir .dialog-button {
 }
 
 /* SETTINGS MENU */
-.innil-custom-stuff.settings-menu form .form-group .form-fields input[type="checkbox"] {
+.innil-custom-stuff.settings-menu {
+  min-width: 400px;
+  height: auto !important;
+}
+
+.innil-custom-stuff.settings-menu form .form-group .form-fields input[type=checkbox] {
   margin-right: 5em;
 }
 
 .innil-custom-stuff.settings-menu .form-group:not(:last-of-type) {
   border-bottom: 2px groove;
+}
+
+.innil-custom-stuff.settings-menu .identifiers-and-keys [data-action="add-key"] {
+  position: absolute;
+  right: 0.75em;
+}
+
+.innil-custom-stuff.settings-menu .identifiers-and-keys [data-action="delete-key"] {
+  flex: 0;
+  padding: 0 0.5em;
+}
+
+/* Vertical dialog */
+.innil-custom-stuff.vertical-dialog {
+  height: auto !important;
+}
+
+.innil-custom-stuff.vertical-dialog .buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 /* Column Dialog */

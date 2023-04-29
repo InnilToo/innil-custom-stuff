@@ -1,58 +1,44 @@
 import { api } from "./scripts/api.mjs";
 import { DEPEND, MODULE } from "./scripts/const.mjs";
 import {
-  INNIL_ANIMATIONS,
-  _rotateTokensOnMovement,
+  AnimationsHandler,
   _setupCollapsibles,
 } from "./scripts/modules/animations.mjs";
-import {
-  _performSheetEdits,
-  refreshColors,
-} from "./scripts/modules/applications/sheetEdits.mjs";
-import { COMBAT } from "./scripts/modules/combatHelpers.mjs";
-import {
-  _addContextMenuOptions,
-  _dropActorFolder,
-  _itemStatusCondition,
-  _miscAdjustments,
-  _preCreateActiveEffect,
-  _preCreateScene,
-  _replaceTokenHUD,
-  _restItemDeletion,
-  _sceneHeaderView,
-  _setUpGameChanges,
-  _visionModes,
-  _visualActiveEffectsCreateEffectButtons,
-} from "./scripts/modules/gameChanges.mjs";
-import { EXHAUSTION } from "./scripts/modules/innil_functions.mjs";
+import { SheetEdits } from "./scripts/modules/applications/sheetEdits.mjs";
+import { CombatEnhancements } from "./scripts/modules/combatHelpers.mjs";
+import { GameChangesHandler } from "./scripts/modules/gameChanges.mjs";
+import { ExhaustionHandler } from "./scripts/modules/innil_functions.mjs";
 import {
   _heartOfTheStorm,
   _heartOfTheStormButton,
 } from "./scripts/modules/itemacros/features/sorcerer-storm.mjs";
-import { INNIL_SOCKETS } from "./scripts/modules/sockets.mjs";
+import { SocketsHandler } from "./scripts/modules/sockets.mjs";
 import { registerSettings } from "./scripts/settings.mjs";
 
 Hooks.once("init", registerSettings);
 Hooks.once("init", api.register);
-Hooks.once("init", _visionModes);
-Hooks.once("setup", _setUpGameChanges);
-Hooks.once("setup", _miscAdjustments);
-Hooks.once("ready", refreshColors);
-Hooks.once("ready", INNIL_SOCKETS.socketsOn);
+Hooks.once("init", GameChangesHandler._visionModes);
+Hooks.once("setup", GameChangesHandler._setUpGameChanges);
+Hooks.once("setup", GameChangesHandler._miscAdjustments);
+Hooks.once("ready", SheetEdits.refreshColors);
+Hooks.once("ready", SocketsHandler.socketsOn);
 Hooks.once("ready", _setupCollapsibles);
 Hooks.once("ready", _heartOfTheStormButton);
 
-Hooks.on("dnd5e.getItemContextOptions", _addContextMenuOptions);
-Hooks.on("dnd5e.restCompleted", _restItemDeletion);
-Hooks.on("dnd5e.restCompleted", EXHAUSTION._longRestExhaustionReduction);
+Hooks.on(
+  "dnd5e.getItemContextOptions",
+  GameChangesHandler._addContextMenuOptions
+);
+Hooks.on("dnd5e.restCompleted", GameChangesHandler._restItemDeletion);
+Hooks.on("dnd5e.restCompleted", ExhaustionHandler._longRestExhaustionReduction);
 Hooks.on("dnd5e.useItem", _heartOfTheStorm);
-Hooks.on("dropCanvasData", INNIL_SOCKETS._onDropData);
-Hooks.on("preUpdateToken", _rotateTokensOnMovement);
-Hooks.on("preCreateActiveEffect", _preCreateActiveEffect);
-Hooks.on("renderActorSheet", _performSheetEdits);
-Hooks.on("renderItemSheet", _itemStatusCondition);
-Hooks.on("renderTokenHUD", _replaceTokenHUD);
-Hooks.on("updateCombat", COMBAT._rechargeMonsterFeatures);
+Hooks.on("dropCanvasData", SocketsHandler._onDropData);
+Hooks.on("preUpdateToken", GameChangesHandler._rotateTokensOnMovement);
+Hooks.on("preCreateActiveEffect", GameChangesHandler._preCreateActiveEffect);
+Hooks.on("renderActorSheet", SheetEdits._performSheetEdits);
+Hooks.on("renderItemSheet", GameChangesHandler._itemStatusCondition);
+Hooks.on("renderTokenHUD", GameChangesHandler._replaceTokenHUD);
+Hooks.on("updateCombat", CombatEnhancements._rechargeMonsterFeatures);
 
 Hooks.once("ready", function () {
   const reactionSetting = game.settings.get(MODULE, "trackReactions");
@@ -60,26 +46,29 @@ Hooks.once("ready", function () {
     (reactionSetting === "gm" && game.user.isGM) ||
     reactionSetting === "all"
   ) {
-    Hooks.on("dnd5e.useItem", COMBAT._spendReaction);
+    Hooks.on("dnd5e.useItem", CombatEnhancements._spendReaction);
   }
 
   if (game.settings.get(MODULE, "displaySavingThrowAmmo")) {
-    Hooks.on("dnd5e.rollAttack", COMBAT._displaySavingThrowAmmo);
+    Hooks.on("dnd5e.rollAttack", CombatEnhancements._displaySavingThrowAmmo);
   }
 
   if (game.user.isGM) {
     if (game.settings.get(MODULE, "markDefeatedCombatants")) {
-      Hooks.on("updateToken", COMBAT._markDefeatedCombatant);
+      Hooks.on("updateToken", CombatEnhancements._markDefeatedCombatant);
     }
-    Hooks.on("getSceneConfigHeaderButtons", _sceneHeaderView);
-    Hooks.on("dropCanvasData", _dropActorFolder);
-    Hooks.on("preCreateScene", _preCreateScene);
+    Hooks.on(
+      "getSceneConfigHeaderButtons",
+      GameChangesHandler._sceneHeaderView
+    );
+    Hooks.on("dropCanvasData", GameChangesHandler._dropActorFolder);
+    Hooks.on("preCreateScene", GameChangesHandler._preCreateScene);
   }
 
   if (game.modules.get(DEPEND.VAE)?.active) {
     Hooks.on(
       "visual-active-effects.createEffectButtons",
-      _visualActiveEffectsCreateEffectButtons
+      GameChangesHandler._visualActiveEffectsCreateEffectButtons
     );
   }
 
@@ -90,11 +79,11 @@ Hooks.once("ready", function () {
   if (canAnimate) {
     Hooks.on(
       "createMeasuredTemplate",
-      INNIL_ANIMATIONS.onCreateMeasuredTemplate
+      AnimationsHandler.onCreateMeasuredTemplate
     );
-    Hooks.on("dnd5e.useItem", INNIL_ANIMATIONS.onItemUse);
-    Hooks.on("dnd5e.rollAttack", INNIL_ANIMATIONS.onItemRollAttack);
-    Hooks.on("dnd5e.rollDamage", INNIL_ANIMATIONS.onItemRollDamage);
-    Hooks.on("dnd5e.rollSkill", INNIL_ANIMATIONS.onRollSkill);
+    Hooks.on("dnd5e.useItem", AnimationsHandler.onItemUse);
+    Hooks.on("dnd5e.rollAttack", AnimationsHandler.onItemRollAttack);
+    Hooks.on("dnd5e.rollDamage", AnimationsHandler.onItemRollDamage);
+    Hooks.on("dnd5e.rollSkill", AnimationsHandler.onRollSkill);
   }
 });

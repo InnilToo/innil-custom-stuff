@@ -1,4 +1,4 @@
-import { _constructSpellSlotOptions } from "../../itemMacros.mjs";
+import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const paladin = { DIVINE_SMITE, LAY_ON_HANDS };
 
@@ -11,22 +11,22 @@ async function DIVINE_SMITE(
   event,
   args
 ) {
-  const options = _constructSpellSlotOptions(actor);
+  const options = ItemMacroHelpers._constructSpellSlotOptions(actor);
   if (!options.length) {
     ui.notifications.warn("You have no spell slots remaining.");
     return;
   }
   const content = `
-<form>
-<div class="form-group">
-<label>Spell Slot:</label>
-<div class="form-fields">
-<select id="divine-smite-slot" autofocus>${options}</select>
-<input type="checkbox" id="divine-smite-extra">
-<label for="divine-smite-extra" style="white-space: nowrap;">Extra die</label>
-</div>
-</div>
-</form>`;
+  <form>
+    <div class="form-group">
+      <label>Spell Slot:</label>
+      <div class="form-fields">
+        <select id="divine-smite-slot" autofocus>${options}</select>
+        <input type="checkbox" id="divine-smite-extra">
+        <label for="divine-smite-extra" style="white-space: nowrap;">Extra die</label>
+      </div>
+    </div>
+  </form>`;
 
   return new Dialog({
     title: item.name,
@@ -90,13 +90,13 @@ async function LAY_ON_HANDS(
   });
 
   const content = `
-${item.system.description.value}
-<form>
-<div class="form-group">
-<label>Hit points to restore:</label>
-<div class="form-fields">${range}</div>
-</div>
-</form>`;
+  ${item.system.description.value}
+  <form>
+    <div class="form-group">
+      <label>Hit points to restore:</label>
+      <div class="form-fields">${range}</div>
+    </div>
+  </form>`;
 
   const buttons = {
     heal: {

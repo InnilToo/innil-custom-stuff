@@ -1,5 +1,5 @@
 import { MODULE } from "../../../const.mjs";
-import { _constructSpellSlotOptions } from "../../itemMacros.mjs";
+import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const sorcerer = { FONT_OF_MAGIC };
 

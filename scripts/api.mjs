@@ -1,4 +1,3 @@
-import { drawCircle } from "./modules/animations.mjs";
 import { gameTools } from "./modules/gameTools/_gameTools.mjs";
 import {
   _checkTokenInTemplate,
@@ -11,8 +10,8 @@ import {
   _titleCard,
   _whisperPlayers,
 } from "./modules/innil_functions.mjs";
-import { ITEMACRO } from "./modules/itemMacros.mjs";
-import { INNIL_SOCKETS } from "./modules/sockets.mjs";
+import { ITEMACRO, ItemMacroHelpers } from "./modules/itemMacros.mjs";
+import { SocketsHandler } from "./modules/sockets.mjs";
 
 export class api {
   static register() {
@@ -29,13 +28,13 @@ export class api {
         roman: _romanize,
         whisperPlayers: _whisperPlayers,
         titleCard: _titleCard,
-        drawCircle: drawCircle,
-        loadTextureForAll: INNIL_SOCKETS.loadTextureForAll,
-        createTiles: INNIL_SOCKETS.createTiles,
-        awardLoot: INNIL_SOCKETS.awardLoot,
-        updateToken: INNIL_SOCKETS.updateTokens,
-        grantItems: INNIL_SOCKETS.grantItems,
-        healToken: INNIL_SOCKETS.healToken,
+        drawCircle: ItemMacroHelpers.drawCircle,
+        loadTextureForAll: SocketsHandler.loadTextureForAll,
+        createTiles: SocketsHandler.createTiles,
+        awardLoot: SocketsHandler.awardLoot,
+        updateToken: SocketsHandler.updateTokens,
+        grantItems: SocketsHandler.grantItems,
+        healToken: SocketsHandler.healToken,
         ...gameTools,
       },
       ITEMACRO,

@@ -1,10 +1,10 @@
 import { ImageAnchorPicker } from "./applications/imageAnchorPicker.mjs";
 
-export class INNIL_SOCKETS {
+export class SocketsHandler {
   static socketsOn() {
     game.socket.on(`world.${game.world.id}`, function (request) {
       console.log("REQUEST:", request);
-      return INNIL_SOCKETS[request.action](request.data, false);
+      return SocketsHandler[request.action](request.data, false);
     });
   }
 
@@ -19,7 +19,7 @@ export class INNIL_SOCKETS {
     if (game.user.id !== userId) {
       if (push)
         game.socket.emit(`world.${game.world.id}`, {
-          actor: "socketTemplateFunction",
+          action: "socketTemplateFunction",
           data: { stuff },
         });
     }
@@ -198,8 +198,9 @@ export class INNIL_SOCKETS {
     });
     if (!grant) return;
     ui.notifications.info(`Adding item to ${tokens[0].document.name}!`);
-    await tokens[0].actor.sheet._onDropSingleItem(itemData);
-    return INNIL_SOCKETS.grantItems({
+    const valid = await tokens[0].actor.sheet._onDropSingleItem(itemData);
+    if (!valid) return;
+    return SocketsHandler.grantItems({
       itemData: [itemData],
       tokenId: tokens[0].id,
     });
@@ -245,7 +246,7 @@ function _getFirstGM() {
     const tokenId = top[0];
     const target = canvas.scene.tokens.get(tokenId);
     ui.notifications.info(`Adding item to ${target.name}!`);
-    return INNIL_SOCKETS.grantItems({ itemData: [itemData], tokenId });
+    return SocketsHandler.grantItems({ itemData: [itemData], tokenId });
   };
   return new ImageAnchorPicker({ top, title, callback }).render(true);
 }

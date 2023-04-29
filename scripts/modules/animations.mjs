@@ -1,6 +1,6 @@
 import { MODULE } from "../const.mjs";
 
-export class INNIL_ANIMATIONS {
+export class AnimationsHandler {
   // On template creation
   static onCreateMeasuredTemplate(templateDoc, _, userId) {
     if (userId !== game.user.id) return;
@@ -23,7 +23,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play();
+        .play({ remote: true });
     }
 
     // BURNING HANDS.
@@ -35,7 +35,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play();
+        .play({ remote: true });
     }
 
     // CALL LIGHTNING.
@@ -47,7 +47,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .atLocation(templateDoc)
         .scale(2)
-        .play();
+        .play({ remote: true });
     }
 
     // DARKNESS.
@@ -60,7 +60,7 @@ export class INNIL_ANIMATIONS {
         .attachTo(templateDoc)
         .tieToDocuments(templateDoc)
         .persist()
-        .play();
+        .play({ remote: true });
     }
 
     // EVARD'S BLACK TENTACLES.
@@ -73,7 +73,7 @@ export class INNIL_ANIMATIONS {
         .attachTo(templateDoc)
         .tieToDocuments(templateDoc)
         .persist()
-        .play();
+        .play({ remote: true });
     }
 
     // FIREBALL.
@@ -91,7 +91,11 @@ export class INNIL_ANIMATIONS {
           .stretchTo(templateDoc)
           .playbackRate(2)
           .waitUntilFinished();
-      return seq.effect().file(expl).atLocation(templateDoc).play();
+      return seq
+        .effect()
+        .file(expl)
+        .atLocation(templateDoc)
+        .play({ remote: true });
     }
 
     // GRAVITY WAVE.
@@ -106,7 +110,7 @@ export class INNIL_ANIMATIONS {
         .scale(2)
         .fadeIn(500)
         .persist()
-        .play();
+        .play({ remote: true });
     }
 
     // LIGHTNING BOLT.
@@ -118,7 +122,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play();
+        .play({ remote: true });
     }
 
     // STAR DUST.
@@ -130,7 +134,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play();
+        .play({ remote: true });
     }
   }
 
@@ -153,7 +157,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
 
     // CROSSBOWS in general.
@@ -168,7 +172,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
 
     // CRACKLE.
@@ -181,7 +185,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
 
     // ELDRITCH BLAST.
@@ -194,7 +198,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
 
     // FIRE BOLT.
@@ -207,7 +211,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
 
     // GUIDING BOLT.
@@ -220,7 +224,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
 
     // ICE KNIFE.
@@ -233,7 +237,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .atLocation(token)
         .stretchTo(target)
-        .play();
+        .play({ remote: true });
     }
 
     // LIGHTING SPEAR.
@@ -247,7 +251,7 @@ export class INNIL_ANIMATIONS {
         .atLocation(token)
         .file(file)
         .playbackRate(2)
-        .play();
+        .play({ remote: true });
     }
 
     // RADIANT FLAME.
@@ -260,7 +264,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
 
     // THUNDER PUNCH.
@@ -273,7 +277,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
   }
 
@@ -296,7 +300,7 @@ export class INNIL_ANIMATIONS {
         .attachTo(target)
         .file(file)
         .scaleIn(0, 500)
-        .play();
+        .play({ remote: true });
     }
 
     // ELDRITCH SMITE.
@@ -304,7 +308,11 @@ export class INNIL_ANIMATIONS {
     if (check) {
       if (!target) return;
       const file = "jb2a.divine_smite.target.purplepink";
-      return new Sequence().effect().attachTo(target).file(file).play();
+      return new Sequence()
+        .effect()
+        .attachTo(target)
+        .file(file)
+        .play({ remote: true });
     }
 
     // DIVINE SMITE.
@@ -312,7 +320,11 @@ export class INNIL_ANIMATIONS {
     if (check) {
       if (!target) return;
       const file = "jb2a.divine_smite.target.greenyellow";
-      return new Sequence().effect().attachTo(target).file(file).play();
+      return new Sequence()
+        .effect()
+        .attachTo(target)
+        .file(file)
+        .play({ remote: true });
     }
 
     // HEALING WORD.
@@ -325,7 +337,7 @@ export class INNIL_ANIMATIONS {
         .attachTo(target)
         .file(file)
         .scaleIn(0, 500)
-        .play();
+        .play({ remote: true });
     }
 
     // LIGHTNING TENDRIL.
@@ -338,7 +350,7 @@ export class INNIL_ANIMATIONS {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play();
+        .play({ remote: true });
     }
   }
 
@@ -357,21 +369,33 @@ export class INNIL_ANIMATIONS {
     if (check) {
       if (!target) return;
       const file = "jb2a.liquid.splash.green";
-      return new Sequence().effect().file(file).atLocation(target).play();
+      return new Sequence()
+        .effect()
+        .file(file)
+        .atLocation(target)
+        .play({ remote: true });
     }
 
     // CREATE OR DESTROY WATER.
     check = name.includes("Create or Destroy Water");
     if (check) {
       const file = "jb2a.liquid.splash.bright_blue";
-      return new Sequence().effect().file(file).attachTo(token).play();
+      return new Sequence()
+        .effect()
+        .file(file)
+        .attachTo(token)
+        .play({ remote: true });
     }
 
     // DETECT MAGIC.
     check = name.includes("Detect Magic");
     if (check) {
       const file = "jb2a.detect_magic.circle";
-      return new Sequence().effect().file(file).attachTo(token).play();
+      return new Sequence()
+        .effect()
+        .file(file)
+        .attachTo(token)
+        .play({ remote: true });
     }
 
     // DIVINE SENSE.
@@ -385,7 +409,7 @@ export class INNIL_ANIMATIONS {
         .duration(10000)
         .fadeOut(500)
         .attachTo(token)
-        .play();
+        .play({ remote: true });
     }
 
     // HUNTER'S MARK.
@@ -393,7 +417,11 @@ export class INNIL_ANIMATIONS {
     if (check) {
       if (!target) return;
       const file = "jb2a.hunters_mark.pulse.01.green";
-      return new Sequence().effect().file(file).atLocation(target).play();
+      return new Sequence()
+        .effect()
+        .file(file)
+        .atLocation(target)
+        .play({ remote: true });
     }
 
     // HEX.
@@ -406,7 +434,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .scale(0.5)
         .atLocation(target)
-        .play();
+        .play({ remote: true });
     }
 
     // HEXBLADE'S CURSE.
@@ -419,7 +447,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .scale(0.5)
         .atLocation(target)
-        .play();
+        .play({ remote: true });
     }
 
     // UNSETTLING PRESENCE.
@@ -433,7 +461,7 @@ export class INNIL_ANIMATIONS {
         .duration(3000)
         .fadeOut(500)
         .attachTo(token)
-        .play();
+        .play({ remote: true });
     }
 
     // TOLL THE DEAD.
@@ -446,7 +474,7 @@ export class INNIL_ANIMATIONS {
         .file(file)
         .scale(0.5)
         .atLocation(target)
-        .play();
+        .play({ remote: true });
     }
 
     // PALADIN AURA.
@@ -464,7 +492,7 @@ export class INNIL_ANIMATIONS {
         .persist()
         .name(name)
         .tint("#ff7300")
-        .play();
+        .play({ remote: true });
     }
   }
 
@@ -478,7 +506,11 @@ export class INNIL_ANIMATIONS {
     if (check) {
       if (!token) return;
       const file = "jb2a.sneak_attack.";
-      return new Sequence().effect().file(file).attachTo(token).play();
+      return new Sequence()
+        .effect()
+        .file(file)
+        .attachTo(token)
+        .play({ remote: true });
     }
   }
 }
@@ -491,35 +523,4 @@ export function _setupCollapsibles() {
       ?.closest(".innil-collapsible")
       ?.classList.toggle("active");
   });
-}
-
-// ROTATE TOKENS WHEN THEY MOVE.
-export function _rotateTokensOnMovement(doc, update, options) {
-  if (doc.lockRotation || options.animate === false) return;
-  if (
-    !foundry.utils.hasProperty(update, "x") &&
-    !foundry.utils.hasProperty(update, "y")
-  )
-    return;
-  const ray = new Ray(doc, { x: update.x ?? doc.x, y: update.y ?? doc.y });
-  update.rotation = (ray.angle * 180) / Math.PI - 90;
-}
-
-// draw a circle around a token placeable.
-export function drawCircle(token, radius) {
-  const { x, y } = token.center;
-  const tokenRadius = Math.abs(token.document.x - x);
-  const pixels =
-    (radius / canvas.scene.grid.distance) * canvas.scene.grid.size +
-    tokenRadius;
-  const color = game.user.color.replace("#", "0x");
-  const p = new PIXI.Graphics()
-    .beginFill(color, 0.5)
-    .drawCircle(x, y, pixels)
-    .endFill()
-    .beginHole()
-    .drawCircle(x, y, pixels - 5)
-    .endHole();
-  canvas.app.stage.addChild(p);
-  return p;
 }

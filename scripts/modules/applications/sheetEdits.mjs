@@ -1,50 +1,32 @@
-import { MODULE } from "../../const.mjs";
-import { EXHAUSTION } from "../innil_functions.mjs";
+import { COLOR_DEFAULTS, MODULE } from "../../const.mjs";
+import { ExhaustionHandler } from "../innil_functions.mjs";
 import { MoneySpender } from "./moneySpender.mjs";
-
-export function _performSheetEdits(sheet, html) {
-  if (!sheet.sheetEdits) {
-    const edits = new SheetEdits();
-    sheet.sheetEdits = edits;
-    edits.sheet = sheet;
-    edits.html = html;
-  } else {
-    sheet.sheetEdits.html = html;
-  }
-  const e = sheet.sheetEdits;
-  e.render(...arguments);
-}
 
 export class SheetEdits {
   constructor() {
+    this.headers = new Set();
+  }
+
+  /* Amusingly named method to inject the new functionality and elements into the sheet. */
+  async render() {
     this.settings = {
       ...game.settings.get(MODULE, "worldSettings"),
       ...game.settings.get(MODULE, "colorSettings"),
     };
-    this.headers = new Set();
-  }
+    const isChar = this.sheet.document.type === "character";
+    const isGroup = this.sheet.document.type === "group";
+    const isNPC = this.sheet.document.type === "npc";
 
-  /** @override */
-  async render() {
-    if (
-      this.settings.removeAlignment &&
-      this.sheet.document.type === "character"
-    )
-      this._removeAlignment();
+    if (this.settings.removeAlignment && isChar) this._removeAlignment();
     this._setMagicItemsColor();
-    if (this.sheet.document.type !== "group") this._setHealthColor();
+    if (!isGroup) this._setHealthColor();
     if (this.settings.collapsibleHeaders) this._collapsibleHeaders();
-    if (["character", "npc"].includes(this.sheet.document.type))
-      this._createDots();
-    if (this.sheet.document.type === "character") this._createExhaustion();
-    if (
-      this.sheet.document.type === "character" &&
-      this.settings.createMoneySpender
-    )
-      this._createMoneySpender();
-    if (this.sheet.document.type === "character") this._createNewDay();
-    if (this.sheet.document.type === "character")
-      this._createInspirationToggle();
+    if (isChar || isNPC) this._createDots();
+    if (isChar && this.settings.createForaging) await this._createForaging();
+    if (isChar) this._createExhaustion();
+    if (isChar && this.settings.createMoneySpender) this._createMoneySpender();
+    if (isChar) this._createNewDay();
+    if (isChar) this._createInspirationToggle();
   }
 
   /** Make 'Inspiration' a toggle. */
@@ -292,10 +274,12 @@ export class SheetEdits {
       ? `system.spells.${data.spellLevel}.value`
       : "system.uses.value";
     const current = foundry.utils.getProperty(target, path);
+
     let value;
     if (list.contains("has-more"))
       value = current + (list.contains("empty") ? 1 : -1);
     else value = Number(data.idx) + (list.contains("empty") ? 1 : 0);
+
     return target.update({ [path]: value });
   }
 
@@ -346,12 +330,12 @@ export class SheetEdits {
       up: {
         icon: "<i class='fa-solid fa-arrow-up'></i>",
         label: "Gain a Level",
-        callback: () => EXHAUSTION.increaseExhaustion(actor),
+        callback: () => ExhaustionHandler.increaseExhaustion(actor),
       },
       down: {
         icon: "<i class='fa-solid fa-arrow-down'></i>",
         label: "Down a Level",
-        callback: () => EXHAUSTION.decreaseExhaustion(actor),
+        callback: () => ExhaustionHandler.decreaseExhaustion(actor),
       },
     };
     if (level < 1) delete buttons.down;
@@ -451,31 +435,30 @@ export class SheetEdits {
     });
     return this.document.updateEmbeddedDocuments("Item", updates);
   }
-}
 
-/**
- * Refreshes the style sheet when a user changes their color settings for various sheet colors
- * such as limited uses, prepared spells, and the color of rarities on magic items.
- */
-export function refreshColors() {
-  const colors = game.settings.get(MODULE, "colorSettings");
-  const rarities = game.settings.get(MODULE, "rarityColorSettings");
-  const root = document.querySelector(":root");
-
-  const cssSheet = Object.values(root.parentNode.styleSheets).find((s) => {
-    return s.href.includes("innil-custom-stuff/styles/sheetEdits.css");
-  });
-
-  const map = Object.values(cssSheet.rules).find(
-    (r) => r.selectorText === ":root"
-  ).styleMap;
-
-  for (const key of Object.keys(colors)) {
-    if (typeof colors[key] === "string") map.set(`--${key}`, colors[key]);
+  static _performSheetEdits(sheet, html) {
+    if (!sheet.sheetEdits) {
+      const edits = new SheetEdits();
+      sheet.sheetEdits = edits;
+      edits.sheet = sheet;
+      edits.html = html;
+    } else {
+      sheet.sheetEdits.html = html;
+    }
+    const e = sheet.sheetEdits;
+    e.render();
   }
 
-  for (const key of Object.keys(rarities)) {
-    if (typeof rarities[key] === "string")
-      map.set(`--rarity${key.capitalize()}`, rarities[key]);
+  /**
+   * Refreshes the style sheet when a user changes their color settings for various sheet colors
+   * such as limited uses, prepared spells, and the color of rarities on magic items.
+   */
+  static refreshColors() {
+    const colors = game.settings.get(MODULE, "colorSettings");
+    const stl = document.querySelector(":root").style;
+    for (const key of Object.keys(COLOR_DEFAULTS.sheetColors))
+      stl.setProperty(`--${key}`, colors[key]);
+    for (const key of Object.keys(COLOR_DEFAULTS.rarityColors))
+      stl.setProperty(`--rarity${key.capitalize()}`, colors[key]);
   }
 }

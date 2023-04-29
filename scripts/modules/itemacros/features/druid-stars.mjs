@@ -1,9 +1,5 @@
 import { DEPEND, MODULE } from "../../../const.mjs";
-import { columnDialog } from "../../customDialogs.mjs";
-import {
-  _constructLightEffectData,
-  _getDependencies,
-} from "../../itemMacros.mjs";
+import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const stars = { STARRY_FORM };
 
@@ -17,7 +13,13 @@ async function STARRY_FORM(
   args
 ) {
   if (
-    !_getDependencies(DEPEND.EM, DEPEND.VAE, DEPEND.CN, DEPEND.SEQ, DEPEND.JB2A)
+    !ItemMacroHelpers._getDependencies(
+      DEPEND.EM,
+      DEPEND.VAE,
+      DEPEND.CN,
+      DEPEND.SEQ,
+      DEPEND.JB2A
+    )
   )
     return item.use();
 
@@ -29,7 +31,7 @@ async function STARRY_FORM(
   const use = await item.use();
   if (!use) return;
 
-  const [effectData] = _constructLightEffectData({
+  const [effectData] = ItemMacroHelpers._constructLightEffectData({
     item,
     lightData: { dim: 20, bright: 10 },
     intro: "",
@@ -37,25 +39,6 @@ async function STARRY_FORM(
   });
 
   const title = item.name;
-  const content = '<div class="dynamic-tooltip"></div>';
-  const buttons = {
-    archer: {
-      icon: '<i class="fa-solid fa-burst"></i>',
-      label: "Archer",
-      callback: () => "archer",
-    },
-    chalice: {
-      icon: '<i class="fa-solid fa-trophy"></i>',
-      label: "Chalice",
-      callback: () => "chalice",
-    },
-    dragon: {
-      icon: '<i class="fa-solid fa-dragon"></i>',
-      label: "Dragon",
-      callback: () => "dragon",
-    },
-  };
-
   const intro = {
     archer:
       "<p>When you activate this form, and as a bonus action on your subsequent turns while it lasts, you can make a ranged spell attack, hurling a luminous arrow that targets one creature within 60 feet of you. On a hit, the attack deals radiant damage equal to 1d8 + your Wisdom modifier.</p>",
@@ -64,20 +47,33 @@ async function STARRY_FORM(
     dragon:
       "<p>When you make an Intelligence or a Wisdom check or a Constitution saving throw to maintain concentration on a spell, you can treat a roll of 9 or lower on the d20 as a 10.</p>",
   };
+  const buttons = [
+    { icon: "burst", key: "archer" },
+    { icon: "trophy", key: "chalice" },
+    { icon: "dragon", key: "dragon" },
+  ].reduce((acc, v) => {
+    acc[v.key] = {
+      icon: `<i class="fa-solid fa-${v.icon}"></i>`,
+      label: v.key.capitalize(),
+      callback: () => v.key,
+    };
+    return acc;
+  }, {});
 
   function render(html) {
-    const field = html[0].querySelector(".dynamic-tooltip");
-    html[2].querySelectorAll("[data-button]").forEach((btn) => {
-      btn.addEventListener("mouseover", function (event) {
-        const type = event.currentTarget.dataset.button;
-        field.innerHTML = intro[type];
+    html[0]
+      .closest(".app")
+      .querySelectorAll("[data-button]")
+      .forEach((button) => {
+        button.setAttribute("data-tooltip", intro[button.dataset.button]);
+        button.setAttribute("data-tooltip-direction", "LEFT");
       });
-    });
   }
 
-  // @scale.stars.starry-form-die
-
-  const form = await columnDialog({ title, content, buttons, render });
+  const form = await Dialog.wait(
+    { title, buttons, render, close: () => false },
+    { classes: ["dialog", "column-dialog"] }
+  );
   if (form === "archer") {
     const itemData = {
       name: "Starry Form (Archer)",
@@ -140,6 +136,7 @@ async function STARRY_FORM(
       },
     ];
   } else return;
+  // Delete any pre-existing starry form and create the new one.
   await actor.effects
     .find((e) => e.flags.core?.statusId === item.name.slugify({ strict: true }))
     ?.delete();
@@ -157,5 +154,5 @@ async function STARRY_FORM(
     .fadeOut(500)
     .tieToDocuments(effect)
     .persist()
-    .play();
+    .play({ remote: true });
 }

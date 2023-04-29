@@ -1,11 +1,8 @@
 import { DEPEND } from "../../const.mjs";
-import {
-  _basicFormContent,
-  _constructLightEffectData,
-  _getDependencies,
-} from "../itemMacros.mjs";
+import { ItemMacroHelpers } from "../itemMacros.mjs";
 
 export const items = {
+  FREE_USE,
   HIT_DIE_APPLY,
   LANTERN_OF_TRACKING,
   RING_OF_LIGHT,
@@ -35,7 +32,8 @@ async function RING_OF_LIGHT(
   event,
   args
 ) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.VAE)) return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
+    return item.use();
 
   const has = actor.effects.find(
     (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
@@ -48,12 +46,13 @@ async function RING_OF_LIGHT(
   const lightData = { bright: 30, dim: 60 };
   return actor.createEmbeddedDocuments(
     "ActiveEffect",
-    _constructLightEffectData({ item, lightData })
+    ItemMacroHelpers._constructLightEffectData({ item, lightData })
   );
 }
 
 async function TORCH(item, speaker, actor, token, character, event, args) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.VAE)) return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
+    return item.use();
 
   const has = actor.effects.find(
     (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
@@ -80,7 +79,7 @@ async function TORCH(item, speaker, actor, token, character, event, args) {
   };
   return actor.createEmbeddedDocuments(
     "ActiveEffect",
-    _constructLightEffectData({ item, lightData })
+    ItemMacroHelpers._constructLightEffectData({ item, lightData })
   );
 }
 
@@ -93,7 +92,8 @@ async function LANTERN_OF_TRACKING(
   event,
   args
 ) {
-  if (!_getDependencies(DEPEND.EM, DEPEND.VAE)) return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
+    return item.use();
 
   const has = actor.effects.find(
     (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
@@ -125,7 +125,22 @@ async function LANTERN_OF_TRACKING(
   };
   await actor.createEmbeddedDocuments(
     "ActiveEffect",
-    _constructLightEffectData({ item, lightData })
+    ItemMacroHelpers._constructLightEffectData({ item, lightData })
   );
   return oilFlask.update({ "system.quantity": quantity - 1 });
+}
+
+async function FREE_USE(item, speaker, actor, token, character, event, args) {
+  return item.use(
+    {
+      createMeasuredTemplate: false,
+      consumeQuantity: false,
+      consumeRecharge: false,
+      consumeResource: false,
+      consumeSpellLevel: false,
+      consumeSpellSlot: false,
+      consumeUsage: false,
+    },
+    { configureDialog: false }
+  );
 }
