@@ -211,7 +211,7 @@ export function _sceneHeaderView(app, array) {
     class: `${MODULE}-view-scene`,
     icon: "fa-solid fa-eye",
     label: "View Scene",
-    onclick: async () => await app.object.view(),
+    onclick: () => app.document.view(),
   };
   array.unshift(viewBtn);
 }
@@ -254,10 +254,14 @@ export async function _restItemDeletion(actor, data) {
 // Miscellaneous adjustments.
 export function _miscAdjustments() {
   // Add more feature types.
-  foundry.utils.mergeObject(CONFIG.DND5E.featureTypes.class.subtypes, {
-    arcaneArcherShot: "Arcane Archer Shot",
-    primordialEffect: "Primordial Effect",
-  });
+  const entries = Object.entries({
+    ...CONFIG.DND5E.featureTypes.class.subtypes,
+    ...{
+      arcaneArcherShot: "Arcane Archer Shot",
+      primordialEffect: "Primordial Effect",
+    },
+  }).sort((a, b) => a[1].localeCompare(b[1]));
+  CONFIG.DND5E.featureTypes.class.subtypes = Object.fromEntries(entries);
 
   // Adjust the time it takes for tooltips to fade in and out.
   TooltipManager.TOOLTIP_ACTIVATION_MS = 100;
@@ -304,9 +308,10 @@ function _moveItemToSharedInventory(item, array) {
       icon: "<i class='fa-solid fa-hand-holding-hand'></i>",
       name: `Move to ${inv.name}`,
       callback: async () => {
-        const [c] = await inv.createEmbeddedDocuments("Item", [
-          item.toObject(),
-        ]);
+        const itemData = item.toObject();
+        const create = await inv.sheet._onDropSingleItem(itemData);
+        if (!create) return;
+        const [c] = await inv.createEmbeddedDocuments("Item", [itemData]);
         if (c) await item.delete();
       },
     });

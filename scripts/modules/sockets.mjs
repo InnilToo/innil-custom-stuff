@@ -198,7 +198,8 @@ export class INNIL_SOCKETS {
     });
     if (!grant) return;
     ui.notifications.info(`Adding item to ${tokens[0].document.name}!`);
-    await tokens[0].actor.sheet._onDropSingleItem(itemData);
+    const valid = await tokens[0].actor.sheet._onDropSingleItem(itemData);
+    if (!valid) return;
     return INNIL_SOCKETS.grantItems({
       itemData: [itemData],
       tokenId: tokens[0].id,
