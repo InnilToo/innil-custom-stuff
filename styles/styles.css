@@ -20,7 +20,18 @@ div[data-status-id="hmark"] {
   display: none;
 }
 
-/* TOKEN HUT STATUS EFFECTS */
+/* Vertical dialog */
+.innil-custom-stuff.vertical-dialog {
+  height: auto !important;
+}
+
+.innil-custom-stuff.vertical-dialog .buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+/* TOKEN HUD STATUS EFFECTS */
 #token-hud .col.right .status-effects {
   width: max-content;
   column-gap: 0.1em;
