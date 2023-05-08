@@ -15,7 +15,6 @@ import { FATHOMLESS_BLACK_TENTACLES } from "./spells/fathomlessBlackTentacles.mj
 import { FIND_FAMILIAR } from "./spells/findFamiliar.mjs";
 import { FIND_STEED } from "./spells/findSteed.mjs";
 import { FLAMING_SPHERE } from "./spells/flamingSphere.mjs";
-import { MAGE_ARMOR } from "./spells/mageArmor.mjs";
 import { MAGE_HAND } from "./spells/mageHand.mjs";
 import { MISTY_STEP } from "./spells/mistyStep.mjs";
 import { MOONBEAM } from "./spells/moonbeam.mjs";
@@ -46,7 +45,6 @@ export const spells = {
   FIND_FAMILIAR,
   FIND_STEED,
   FLAMING_SPHERE,
-  MAGE_ARMOR,
   MAGE_HAND,
   MISTY_STEP,
   MOONBEAM,
