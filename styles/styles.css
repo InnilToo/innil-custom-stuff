@@ -50,45 +50,41 @@ div[data-status-id="hmark"] {
   opacity: 0.15;
 }
 
-#token-hud .col.right .status-effects .status-effect-label {
+#token-hud .col.right .status-effects .status-effect-name {
   font-size: 18px;
   text-align: left;
   margin: 0 0 0 3px;
 }
 
 /* WHISPER DIALOG */
-.innil-whisper form {
-  margin: 1em 0;
+.innil-custom-stuff.whisper-dialog {
+  height: auto !important;
+  width: 400px !important;
 }
 
-.innil-whisper .form-fields {
+.innil-custom-stuff.whisper-dialog .players {
   display: grid;
   grid-template-columns: auto auto auto;
   gap: 3px;
+  padding-bottom: 1em;
 }
 
-.innil-whisper textarea {
+.innil-custom-stuff.whisper-dialog textarea {
   resize: none;
 }
 
-.innil-whisper .player-name {
-  padding: 5px 0;
+.innil-custom-stuff.whisper-dialog [data-action="player"] {
   border: 1px solid black;
   border-radius: 5px;
   text-align: center;
   transition: 0.15s;
   transform: scale(0.9);
-  font-family: 'Modesto Condensed';
-  font-size: 23px;
+  font-size: 20px;
 }
 
-.innil-whisper .player-name.selected {
+.innil-custom-stuff.whisper-dialog [data-action="player"].selected {
   background-color: darkgray;
   transform: scale(1.0);
-}
-
-.innil-whisper .player-name:not(.selected):hover {
-  box-shadow: 0 0 8px red;
 }
 
 /* COLLAPSIBLES */
