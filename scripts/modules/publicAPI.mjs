@@ -17,16 +17,6 @@ export class PublicAPI {
   }
 
   /**
-   * Set the current foraging DC programmatically.
-   * @param {number} number     The new foraging DC
-   * @returns {Setting}         The updated setting.
-   */
-  static async _setForageDC(number) {
-    if (!game.user.isGM) return ui.notifications.warn("Excuse me?");
-    return game.settings.set(MODULE, "foragingDC", number);
-  }
-
-  /**
    * Teleport the tokens within one circular area.
    * @param {object} [crosshairsConfig={}]      Options for the warpgate crosshairs.
    * @param {boolean} [fade=true]               Whether or not to use Sequencer to fade in and out.

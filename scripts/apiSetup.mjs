@@ -14,7 +14,6 @@ export function setupAPI() {
       selectContained: PublicAPI._selectContained,
     },
     utils: {
-      setForageDC: PublicAPI._setForageDC,
       getDocument: PublicAPI._getDocumentFromCompendium,
       roman: PublicAPI._romanize,
       whisperPlayers: WhisperPlayers.whisperPlayers,

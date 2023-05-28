@@ -167,14 +167,6 @@
   display: none;
 }
 
-/* The materia medica counter on the character sheets. */
-.dnd5e.sheet.actor .counters .counter.materia-medica input {
-  max-width: 40px;
-  width: fit-content;
-  text-align: right;
-  padding-right: 5px;
-}
-
 /* Character sheet attunement tracker. */
 .sheet .attunement-tracker [name="system.attributes.attunement.max"] {
   display: inline;

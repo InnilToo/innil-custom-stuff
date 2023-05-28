@@ -1,5 +1,4 @@
 import { COLOR_DEFAULTS, MODULE } from "../../const.mjs";
-import { MateriaMedica } from "./materiaMedica.mjs";
 import { MoneySpender } from "./moneySpender.mjs";
 
 export class SheetEdits {
@@ -22,7 +21,6 @@ export class SheetEdits {
     if (!isGroup) this._setHealthColor();
     if (this.settings.collapsibleHeaders) this._collapsibleHeaders();
     if (isChar || isNPC) this._createDots();
-    if (isChar && this.settings.createForaging) await this._createForaging();
     if (isChar) this._createExhaustion();
     if (isChar && this.settings.createMoneySpender) this._createMoneySpender();
     if (isChar) this._createNewDay();

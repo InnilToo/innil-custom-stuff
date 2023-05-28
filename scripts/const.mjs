@@ -16,7 +16,6 @@ export const WORLD_DEFAULTS = {
   addEquipment: true,
   addPiety: false,
   collapsibleHeaders: true,
-  createForaging: true,
   createMoneySpender: true,
   removeAlignment: false,
   replaceConsumables: true,

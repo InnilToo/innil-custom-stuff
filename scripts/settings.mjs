@@ -12,16 +12,6 @@ export function registerSettings() {
 }
 
 function _registerSettings() {
-  game.settings.register(MODULE, "foragingDC", {
-    name: "INNIL.SettingsForagingDifficultyName",
-    hint: "INNIL.SettingsForagingDifficultyHint",
-    scope: "world",
-    config: true,
-    type: Number,
-    default: 15,
-    requiresReload: false,
-  });
-
   game.settings.register(MODULE, "markDefeatedCombatants", {
     name: "INNIL.SettingsCombatantDefeatedName",
     hint: "INNIL.SettingsCombatantDefeatedHint",
