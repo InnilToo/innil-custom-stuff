@@ -16,6 +16,7 @@ export const WORLD_DEFAULTS = {
   addEquipment: true,
   addPiety: false,
   collapsibleHeaders: true,
+  createForaging: true,
   createMoneySpender: true,
   removeAlignment: false,
   replaceConsumables: true,
@@ -40,5 +41,8 @@ export const COLOR_DEFAULTS = {
     legendary: "#ffa500",
     artifact: "#d2691e",
   },
-  checks: { showLimitedUses: true, showSpellSlots: true },
+  checks: {
+    showLimitedUses: true,
+    showSpellSlots: true,
+  },
 };
