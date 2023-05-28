@@ -38,7 +38,11 @@ async function ARCANE_RECOVERY(
           : game.i18n.localize("DND5E.SpellLevel" + level);
       return (
         acc +
-        `<div class="form-group"><label>${label}</label><div class="form-fields">${slots}</div></div>`
+        `
+    <div class="form-group">
+      <label>${label}</label>
+      <div class="form-fields">${slots}</div>
+    </div>`
       );
     },
     ""

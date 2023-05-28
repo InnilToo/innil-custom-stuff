@@ -57,7 +57,7 @@ async function STEPS_OF_NIGHT(
 
   return actor.createEmbeddedDocuments("ActiveEffect", [
     {
-      label: item.name,
+      name: item.name,
       origin: item.uuid,
       changes: [
         {
@@ -68,11 +68,9 @@ async function STEPS_OF_NIGHT(
       ],
       duration: { seconds: 60 },
       icon: item.img,
-      "flags.core.statusId": item.name.slugify({ strict: true }),
-      "flags.visual-active-effects.data": {
-        intro: "<p>You have a flying speed equal to your walking speed.</p>",
-        content: item.system.description.value,
-      },
+      statuses: [item.name.slugify({ strict: true })],
+      description: "You have a flying speed equal to your walking speed.",
+      "flags.visual-active-effects.data.content": item.system.description.value,
     },
   ]);
 }
@@ -89,31 +87,27 @@ async function TWILIGHT_SANCTUARY(
   if (!ItemMacroHelpers._getDependencies(DEPEND.SEQ, DEPEND.JB2A, DEPEND.WG))
     return item.use();
 
-  // CONSTS
-  const id = item.name.slugify({ strict: true });
+  // Constants.
+  const status = item.name.slugify({ strict: true });
   const file = "jb2a.markers.circle_of_stars.orangepurple";
   const error = "Please target a token.";
   const target = game.user.targets.first();
 
-  // find Sequencer effect
-  const e = actor.effects.find((e) => e.flags.core?.statusId === id);
-
-  if (!e) {
+  if (!actor.statuses.has(status)) {
     const use = await item.use();
     if (!use) return;
 
     const [eff] = await actor.createEmbeddedDocuments("ActiveEffect", [
       {
         icon: item.img,
-        label: item.name,
+        name: item.name,
         origin: item.uuid,
+        statuses: [status],
+        description:
+          "When a creature ends their turn within your twilight sanctuary, you may choose to grant them temporary hit points or end the charmed or frightened condition on them.",
         "duration.seconds": 60,
-        "flags.visual-active-effects.data": {
-          intro:
-            "<p>When a creature ends their turn within your twilight sanctuary, you may choose to grant them temporary hit points or end the charmed or frightened condition on them.</p>",
-          content: item.system.description.value,
-        },
-        "flags.core.statusId": id,
+        "flags.visual-active-effects.data.content":
+          item.system.description.value,
       },
     ]);
 
