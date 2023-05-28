@@ -483,7 +483,7 @@ export class AnimationsHandler {
       if (!token) return;
       const name = `paladin-aura-${token.document.id}`;
       const file = "jb2a.extras.tmfx.border.circle.outpulse.01.normal";
-      const has = !!Sequencer.EffectManager.getEffects({ name }).length;
+      const has = Sequencer.EffectManager.getEffects({ name }).length > 0;
       if (has) return Sequencer.EffectManager.endEffects({ name });
       return new Sequence()
         .effect()
