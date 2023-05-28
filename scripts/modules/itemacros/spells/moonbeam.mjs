@@ -20,17 +20,21 @@ export async function MOONBEAM(
   if (!use) return;
 
   const updates = { token: { name: `${actor.name.split(" ")[0]}'s Moonbeam` } };
-  const options = { crosshairs: { interval: -1 } };
+  const options = {
+    crosshairs: {
+      interval: -1,
+    },
+  };
 
   // then spawn the actor:
-  await actor.sheet.minimize();
+  await actor.sheet?.minimize();
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     "Moonbeam",
     updates,
     {},
     options
   );
-  await actor.sheet.maximize();
+  await actor.sheet?.maximize();
   const effect = CN.isActorConcentratingOnItem(actor, item);
   if (!spawn) return effect.delete();
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);

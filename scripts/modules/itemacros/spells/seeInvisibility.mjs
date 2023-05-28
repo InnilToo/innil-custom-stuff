@@ -23,10 +23,8 @@ export async function SEE_INVISIBILITY(
     ],
   });
   foundry.utils.mergeObject(data[0], {
-    "flags.visual-active-effects.data": {
-      intro: "<p>You can see invisible creatures.</p>",
-      content: item.system.description.value,
-    },
+    description: "You can see invisible creatures.",
+    [`flags.${DEPEND.VAE}.data.content`]: item.system.description.value,
   });
   return actor.createEmbeddedDocuments("ActiveEffect", data);
 }

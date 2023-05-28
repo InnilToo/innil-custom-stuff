@@ -60,21 +60,21 @@ export async function DARKNESS(
               token: { name: `${actor.name.split(" ")[0]}'s Darkness` },
             };
             const options = { crosshairs: { interval: -1 } };
-            // Draw the circle around the token
+
+            // then spawn the actor:
+            await actor.sheet?.minimize();
             const p = ItemMacroHelpers.drawCircle(
               token,
               item.system.range.value
             );
-            await actor.sheet.minimize();
-            // Spawn the token
             const [spawn] = await ItemMacroHelpers._spawnHelper(
               "dummy",
               updates,
               {},
               options
             );
-            await actor.sheet.maximize();
             canvas.app.stage.removeChild(p);
+            await actor.sheet?.maximize();
 
             // Play a sequence on the spawn
             await new Sequence()

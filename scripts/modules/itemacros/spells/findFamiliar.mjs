@@ -40,16 +40,16 @@ export async function FIND_FAMILIAR(
   const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
+  await actor.sheet?.minimize();
   const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
-  await actor.sheet.minimize();
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     familiar.name,
     updates,
     {},
     options
   );
-  await actor.sheet.maximize();
   canvas.app.stage.removeChild(p);
+  await actor.sheet?.maximize();
 
   const level = ItemMacroHelpers._getSpellLevel(use);
   const effectData = ItemMacroHelpers._constructGenericEffectData({

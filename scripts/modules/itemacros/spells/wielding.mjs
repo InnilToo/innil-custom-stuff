@@ -12,19 +12,21 @@ export async function WIELDING(
 ) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.CN, DEPEND.VAE, DEPEND.EM))
     return item.use();
+
   const isConc = CN.isActorConcentratingOnItem(actor, item);
   if (isConc) return;
 
   const use = await item.use();
   if (!use) return;
-  const level = ItemMacroHelpers._getSpellLevel(use);
 
+  const level = ItemMacroHelpers._getSpellLevel(use);
   const target = game.user.targets.first();
 
   function getWeaponOptions(actorDoc) {
+    if (!actorDoc) return "";
     const pre = actorDoc === actor ? "" : "[Target] ";
     return (
-      actorDoc?.itemTypes.weapon.reduce((acc, e) => {
+      actorDoc.itemTypes.weapon.reduce((acc, e) => {
         return acc + `<option value="${e.uuid}">${pre}${e.name}</option>`;
       }, "") ?? ""
     );
@@ -64,14 +66,12 @@ export async function WIELDING(
   const [{ id }] = await actor.createEmbeddedDocuments("ActiveEffect", [
     {
       icon: itemData.img,
-      label: `${itemData.name} (${item.name})`,
-      "flags.core.statusId": item.name.slugify({ strict: true }),
+      name: `${itemData.name} (${item.name})`,
+      statuses: [item.name.slugify({ strict: true })],
       origin: actor.uuid,
       duration: foundry.utils.deepClone(conc.duration),
-      "flags.visual-active-effects.data": {
-        intro: `<p>You are in control of ${itemData.name}.</p>`,
-        content: itemData.system.description.value,
-      },
+      description: `You are in control of ${itemData.name}.`,
+      [`flags.${DEPEND.VAE}.data.content`]: itemData.system.description.value,
       [`flags.${MODULE}`]: { itemData, types: ["use"] },
     },
   ]);

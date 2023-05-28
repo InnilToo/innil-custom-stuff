@@ -27,7 +27,7 @@ export async function VORTEX_WARP(
 
   const p = ItemMacroHelpers.drawCircle(token, range);
 
-  await actor.sheet.minimize();
+  await actor.sheet?.minimize();
 
   const pos = await warpgate.crosshairs.show({
     size: target.document.height,
@@ -39,7 +39,7 @@ export async function VORTEX_WARP(
     tileTexture: false,
   });
   canvas.app.stage.removeChild(p);
-  if (pos.cancelled) return actor.sheet.maximize();
+  if (pos.cancelled) return actor.sheet?.maximize();
 
   const offset = (target.document.height * canvas.scene.grid.size) / 2;
 
@@ -63,10 +63,10 @@ export async function VORTEX_WARP(
         .on(tokenDoc)
         .fadeIn(1000)
         .waitUntilFinished()
-        .play({ remote: true });
+        .play({ remote: false });
     },
   };
   ui.notifications.info(`Attempting to warp ${target.document.name}!`);
-  await actor.sheet.maximize();
+  await actor.sheet?.maximize();
   return warpgate.mutate(target.document, update, callbacks, options);
 }

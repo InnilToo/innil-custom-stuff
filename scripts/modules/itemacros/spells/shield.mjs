@@ -1,6 +1,7 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
+// TODO: this can just be removed in favor of ET.
 export async function SHIELD(
   item,
   speaker,
@@ -25,18 +26,14 @@ export async function SHIELD(
         },
       ],
       icon: item.img,
-      label: item.name,
+      name: item.name,
       origin: item.uuid,
       duration: { rounds: 1 },
-      "flags.core.statusId": item.name.slugify({ strict: true }),
-      "flags.visual-active-effects.data": {
-        intro:
-          "<p>You have a +5 bonus to your AC and immunity to damage from the Magic Missile spell.</p>",
-        content: item.system.description.value,
-      },
-      "flags.effectmacro.onTurnStart.script": `(${function () {
-        return effect.delete();
-      }})()`,
+      statuses: [item.name.slugify({ strict: true })],
+      description:
+        "You have a +5 bonus to your AC and immunity to damage from the Magic Missile spell.",
+      [`flags.${DEPEND.VAE}.data.content`]: item.system.description.value,
+      [`flags.${DEPEND.EM}.onTurnStart.script`]: "return effect.delete();",
     },
   ]);
 }
