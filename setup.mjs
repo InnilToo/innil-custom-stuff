@@ -1,43 +1,42 @@
-import { api } from "./scripts/api.mjs";
-import { DEPEND, MODULE } from "./scripts/const.mjs";
+import { setupAPI } from "./scripts/apiSetup.mjs";
+import { MODULE } from "./scripts/const.mjs";
 import {
   AnimationsHandler,
   _setupCollapsibles,
 } from "./scripts/modules/animations.mjs";
+import { DamageApplicator } from "./scripts/modules/applications/damageApplicator.mjs";
 import { SheetEdits } from "./scripts/modules/applications/sheetEdits.mjs";
 import { CombatEnhancements } from "./scripts/modules/combatHelpers.mjs";
+import { ExhaustionHandler } from "./scripts/modules/exhaustion.mjs";
 import { GameChangesHandler } from "./scripts/modules/gameChanges.mjs";
-import { ExhaustionHandler } from "./scripts/modules/innil_functions.mjs";
-import {
-  _heartOfTheStorm,
-  _heartOfTheStormButton,
-} from "./scripts/modules/itemacros/features/sorcerer-storm.mjs";
 import { SocketsHandler } from "./scripts/modules/sockets.mjs";
 import { registerSettings } from "./scripts/settings.mjs";
 
 Hooks.once("init", registerSettings);
-Hooks.once("init", api.register);
+Hooks.once("init", setupAPI);
 Hooks.once("init", GameChangesHandler._visionModes);
-Hooks.once("setup", GameChangesHandler._setUpGameChanges);
-Hooks.once("setup", GameChangesHandler._miscAdjustments);
+Hooks.once("init", GameChangesHandler._setUpGameChanges);
 Hooks.once("ready", SheetEdits.refreshColors);
 Hooks.once("ready", SocketsHandler.socketsOn);
 Hooks.once("ready", _setupCollapsibles);
-Hooks.once("ready", _heartOfTheStormButton);
+Hooks.once("setup", GameChangesHandler._miscAdjustments);
+Hooks.once("setup", ExhaustionHandler._appendActorMethods);
 
 Hooks.on(
   "dnd5e.getItemContextOptions",
   GameChangesHandler._addContextMenuOptions
 );
+Hooks.on("dnd5e.preRollDamage", DamageApplicator._appendDamageRollData);
 Hooks.on("dnd5e.restCompleted", GameChangesHandler._restItemDeletion);
 Hooks.on("dnd5e.restCompleted", ExhaustionHandler._longRestExhaustionReduction);
-Hooks.on("dnd5e.useItem", _heartOfTheStorm);
 Hooks.on("dropCanvasData", SocketsHandler._onDropData);
-Hooks.on("preUpdateToken", GameChangesHandler._rotateTokensOnMovement);
 Hooks.on("preCreateActiveEffect", GameChangesHandler._preCreateActiveEffect);
+Hooks.on("preUpdateToken", GameChangesHandler._rotateTokensOnMovement);
 Hooks.on("renderActorSheet", SheetEdits._performSheetEdits);
+Hooks.on("renderChatMessage", DamageApplicator._appendToDamageRolls);
 Hooks.on("renderItemSheet", GameChangesHandler._itemStatusCondition);
 Hooks.on("renderTokenHUD", GameChangesHandler._replaceTokenHUD);
+Hooks.on("preCreateChatMessage", DamageApplicator._appendMoreDamageRollData);
 Hooks.on("updateCombat", CombatEnhancements._rechargeMonsterFeatures);
 
 Hooks.once("ready", function () {
@@ -55,7 +54,7 @@ Hooks.once("ready", function () {
 
   if (game.user.isGM) {
     if (game.settings.get(MODULE, "markDefeatedCombatants")) {
-      Hooks.on("updateToken", CombatEnhancements._markDefeatedCombatant);
+      Hooks.on("updateActor", CombatEnhancements._markDefeatedCombatant);
     }
     Hooks.on(
       "getSceneConfigHeaderButtons",
@@ -65,7 +64,7 @@ Hooks.once("ready", function () {
     Hooks.on("preCreateScene", GameChangesHandler._preCreateScene);
   }
 
-  if (game.modules.get(DEPEND.VAE)?.active) {
+  if (game.modules.get("visual-active-effects")?.active) {
     Hooks.on(
       "visual-active-effects.createEffectButtons",
       GameChangesHandler._visualActiveEffectsCreateEffectButtons
@@ -73,7 +72,7 @@ Hooks.once("ready", function () {
   }
 
   // hook for various actions are performed to display animations.
-  const canAnimate = [DEPEND.SEQ, DEPEND.JB2A].every(
+  const canAnimate = ["sequencer", "jb2a_patreon"].every(
     (id) => !!game.modules.get(id)?.active
   );
   if (canAnimate) {
