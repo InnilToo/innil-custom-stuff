@@ -1,12 +1,18 @@
 import { DEPEND, MODULE } from "../../const.mjs";
 
 export class ExperimentalElixir extends Application {
-  constructor(data) {
-    super(data);
-    this.actor = data.actor;
-    this.item = data.item;
+  /**
+   * @constructor
+   * @param {Actor} actor         The actor using the item.
+   * @param {Item} item           The item being used.
+   * @param {object} speaker      The speaker object from Item Macro, for convenience.
+   */
+  constructor({ actor, item, speaker }) {
+    super({ actor, item, speaker });
+    this.actor = actor;
+    this.item = item;
     this.rollData = this.actor.getRollData();
-    this.speaker = data.speaker;
+    this.speaker = speaker;
 
     for (const [key, data] of Object.entries(this.actor.system.spells)) {
       if (!(data.value > 0)) continue;
@@ -18,7 +24,7 @@ export class ExperimentalElixir extends Application {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "modules/innil-custom-stuff/templates/experimentalElixirs.hbs",
+      template: "modules/zhell-custom-stuff/templates/experimentalElixirs.hbs",
       title: "Experimental Elixir",
       classes: [MODULE, "experimental-elixir"],
     });
@@ -132,11 +138,16 @@ export class ExperimentalElixir extends Application {
    */
   _getRandomName() {
     const randomName = [
+      "Arepoan Picnic Drink",
       "Arkonade",
+      "Arkorow's Party Mix",
       "Cantina d'Capitol Special",
       "Daily Pick-Me-Up",
       "Dockyard Iced Tea",
       "Everything but Jungle Juice",
+      "Fiendbolt Cola",
+      "Green Tree's Mix",
+      "Murharbor Special",
       "Rainbow Elixir",
       "Rumble Refreshment",
       "Something-ade",
@@ -178,7 +189,7 @@ export class ExperimentalElixir extends Application {
 
   /**
    * Get a random image for an elixir using the default potion images.
-   * @returns {string}      The image.
+   * @returns {Promise<string>}     The image.
    */
   async _getRandomImage() {
     const { files } = await FilePicker.browse(
@@ -204,7 +215,7 @@ export class ExperimentalElixir extends Application {
           icon: data.icon,
           duration: data.duration,
           name: `Experimental Elixir: ${name}`,
-          description: game.i18n.format(`INNIL.ExperimentalElixirType${name}`, {
+          description: game.i18n.format(`ZHELL.ExperimentalElixirType${name}`, {
             mod,
           }),
           flags: {
@@ -246,9 +257,8 @@ export class ExperimentalElixir extends Application {
    * @returns {object}          The flag data.
    */
   _getFlagData(parts) {
-    const useRollGroups = parts.length > 1;
     const flags = { [MODULE]: { longRestDestroy: true } };
-    if (useRollGroups)
+    if (parts.length > 1) {
       flags.rollgroups = {
         config: {
           groups: [
@@ -257,6 +267,7 @@ export class ExperimentalElixir extends Application {
           ],
         },
       };
+    }
     return flags;
   }
 
@@ -270,7 +281,7 @@ export class ExperimentalElixir extends Application {
     let desc = types.reduce((acc, type) => {
       const data = this.elixirTypes[type];
       const intro = game.i18n.format(
-        `INNIL.ExperimentalElixirType${type.capitalize()}`,
+        `ZHELL.ExperimentalElixirType${type.capitalize()}`,
         { mod }
       );
       return acc + `<p><strong><em>${data.name}.</em></strong> ${intro}</p>`;
@@ -278,7 +289,7 @@ export class ExperimentalElixir extends Application {
     if (this.rollData.classes.artificer.levels >= 9) {
       const name = "Restorative Reagents";
       const intro = game.i18n.format(
-        "INNIL.ExperimentalElixirTypeRestorativeReagents",
+        "ZHELL.ExperimentalElixirTypeRestorativeReagents",
         { mod }
       );
       desc += `<p><strong><em>${name}.</em></strong> ${intro}</p>`;
@@ -288,23 +299,19 @@ export class ExperimentalElixir extends Application {
 
   /**
    * Get data for an elixir.
-   * @param {string[]} types      The types of elixir.
-   * @returns {object}            The item data for the elixir.
+   * @param {string[]} types          The types of elixir.
+   * @returns {Promise<object[]>}     An array of item data for the elixir.
    */
   async getElixirItemData(types) {
-    const name = this._getRandomName();
     const flavor = this._getRandomFlavor();
-    const img = await this._getRandomImage();
-    const effects = this._getEffectData(types);
     const parts = this._getDamageParts(types);
-    const flags = this._getFlagData(parts);
     const desc = this._getDescription(types);
 
     return [
       {
-        name,
+        name: this._getRandomName(),
         type: "consumable",
-        img,
+        img: await this._getRandomImage(),
         system: {
           description: { value: `<p><em>${flavor}</em></p> <hr> ${desc}` },
           weight: 0.5,
@@ -314,8 +321,8 @@ export class ExperimentalElixir extends Application {
           damage: { parts },
           actionType: parts.length > 0 ? "heal" : "",
         },
-        effects,
-        flags,
+        effects: this._getEffectData(types),
+        flags: this._getFlagData(parts),
       },
     ];
   }
@@ -329,7 +336,7 @@ export class ExperimentalElixir extends Application {
       data.elixirs.push({
         key,
         name: value.name,
-        intro: `INNIL.ExperimentalElixirType${value.name}`,
+        intro: `ZHELL.ExperimentalElixirType${value.name}`,
       });
     }
     return data;
@@ -340,17 +347,15 @@ export class ExperimentalElixir extends Application {
     html[0]
       .querySelector("[data-action='submit']")
       .addEventListener("click", this._onSubmit.bind(this));
-    html[0]
-      .querySelectorAll("[type='checkbox']")
-      .forEach((n) =>
-        n.addEventListener("change", this._onChangeCheckbox.bind(this))
-      );
+    html[0].querySelectorAll("[type='checkbox']").forEach((n) => {
+      n.addEventListener("change", this._onChangeCheckbox.bind(this));
+    });
   }
 
   /**
    * Gather the checked boxes to get the elixir types, then create the elixir.
    * @param {PointerEvent} event      The initiating click event.
-   * @returns {Item[]}                The array with the created elixir.
+   * @returns {Promise<Item[]>}       The array with the created elixir.
    */
   async _onSubmit(event) {
     const types = [];
@@ -359,7 +364,7 @@ export class ExperimentalElixir extends Application {
       .forEach((input) => types.push(input.value));
     if (!types.length.between(1, this.maxLevel)) {
       ui.notifications.warn(
-        game.i18n.format("INNIL.ExperimentalElixirBoundedWarning", {
+        game.i18n.format("ZHELL.ExperimentalElixirBoundedWarning", {
           max: this.maxLevel,
         })
       );
@@ -372,7 +377,7 @@ export class ExperimentalElixir extends Application {
       });
       await ChatMessage.create({
         speaker: this.speaker,
-        content: game.i18n.format("INNIL.ExperimentalElixirExpendedSlots", {
+        content: game.i18n.format("ZHELL.ExperimentalElixirExpendedSlots", {
           name: this.actor.name,
           level: CONFIG.DND5E.spellLevels[types.length],
         }),
@@ -397,13 +402,13 @@ export class ExperimentalElixir extends Application {
     );
     if (button.disabled) {
       const string = !_checked.length ? "PickAtLeastOne" : "NoSpellSlot";
-      button.setAttribute("data-tooltip", `INNIL.ExperimentalElixir${string}`);
+      button.setAttribute("data-tooltip", `ZHELL.ExperimentalElixir${string}`);
     } else button.removeAttribute("data-tooltip");
   }
 
   /**
    * Create one or more random elixirs, each with just one effect.
-   * @returns {Item[]}      The created elixirs.
+   * @returns {Promise<Item[]>}     The created elixirs.
    */
   async experiment() {
     const value = this.item.system.uses.value;
@@ -419,7 +424,7 @@ export class ExperimentalElixir extends Application {
     ).evaluate();
     await roll.toMessage({
       speaker: this.speaker,
-      flavor: game.i18n.format("INNIL.ExperimentalElixirRollRandom", {
+      flavor: game.i18n.format("ZHELL.ExperimentalElixirRollRandom", {
         name: this.actor.name,
       }),
     });
@@ -435,7 +440,7 @@ export class ExperimentalElixir extends Application {
     await ChatMessage.create({
       speaker: this.speaker,
       content: game.i18n.format(
-        "INNIL.ExperimentalElixirCreatedRandomElixirs",
+        "ZHELL.ExperimentalElixirCreatedRandomElixirs",
         {
           name: this.actor.name,
           n: data.length,
