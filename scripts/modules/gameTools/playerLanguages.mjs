@@ -1,41 +1,24 @@
 /**
- * Show a chat message with all the player's known languages in a table format.
- * @param {string} [folderId]     The folder that contains all the actors.
+ * Show a chat message with all the Players Characters' known languages.
  * @param {boolean} [whisper]     Whether the message should be whispered to the GM.
  * @returns {ChatMessage}         The created chat message.
  */
-export async function playerLanguages({
-  folderId = "x6Z2yVEgEEh28SA8",
-  whisper = false,
-} = {}) {
-  // Display all players' languages.
-
-  const players = game.actors.filter((a) => a.folder?.id === folderId);
-
-  const tableBody = players.reduce((actor_acc, actor) => {
-    const { value, custom } = actor.system.traits.languages;
-    let langA = value.map((i) => CONFIG.DND5E.languages[i]);
-    let langB = custom?.length ? custom.split(";").map((c) => c.trim()) : [];
-    let languages = [...langA, ...langB];
-    return (
-      actor_acc +
-      languages.reduce((lang_acc, lang, i) => {
-        const leftCol = i === 0 ? actor.name : "";
-        return lang_acc + `<tr><td>${leftCol}</td><td>${lang}</td></tr>`;
-      }, "")
-    );
-  }, "");
-
-  const content = `
-  <table style="border: none;">
-    <thead>
-      <tr>
-        <td>Name</td>
-        <td>Languages</td>
-      </tr>
-    </thead>
-    <tbody>${tableBody}</tbody>
-  </table>`;
+export async function playerLanguages({ whisper = true } = {}) {
+  // Display all Players Characters' languages.
+  const content = game.users
+    .map((i) => i.character)
+    .filter((i) => !!i)
+    .reduce((acc, c) => {
+      const lang = [...c.system.traits.languages.value]
+        .map((i) => i.capitalize())
+        .join(", ");
+      let name = c.name;
+      // Add the title only for the first character in the list
+      if (acc === "") {
+        acc = "<h2>Languages</h2>";
+      }
+      return acc + `<p><strong>${name}:</strong></br>${lang}</p>`;
+    }, ``);
 
   const messageData = { content, "flags.core.canPopout": true };
   if (whisper) messageData.whisper = [game.user.id];
