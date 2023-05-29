@@ -17,7 +17,6 @@ export const WORLD_DEFAULTS = {
   addPiety: false,
   collapsibleHeaders: true,
   createMoneySpender: true,
-  removeAlignment: false,
   replaceConsumables: true,
   replaceLanguages: true,
   replaceTokenConditions: true,

@@ -69,8 +69,6 @@
   "INNIL.SettingsWorldCollapsibleHeadersName": "Collapsible Headers",
   "INNIL.SettingsWorldCreateMoneySpenderHint": "Create a 'Spend Money' button on the sheet.",
   "INNIL.SettingsWorldCreateMoneySpenderName": "Create Money Spender",
-  "INNIL.SettingsWorldRemoveAlignmentHint": "Remove the Alignment field from character sheets.",
-  "INNIL.SettingsWorldRemoveAlignmentName": "Remove Alignment",
   "INNIL.SettingsWorldReplaceConsumablesHint": "Replace the selection of available consumable types.",
   "INNIL.SettingsWorldReplaceConsumablesName": "Replace Consumables",
   "INNIL.SettingsWorldReplaceLanguagesHint": "Replace the selection of available languages.",

@@ -117,16 +117,6 @@
   display: none;
 }
 
-/* Fix overflow in sheet header (race, background, alignment, proficiency). */
-.dnd5e.sheet.actor .sheet-header .summary {
-  white-space: nowrap;
-  /* TODO: not needed after 2.2.x */
-}
-
-.dnd5e.sheet.actor .sheet-header .summary li {
-  padding-right: 0.5em;
-}
-
 /* Rest buttons and 'new day' button. */
 .dnd5e.sheet.actor.character .attributes .attribute.hit-dice .attribute-footer {
   display: flex;
