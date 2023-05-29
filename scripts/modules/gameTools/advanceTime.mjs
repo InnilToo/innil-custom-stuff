@@ -5,18 +5,34 @@ export async function advanceTime(s = null) {
   <div class="form-group">
     <label>Seconds:</label>
     <div class="form-fields">
-      <input type="number" autofocus ${s ? `value="${s}"` : ""}>
+      <input type="text" autofocus ${s ? `value="${s}"` : ""}>
     </div>
   </div>
   </form>`;
-  const time = await Dialog.prompt({
+  const timeInput = await Dialog.prompt({
     title: "Advance Time",
     content,
     label: "Advance!",
     rejectClose: false,
-    callback: async (html) => html[0].querySelector("input").valueAsNumber,
+    callback: async (html) => html[0].querySelector("input").value,
   });
-  if (!time) return;
+  if (!timeInput) return;
+
+  // Validate the input to only allow numbers and basic arithmetic operators
+  if (!/^[\d+\-*/\s.()]+$/.test(timeInput)) {
+    ui.notifications.error(
+      `Invalid input: only numbers and arithmetic operators are allowed.`
+    );
+    return;
+  }
+
+  let time;
+  try {
+    time = new Function("return " + timeInput)();
+  } catch (e) {
+    ui.notifications.error(`Failed to parse expression: ${e.message}`);
+    return;
+  }
 
   ui.notifications.info(`Advanced time by ${time} seconds.`);
   return game.time.advance(time);
