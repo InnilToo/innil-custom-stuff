@@ -24,7 +24,7 @@ export class ExperimentalElixir extends Application {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "modules/zhell-custom-stuff/templates/experimentalElixirs.hbs",
+      template: "modules/innil-custom-stuff/templates/experimentalElixirs.hbs",
       title: "Experimental Elixir",
       classes: [MODULE, "experimental-elixir"],
     });
@@ -215,7 +215,7 @@ export class ExperimentalElixir extends Application {
           icon: data.icon,
           duration: data.duration,
           name: `Experimental Elixir: ${name}`,
-          description: game.i18n.format(`ZHELL.ExperimentalElixirType${name}`, {
+          description: game.i18n.format(`INNIL.ExperimentalElixirType${name}`, {
             mod,
           }),
           flags: {
@@ -281,7 +281,7 @@ export class ExperimentalElixir extends Application {
     let desc = types.reduce((acc, type) => {
       const data = this.elixirTypes[type];
       const intro = game.i18n.format(
-        `ZHELL.ExperimentalElixirType${type.capitalize()}`,
+        `INNIL.ExperimentalElixirType${type.capitalize()}`,
         { mod }
       );
       return acc + `<p><strong><em>${data.name}.</em></strong> ${intro}</p>`;
@@ -289,7 +289,7 @@ export class ExperimentalElixir extends Application {
     if (this.rollData.classes.artificer.levels >= 9) {
       const name = "Restorative Reagents";
       const intro = game.i18n.format(
-        "ZHELL.ExperimentalElixirTypeRestorativeReagents",
+        "INNIL.ExperimentalElixirTypeRestorativeReagents",
         { mod }
       );
       desc += `<p><strong><em>${name}.</em></strong> ${intro}</p>`;
@@ -336,7 +336,7 @@ export class ExperimentalElixir extends Application {
       data.elixirs.push({
         key,
         name: value.name,
-        intro: `ZHELL.ExperimentalElixirType${value.name}`,
+        intro: `INNIL.ExperimentalElixirType${value.name}`,
       });
     }
     return data;
@@ -364,7 +364,7 @@ export class ExperimentalElixir extends Application {
       .forEach((input) => types.push(input.value));
     if (!types.length.between(1, this.maxLevel)) {
       ui.notifications.warn(
-        game.i18n.format("ZHELL.ExperimentalElixirBoundedWarning", {
+        game.i18n.format("INNIL.ExperimentalElixirBoundedWarning", {
           max: this.maxLevel,
         })
       );
@@ -377,7 +377,7 @@ export class ExperimentalElixir extends Application {
       });
       await ChatMessage.create({
         speaker: this.speaker,
-        content: game.i18n.format("ZHELL.ExperimentalElixirExpendedSlots", {
+        content: game.i18n.format("INNIL.ExperimentalElixirExpendedSlots", {
           name: this.actor.name,
           level: CONFIG.DND5E.spellLevels[types.length],
         }),
@@ -402,7 +402,7 @@ export class ExperimentalElixir extends Application {
     );
     if (button.disabled) {
       const string = !_checked.length ? "PickAtLeastOne" : "NoSpellSlot";
-      button.setAttribute("data-tooltip", `ZHELL.ExperimentalElixir${string}`);
+      button.setAttribute("data-tooltip", `INNIL.ExperimentalElixir${string}`);
     } else button.removeAttribute("data-tooltip");
   }
 
@@ -424,7 +424,7 @@ export class ExperimentalElixir extends Application {
     ).evaluate();
     await roll.toMessage({
       speaker: this.speaker,
-      flavor: game.i18n.format("ZHELL.ExperimentalElixirRollRandom", {
+      flavor: game.i18n.format("INNIL.ExperimentalElixirRollRandom", {
         name: this.actor.name,
       }),
     });
@@ -440,7 +440,7 @@ export class ExperimentalElixir extends Application {
     await ChatMessage.create({
       speaker: this.speaker,
       content: game.i18n.format(
-        "ZHELL.ExperimentalElixirCreatedRandomElixirs",
+        "INNIL.ExperimentalElixirCreatedRandomElixirs",
         {
           name: this.actor.name,
           n: data.length,

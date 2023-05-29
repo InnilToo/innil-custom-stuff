@@ -62,7 +62,7 @@ async function ELIXIR_CANNON(
             .closest(".dialog")
             .querySelectorAll("[data-button]")
             .forEach((n) => {
-              const string = `ZHELL.ExperimentalElixirType${
+              const string = `INNIL.ExperimentalElixirType${
                 app.elixirTypes[n.dataset.button].name
               }`;
               n.setAttribute(
