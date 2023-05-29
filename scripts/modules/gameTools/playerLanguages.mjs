@@ -1,7 +1,7 @@
 /**
- * Show a chat message with all the Players Characters' known languages.
- * @param {boolean} [whisper]     Whether the message should be whispered to the GM.
- * @returns {ChatMessage}         The created chat message.
+ * Show a chat message with all the Players Characters' languages in a table format.
+ * @param {boolean} [whisper]           Whether the message should be whispered to the GM.
+ * @returns {Promise<ChatMessage>}      The created chat message.
  */
 export async function playerLanguages({ whisper = true } = {}) {
   // Display all Players Characters' languages.
