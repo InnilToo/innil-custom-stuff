@@ -18,17 +18,9 @@ export async function advanceTime(s = null) {
   });
   if (!timeInput) return;
 
-  // Validate the input to only allow numbers and basic arithmetic operators
-  if (!/^[\d+\-*/\s.()]+$/.test(timeInput)) {
-    ui.notifications.error(
-      `Invalid input: only numbers and arithmetic operators are allowed.`
-    );
-    return;
-  }
-
   let time;
   try {
-    time = new Function("return " + timeInput)();
+    time = Roll.safeEval(timeInput);
   } catch (e) {
     ui.notifications.error(`Failed to parse expression: ${e.message}`);
     return;
