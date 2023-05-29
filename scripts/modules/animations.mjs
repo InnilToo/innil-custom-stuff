@@ -514,13 +514,3 @@ export class AnimationsHandler {
     }
   }
 }
-
-// COLLAPSIBLES.
-export function _setupCollapsibles() {
-  document.addEventListener("click", (event) => {
-    event.target
-      .closest(".innil-collapsible-header")
-      ?.closest(".innil-collapsible")
-      ?.classList.toggle("active");
-  });
-}

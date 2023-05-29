@@ -1,9 +1,6 @@
 import { setupAPI } from "./scripts/apiSetup.mjs";
 import { MODULE } from "./scripts/const.mjs";
-import {
-  AnimationsHandler,
-  _setupCollapsibles,
-} from "./scripts/modules/animations.mjs";
+import { AnimationsHandler } from "./scripts/modules/animations.mjs";
 import { DamageApplicator } from "./scripts/modules/applications/damageApplicator.mjs";
 import { SheetEdits } from "./scripts/modules/applications/sheetEdits.mjs";
 import { CombatEnhancements } from "./scripts/modules/combatHelpers.mjs";
@@ -18,7 +15,6 @@ Hooks.once("init", GameChangesHandler._visionModes);
 Hooks.once("init", GameChangesHandler._setUpGameChanges);
 Hooks.once("ready", SheetEdits.refreshColors);
 Hooks.once("ready", SocketsHandler.socketsOn);
-Hooks.once("ready", _setupCollapsibles);
 Hooks.once("setup", GameChangesHandler._miscAdjustments);
 Hooks.once("setup", ExhaustionHandler._appendActorMethods);
 
