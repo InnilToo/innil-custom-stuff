@@ -36,7 +36,10 @@ export async function ABSORB_ELEMENTS(
       origin: item.uuid,
       duration: { rounds: 1 },
       statuses: [item.name.slugify({ strict: true })],
-      description: `You have ${type} resistance and deal ${level}d6 additional ${type} damage on your first melee attack before this effect expires.`,
+      description: game.i18n.format("INNIL.DescriptionAbsorbElements", {
+        type,
+        level,
+      }),
       [`flags.${DEPEND.VAE}.data.content`]: item.system.description.value,
     },
   ];

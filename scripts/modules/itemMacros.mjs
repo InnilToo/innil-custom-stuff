@@ -102,7 +102,7 @@ export class ItemMacroHelpers {
       const prototype = await actor.getTokenDocument();
       const protoData = foundry.utils.flattenObject(prototype.light);
       for (const key of Object.keys(protoData)) {
-        if (foundry.utils.getProperty(config, key) === undefined) {
+        if (!foundry.utils.hasProperty(config, key)) {
           delete protoData[key];
         }
       }

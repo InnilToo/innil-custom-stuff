@@ -76,7 +76,12 @@ export async function ELEMENTAL_WEAPON(
       name: `${item.name} (${weapon.name})`,
       duration: foundry.utils.deepClone(conc.duration),
       statuses: [status],
-      description: `You have a +${bonus} to attack rolls made with the chosen weapon (${weapon.name}) and it deals an additional ${dice} ${type} damage on a hit.`,
+      description: game.i18n.format("INNIL.DescriptionElementalWeapon", {
+        bonus,
+        weaponName: weapon.name,
+        dice,
+        type,
+      }),
       [`flags.${DEPEND.BAB}.bonuses`]: { [atk.id]: atk, [dmg.id]: dmg },
     },
   ];

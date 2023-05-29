@@ -9,6 +9,8 @@
   "DND5E.RestS": "Short",
   "DND5E.SchoolDivine": "Divine",
   "DND5E.ShortRestNormal": "Short Rest (10 minutes)",
+  "INNIL.DescriptionAbsorbElements": "You have {type} resistance and deal {level}d6 additional {type} damage on your first melee attack before this effect expires.",
+  "INNIL.DescriptionElementalWeapon": "You have a +{bonus} to attack rolls made with the chosen weapon ({weaponName}) and it deals an additional {dice} {type} damage on a hit.",
   "INNIL.ExperimentalElixirBoundedWarning": "You must pick between 1 and {max} options.",
   "INNIL.ExperimentalElixirCreatedRandomElixirs": "{name} created {n} random elixirs.",
   "INNIL.ExperimentalElixirExpendedSlots": "{name} expended a {level} spell slot and created an elixir.",
