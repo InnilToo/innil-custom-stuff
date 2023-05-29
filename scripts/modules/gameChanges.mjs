@@ -231,9 +231,9 @@ export class GameChangesHandler {
         shader: ColorAdjustmentsSamplerShader,
         uniforms: {
           enable: true,
+          brightness: 0,
           contrast: 0,
           saturation: -1.0,
-          brightness: 0,
         },
       },
       lighting: {
@@ -241,7 +241,12 @@ export class GameChangesHandler {
       },
       vision: {
         darkness: { adaptive: true },
-        defaults: { contrast: 0, saturation: -1.0, brightness: 0.65 },
+        defaults: {
+          attenuation: 0.1,
+          brightness: 0.65,
+          contrast: 0,
+          saturation: -1.0,
+        },
       },
     });
   }
