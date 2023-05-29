@@ -273,7 +273,7 @@ export class GameChangesHandler {
     const entries = Object.entries({
       ...CONFIG.DND5E.featureTypes.class.subtypes,
       ...{
-        arcaneArcherShot: "Arcane Archer Shot",
+        arcaneShot: "Arcane Shot",
         primordialEffect: "Primordial Effect",
       },
     }).sort((a, b) => a[1].localeCompare(b[1]));
