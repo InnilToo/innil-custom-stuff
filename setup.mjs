@@ -11,7 +11,6 @@ import { registerSettings } from "./scripts/settings.mjs";
 
 Hooks.once("init", registerSettings);
 Hooks.once("init", setupAPI);
-Hooks.once("init", GameChangesHandler._visionModes);
 Hooks.once("init", GameChangesHandler._setUpGameChanges);
 Hooks.once("ready", SheetEdits.refreshColors);
 Hooks.once("ready", SocketsHandler.socketsOn);
