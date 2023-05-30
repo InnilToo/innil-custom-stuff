@@ -47,6 +47,7 @@ export async function DARKNESS(
               .attachTo(token)
               .tieToDocuments(conc)
               .file(file)
+              .fadeIn(500)
               .persist()
               .play({ remote: true });
           },
