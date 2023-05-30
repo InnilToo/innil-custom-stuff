@@ -50,20 +50,7 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
-    // DARKNESS.
-    check = item.name.includes("Darkness");
-    if (check) {
-      const file = "jb2a.darkness.black";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .attachTo(templateDoc)
-        .tieToDocuments(templateDoc)
-        .persist()
-        .play({ remote: true });
-    }
-
-    // EVARD'S BLACK TENTACLES.
+    // BLACK TENTACLES.
     check = item.name.includes("Black Tentacles");
     if (check) {
       const file = "jb2a.arms_of_hadar.dark_purple";
