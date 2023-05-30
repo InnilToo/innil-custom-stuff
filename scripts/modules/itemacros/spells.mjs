@@ -17,7 +17,9 @@ import { FLAMING_SPHERE } from "./spells/flamingSphere.mjs";
 import { MAGE_HAND } from "./spells/mageHand.mjs";
 import { MISTY_STEP } from "./spells/mistyStep.mjs";
 import { MOONBEAM } from "./spells/moonbeam.mjs";
+import { PASS_WITHOUT_TRACE } from "./spells/passWithoutTrace.mjs";
 import { SEE_INVISIBILITY } from "./spells/seeInvisibility.mjs";
+import { SPIRIT_GUARDIANS } from "./spells/spiritGuardians.mjs";
 import { SPIRIT_SHROUD } from "./spells/spiritShroud.mjs";
 import { SPIRITUAL_WEAPON } from "./spells/spiritualWeapon.mjs";
 import { THUNDER_STEP } from "./spells/thunderStep.mjs";
@@ -44,7 +46,9 @@ export const spells = {
   MAGE_HAND,
   MISTY_STEP,
   MOONBEAM,
+  PASS_WITHOUT_TRACE,
   SEE_INVISIBILITY,
+  SPIRIT_GUARDIANS,
   SPIRIT_SHROUD,
   SPIRITUAL_WEAPON,
   THUNDER_STEP,
