@@ -23,7 +23,7 @@ export async function PASS_WITHOUT_TRACE(
     .effect()
     .attachTo(token)
     .tieToDocuments(effect)
-    .file("jb2a.butterflies.few.purple")
+    .file("jb2a.butterflies.few")
     .fadeIn(500)
     .persist()
     .play({ remote: true });
