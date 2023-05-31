@@ -290,11 +290,11 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
-    // ELDRITCH SMITE.
-    check = name.includes("Eldritch Smite");
+    // DIVINE SMITE.
+    check = name.includes("Divine Smite");
     if (check) {
       if (!target) return;
-      const file = "jb2a.divine_smite.target.purplepink";
+      const file = "jb2a.divine_smite.target.greenyellow";
       return new Sequence()
         .effect()
         .attachTo(target)
@@ -302,11 +302,11 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
-    // DIVINE SMITE.
-    check = name.includes("Divine Smite");
+    // ELDRITCH SMITE.
+    check = name.includes("Eldritch Smite");
     if (check) {
       if (!target) return;
-      const file = "jb2a.divine_smite.target.greenyellow";
+      const file = "jb2a.divine_smite.target.purplepink";
       return new Sequence()
         .effect()
         .attachTo(target)
@@ -434,6 +434,18 @@ export class AnimationsHandler {
         .file(file)
         .scale(0.5)
         .atLocation(target)
+        .play({ remote: true });
+    }
+
+    // JEWEL OF THREE PRAYERS.
+    check = name.includes("Jewel of Three Prayers");
+    if (check) {
+      const file = "jb2a.divine_smite.caster.reversed.blueyellow";
+      return new Sequence()
+        .effect()
+        .file(file)
+        .scale(1)
+        .atLocation(token)
         .play({ remote: true });
     }
 
