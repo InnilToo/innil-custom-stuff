@@ -53,7 +53,7 @@ export class AnimationsHandler {
     // BLACK TENTACLES.
     check = item.name === "Black Tentacles";
     if (check) {
-      const file = "jb2a.arms_of_hadar.dark_purple";
+      const file = "jb2a.black_tentacles.dark_purple";
       return new Sequence()
         .effect()
         .file(file)
