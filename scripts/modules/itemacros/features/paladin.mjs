@@ -16,14 +16,21 @@ async function DIVINE_SMITE(
     ui.notifications.warn("You have no spell slots remaining.");
     return;
   }
+
+  const type = game.user.targets.first()?.actor?.system.details.type?.value;
+  const isEvil = ["fiend", "undead"].includes(type);
   const content = `
-  <form>
+  <form class="dnd5e">
     <div class="form-group">
-      <label>Spell Slot:</label>
+      <label>Spell Slot</label>
       <div class="form-fields">
-        <select id="divine-smite-slot" autofocus>${options}</select>
-        <input type="checkbox" id="divine-smite-extra">
-        <label for="divine-smite-extra" style="white-space: nowrap;">Extra die</label>
+        <select name="level" autofocus>${options}</select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Extra Die</label>
+      <div class="form-fields">
+        <input type="checkbox" name="evil" ${isEvil ? "checked" : ""}>
       </div>
     </div>
   </form>`;
@@ -41,8 +48,9 @@ async function DIVINE_SMITE(
   }).render(true);
 
   async function rollDamage(html, event) {
-    const slot = html[0].querySelector("#divine-smite-slot").value;
-    const extra = html[0].querySelector("#divine-smite-extra").checked;
+    const form = html[0].querySelector("form");
+    const slot = form.level.value;
+    const extra = form.evil.checked;
     const level =
       slot === "pact" ? actor.system.spells["pact"].level : Number(slot.at(-1));
     const dice = Math.min(5, 1 + level) + (extra ? 1 : 0);
@@ -52,7 +60,10 @@ async function DIVINE_SMITE(
       {
         type: "feat",
         name: item.name,
-        system: { damage: { parts: [[formula, "radiant"]] } },
+        system: {
+          actionType: "other",
+          damage: { parts: [[formula, "radiant"]] },
+        },
       },
       { parent: actor }
     ).rollDamage({ event });
@@ -90,10 +101,9 @@ async function LAY_ON_HANDS(
   });
 
   const content = `
-  ${item.system.description.value}
-  <form>
+  <form class="dnd5e">
     <div class="form-group">
-      <label>Hit points to restore:</label>
+      <label>Hit points to restore</label>
       <div class="form-fields">${range}</div>
     </div>
   </form>`;

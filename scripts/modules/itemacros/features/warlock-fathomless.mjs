@@ -14,13 +14,13 @@ async function TENTACLE_OF_THE_DEEPS(
 ) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG))
     return item.use();
-  const isActive = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
+
+  const isActive = actor.statuses.has(item.name.slugify({ strict: true }));
   if (isActive) return item.displayCard();
 
   const use = await item.use();
   if (!use) return;
+
   const effectData = ItemMacroHelpers._constructGenericEffectData({
     item,
     types: ["redisplay", "attack", "damage"],
@@ -41,14 +41,14 @@ async function TENTACLE_OF_THE_DEEPS(
   };
 
   // then spawn the actor:
-  await actor.sheet.minimize();
+  await actor.sheet?.minimize();
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     "Fathomless Tentacle",
     updates,
     {},
     options
   );
-  await actor.sheet.maximize();
+  await actor.sheet?.maximize();
   if (!spawn) return effect.delete();
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }

@@ -1,30 +1,35 @@
 {
   "id": "innil-custom-stuff",
   "title": "Innil's Custom Stuff",
-  "version": "10.7.0",
+  "version": "11.0.0",
   "authors": [
     {
       "name": "Innil",
       "url": "https://github.com/InnilToo",
-      "discord": "Innil#6666",
-      "flags": {}
+      "discord": "Innil#6666"
     }
   ],
   "compatibility": {
-    "minimum": "10",
-    "maximum": "10",
-    "verified": "10.291"
+    "minimum": "11",
+    "maximum": "11",
+    "verified": "11"
   },
-  "esmodules": ["setup.mjs"],
-  "styles": ["styles/styles.css", "styles/sheetEdits.css"],
+  "esmodules": ["./setup.mjs"],
+  "styles": ["./styles/styles.css", "./styles/sheetEdits.css"],
   "languages": [
     {
       "lang": "en",
       "name": "English",
       "path": "languages/en.json",
-      "flags": {}
+      "description": "Personal module for replacing or adding to many things."
     }
   ],
+  "flags": {
+    "hotReload": {
+      "extensions": ["css", "hbs", "json"],
+      "paths": []
+    }
+  },
   "url": "https://github.com/InnilToo/innil-custom-stuff",
   "manifest": "https://raw.githubusercontent.com/InnilToo/innil-custom-stuff/main/module.json",
   "download": "https://github.com/InnilToo/innil-custom-stuff/raw/main/module.zip"

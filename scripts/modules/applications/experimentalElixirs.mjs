@@ -1,12 +1,18 @@
 import { DEPEND, MODULE } from "../../const.mjs";
 
 export class ExperimentalElixir extends Application {
-  constructor(data) {
-    super(data);
-    this.actor = data.actor;
-    this.item = data.item;
+  /**
+   * @constructor
+   * @param {Actor} actor         The actor using the item.
+   * @param {Item} item           The item being used.
+   * @param {object} speaker      The speaker object from Item Macro, for convenience.
+   */
+  constructor({ actor, item, speaker }) {
+    super({ actor, item, speaker });
+    this.actor = actor;
+    this.item = item;
     this.rollData = this.actor.getRollData();
-    this.speaker = data.speaker;
+    this.speaker = speaker;
 
     for (const [key, data] of Object.entries(this.actor.system.spells)) {
       if (!(data.value > 0)) continue;
@@ -132,11 +138,16 @@ export class ExperimentalElixir extends Application {
    */
   _getRandomName() {
     const randomName = [
+      "Arepoan Picnic Drink",
       "Arkonade",
+      "Arkorow's Party Mix",
       "Cantina d'Capitol Special",
       "Daily Pick-Me-Up",
       "Dockyard Iced Tea",
       "Everything but Jungle Juice",
+      "Fiendbolt Cola",
+      "Green Tree's Mix",
+      "Murharbor Special",
       "Rainbow Elixir",
       "Rumble Refreshment",
       "Something-ade",
@@ -178,7 +189,7 @@ export class ExperimentalElixir extends Application {
 
   /**
    * Get a random image for an elixir using the default potion images.
-   * @returns {string}      The image.
+   * @returns {Promise<string>}     The image.
    */
   async _getRandomImage() {
     const { files } = await FilePicker.browse(
@@ -198,17 +209,16 @@ export class ExperimentalElixir extends Application {
     return types.reduce((acc, type) => {
       const { data, name } = this.elixirTypes[type];
       if (data.changes) {
-        const intro = game.i18n.format(`INNIL.ExperimentalElixirType${name}`, {
-          mod,
-        });
         acc.push({
           changes: data.changes,
           transfer: false,
           icon: data.icon,
           duration: data.duration,
-          label: `Experimental Elixir: ${name}`,
+          name: `Experimental Elixir: ${name}`,
+          description: game.i18n.format(`INNIL.ExperimentalElixirType${name}`, {
+            mod,
+          }),
           flags: {
-            [DEPEND.VAE]: { data: { intro: `<p>${intro}</p>` } },
             [DEPEND.ET]: {
               transferBlock: { button: false, chat: false, displayCard: false },
             },
@@ -247,9 +257,8 @@ export class ExperimentalElixir extends Application {
    * @returns {object}          The flag data.
    */
   _getFlagData(parts) {
-    const useRollGroups = parts.length > 1;
     const flags = { [MODULE]: { longRestDestroy: true } };
-    if (useRollGroups)
+    if (parts.length > 1) {
       flags.rollgroups = {
         config: {
           groups: [
@@ -258,6 +267,7 @@ export class ExperimentalElixir extends Application {
           ],
         },
       };
+    }
     return flags;
   }
 
@@ -289,23 +299,19 @@ export class ExperimentalElixir extends Application {
 
   /**
    * Get data for an elixir.
-   * @param {string[]} types      The types of elixir.
-   * @returns {object}            The item data for the elixir.
+   * @param {string[]} types          The types of elixir.
+   * @returns {Promise<object[]>}     An array of item data for the elixir.
    */
   async getElixirItemData(types) {
-    const name = this._getRandomName();
     const flavor = this._getRandomFlavor();
-    const img = await this._getRandomImage();
-    const effects = this._getEffectData(types);
     const parts = this._getDamageParts(types);
-    const flags = this._getFlagData(parts);
     const desc = this._getDescription(types);
 
     return [
       {
-        name,
+        name: this._getRandomName(),
         type: "consumable",
-        img,
+        img: await this._getRandomImage(),
         system: {
           description: { value: `<p><em>${flavor}</em></p> <hr> ${desc}` },
           weight: 0.5,
@@ -315,8 +321,8 @@ export class ExperimentalElixir extends Application {
           damage: { parts },
           actionType: parts.length > 0 ? "heal" : "",
         },
-        effects,
-        flags,
+        effects: this._getEffectData(types),
+        flags: this._getFlagData(parts),
       },
     ];
   }
@@ -341,17 +347,15 @@ export class ExperimentalElixir extends Application {
     html[0]
       .querySelector("[data-action='submit']")
       .addEventListener("click", this._onSubmit.bind(this));
-    html[0]
-      .querySelectorAll("[type='checkbox']")
-      .forEach((n) =>
-        n.addEventListener("change", this._onChangeCheckbox.bind(this))
-      );
+    html[0].querySelectorAll("[type='checkbox']").forEach((n) => {
+      n.addEventListener("change", this._onChangeCheckbox.bind(this));
+    });
   }
 
   /**
    * Gather the checked boxes to get the elixir types, then create the elixir.
    * @param {PointerEvent} event      The initiating click event.
-   * @returns {Item[]}                The array with the created elixir.
+   * @returns {Promise<Item[]>}       The array with the created elixir.
    */
   async _onSubmit(event) {
     const types = [];
@@ -404,7 +408,7 @@ export class ExperimentalElixir extends Application {
 
   /**
    * Create one or more random elixirs, each with just one effect.
-   * @returns {Item[]}      The created elixirs.
+   * @returns {Promise<Item[]>}     The created elixirs.
    */
   async experiment() {
     const value = this.item.system.uses.value;
@@ -417,7 +421,7 @@ export class ExperimentalElixir extends Application {
     const roll = await new Roll(
       "(@scale.alchemist.elixirs)d8x8rr8",
       this.rollData
-    ).evaluate({ async: true });
+    ).evaluate();
     await roll.toMessage({
       speaker: this.speaker,
       flavor: game.i18n.format("INNIL.ExperimentalElixirRollRandom", {

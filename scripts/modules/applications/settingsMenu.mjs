@@ -95,40 +95,31 @@ export class ColorationMenu extends SettingsMenu {
   }
 
   /** @override */
-  _getSubmitData(updateData = {}) {
-    const data = super._getSubmitData(updateData);
-    for (const entry of ["sheetColors", "rarityColors"]) {
-      for (const [key, val] of Object.entries(COLOR_DEFAULTS[entry])) {
-        if (!data[key].trim().length) data[key] = val;
-      }
-    }
-    return data;
-  }
-
-  /** @override */
   async _updateObject(event, formData) {
-    return game.settings.set(MODULE, "colorSettings", formData, {
+    formData = foundry.utils.expandObject(formData);
+    return game.settings.set(MODULE, "colorationSettings", formData, {
       diff: false,
     });
   }
 
   /** @override */
   async getData() {
-    const curr = game.settings.get(MODULE, "colorSettings");
-    const defs = foundry.utils.deepClone(COLOR_DEFAULTS);
     const data = {};
-    for (const entry of ["checks", "sheetColors", "rarityColors"]) {
-      const _data = foundry.utils.mergeObject(defs[entry], curr, {
-        insertKeys: false,
-      });
-      data[entry] = Object.entries(_data).map((s) => {
-        return {
-          id: s[0],
-          value: s[1],
-          name: `INNIL.SettingsColor${s[0].capitalize()}Name`,
-          hint: `INNIL.SettingsColor${s[0].capitalize()}Hint`,
-          placeholder: COLOR_DEFAULTS[entry][s[0]],
-        };
+    const curr = game.settings.get(MODULE, "colorationSettings");
+    const defs = foundry.utils.deepClone(COLOR_DEFAULTS);
+    const _data = foundry.utils.mergeObject(defs, curr, { insertKeys: false });
+
+    for (const [key, val] of Object.entries(
+      foundry.utils.flattenObject(_data)
+    )) {
+      const [section, entry] = key.split(".");
+      data[section] ??= [];
+      data[section].push({
+        id: entry,
+        value: val,
+        name: `INNIL.SettingsColoration${entry.capitalize()}Name`,
+        hint: `INNIL.SettingsColoration${entry.capitalize()}Hint`,
+        placeholder: COLOR_DEFAULTS[section][entry],
       });
     }
     return data;

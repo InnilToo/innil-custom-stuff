@@ -13,11 +13,11 @@ export async function SPIRITUAL_WEAPON(
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG))
     return item.use();
 
-  const isActive = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
+  const isActive = actor.statuses.has(item.name.slugify({ strict: true }));
   if (isActive) {
-    ui.notifications.warn("You already have a weapon summoned!");
+    ui.notifications.warn(
+      "You already have a weapon summoned! Use the buttons in the effect."
+    );
     return null;
   }
 
@@ -27,7 +27,11 @@ export async function SPIRITUAL_WEAPON(
   const updates = {
     token: { name: `${actor.name.split(" ")[0]}'s Spiritual Weapon` },
   };
-  const options = { crosshairs: { interval: -1 } };
+  const options = {
+    crosshairs: {
+      interval: -1,
+    },
+  };
 
   // then spawn the actor:
   await actor.sheet.minimize();

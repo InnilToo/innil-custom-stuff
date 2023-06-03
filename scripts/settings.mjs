@@ -49,7 +49,7 @@ function _registerSettings() {
 }
 
 function _registerSettingsMenus() {
-  // game additions, replacements, and tweaks.
+  // Game additions, replacements, and tweaks.
   game.settings.register(MODULE, "worldSettings", {
     scope: "world",
     config: false,
@@ -67,8 +67,8 @@ function _registerSettingsMenus() {
     restricted: true,
   });
 
-  // sheet color settings.
-  game.settings.register(MODULE, "colorSettings", {
+  // Settings that change the colors on character sheets.
+  game.settings.register(MODULE, "colorationSettings", {
     scope: "client",
     config: false,
     type: Object,
@@ -76,15 +76,16 @@ function _registerSettingsMenus() {
     onChange: SheetEdits.refreshColors,
   });
 
-  game.settings.registerMenu(MODULE, "colorSettings", {
-    name: "INNIL.SettingsMenuColorSettingsName",
-    hint: "INNIL.SettingsMenuColorSettingsHint",
-    label: "INNIL.SettingsMenuColorSettingsName",
+  game.settings.registerMenu(MODULE, "colorationSettings", {
+    name: "INNIL.SettingsMenuColorationSettingsName",
+    hint: "INNIL.SettingsMenuColorationSettingsHint",
+    label: "INNIL.SettingsMenuColorationSettingsName",
     icon: "fa-solid fa-paint-roller",
     type: ColorationMenu,
     restricted: false,
   });
 
+  // Settings for various keys, ids, and uuids.
   game.settings.register(MODULE, "identifierSettings", {
     scope: "world",
     config: false,

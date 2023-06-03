@@ -35,8 +35,8 @@ async function RING_OF_LIGHT(
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
     return item.use();
 
-  const has = actor.effects.find(
-    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
+  const has = actor.effects.find((e) =>
+    e.statuses.has(item.name.slugify({ strict: true }))
   );
   if (has) return has.delete();
 
@@ -54,8 +54,8 @@ async function TORCH(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
     return item.use();
 
-  const has = actor.effects.find(
-    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
+  const has = actor.effects.find((e) =>
+    e.statuses.has(item.name.slugify({ strict: true }))
   );
   if (has) return has.delete();
 
@@ -95,8 +95,8 @@ async function LANTERN_OF_TRACKING(
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
     return item.use();
 
-  const has = actor.effects.find(
-    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
+  const has = actor.effects.find((e) =>
+    e.statuses.has(item.name.slugify({ strict: true }))
   );
   if (has) return has.delete();
 

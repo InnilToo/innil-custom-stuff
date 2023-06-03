@@ -27,7 +27,7 @@ export class AnimationsHandler {
     }
 
     // BURNING HANDS.
-    check = item.name.includes("Burning Hands");
+    check = item.name === "Burning Hands";
     if (check) {
       const file = "jb2a.burning_hands.01.orange";
       return new Sequence()
@@ -39,7 +39,7 @@ export class AnimationsHandler {
     }
 
     // CALL LIGHTNING.
-    check = item.name.includes("Call Lightning");
+    check = item.name === "Call Lightning";
     if (check) {
       const file = "jb2a.lightning_strike.blue.0";
       return new Sequence()
@@ -50,23 +50,10 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
-    // DARKNESS.
-    check = item.name.includes("Darkness");
+    // BLACK TENTACLES.
+    check = item.name === "Black Tentacles";
     if (check) {
-      const file = "jb2a.darkness.black";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .attachTo(templateDoc)
-        .tieToDocuments(templateDoc)
-        .persist()
-        .play({ remote: true });
-    }
-
-    // EVARD'S BLACK TENTACLES.
-    check = item.name.includes("Black Tentacles");
-    if (check) {
-      const file = "jb2a.arms_of_hadar.dark_purple";
+      const file = "jb2a.black_tentacles.dark_purple";
       return new Sequence()
         .effect()
         .file(file)
@@ -99,7 +86,7 @@ export class AnimationsHandler {
     }
 
     // GRAVITY WAVE.
-    check = item.name.includes("Gravity Wave");
+    check = item.name === "Gravity Wave";
     if (check) {
       const file = "jb2a.sphere_of_annihilation.600px.purplered";
       return new Sequence()
@@ -114,7 +101,7 @@ export class AnimationsHandler {
     }
 
     // LIGHTNING BOLT.
-    check = item.name.includes("Lightning Bolt");
+    check = item.name === "Lightning Bolt";
     if (check) {
       const file = "jb2a.lightning_bolt.wide.blue";
       return new Sequence()
@@ -126,7 +113,7 @@ export class AnimationsHandler {
     }
 
     // STAR DUST.
-    check = item.name.includes("Star Dust");
+    check = item.name === "Star Dust";
     if (check) {
       const file = "jb2a.side_impact.part.slow.star.pinkyellow";
       return new Sequence()
@@ -176,7 +163,7 @@ export class AnimationsHandler {
     }
 
     // CRACKLE.
-    check = name.includes("Crackle");
+    check = name === "Crackle";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.chain_lightning.primary.blue";
@@ -189,7 +176,7 @@ export class AnimationsHandler {
     }
 
     // ELDRITCH BLAST.
-    check = name.includes("Eldritch Blast");
+    check = name === "Eldritch Blast";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.eldritch_blast";
@@ -202,7 +189,7 @@ export class AnimationsHandler {
     }
 
     // FIRE BOLT.
-    check = name.includes("Fire Bolt");
+    check = name === "Fire Bolt";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.fire_bolt.orange";
@@ -215,7 +202,7 @@ export class AnimationsHandler {
     }
 
     // GUIDING BOLT.
-    check = name.includes("Guiding Bolt");
+    check = name === "Guiding Bolt";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.bullet";
@@ -228,7 +215,7 @@ export class AnimationsHandler {
     }
 
     // ICE KNIFE.
-    check = item.name.includes("Ice Knife");
+    check = name === "Ice Knife";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.spell_projectile.ice_shard.blue";
@@ -241,7 +228,7 @@ export class AnimationsHandler {
     }
 
     // LIGHTING SPEAR.
-    check = name.includes("Lightning Spear");
+    check = name === "Lightning Spear";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.bolt.lightning.blue";
@@ -255,7 +242,7 @@ export class AnimationsHandler {
     }
 
     // RADIANT FLAME.
-    check = name.includes("Radiant Flame");
+    check = name === "Radiant Flame";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.chain_lightning.secondary.yellow";
@@ -268,7 +255,7 @@ export class AnimationsHandler {
     }
 
     // THUNDER PUNCH.
-    check = name.includes("Thunder Punch");
+    check = name === "Thunder Punch";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.unarmed_strike.magical.01.blue";
@@ -291,10 +278,10 @@ export class AnimationsHandler {
     let check;
 
     // CURE WOUNDS.
-    check = name.includes("Cure Wounds");
+    check = name === "Cure Wounds";
     if (check) {
       if (!target) return;
-      const file = "jb2a.cure_wounds.400px.blue";
+      const file = "jb2a.cure_wounds.400px";
       return new Sequence()
         .effect()
         .attachTo(target)
@@ -303,20 +290,8 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
-    // ELDRITCH SMITE.
-    check = name.includes("Eldritch Smite");
-    if (check) {
-      if (!target) return;
-      const file = "jb2a.divine_smite.target.purplepink";
-      return new Sequence()
-        .effect()
-        .attachTo(target)
-        .file(file)
-        .play({ remote: true });
-    }
-
     // DIVINE SMITE.
-    check = name.includes("Divine Smite");
+    check = name === "Divine Smite";
     if (check) {
       if (!target) return;
       const file = "jb2a.divine_smite.target.greenyellow";
@@ -327,8 +302,20 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
+    // ELDRITCH SMITE.
+    check = name === "Eldritch Smite";
+    if (check) {
+      if (!target) return;
+      const file = "jb2a.divine_smite.target.purplepink";
+      return new Sequence()
+        .effect()
+        .attachTo(target)
+        .file(file)
+        .play({ remote: true });
+    }
+
     // HEALING WORD.
-    check = name.includes("Healing Word");
+    check = name === "Healing Word";
     if (check) {
       if (!target) return;
       const file = "jb2a.healing_generic.loop.tealyellow";
@@ -341,7 +328,7 @@ export class AnimationsHandler {
     }
 
     // LIGHTNING TENDRIL.
-    check = name.includes("Lightning Tendril");
+    check = name === "Lightning Tendril";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.chain_lightning.secondary.blue";
@@ -361,11 +348,11 @@ export class AnimationsHandler {
 
     const token = actor.token?.object ?? actor.getActiveTokens()[0];
     const target = game.user.targets.first();
-
+    const targets = Array.from(game.user.targets);
     let check;
 
     // ACID SPLASH.
-    check = name.includes("Acid Splash");
+    check = name === "Acid Splash";
     if (check) {
       if (!target) return;
       const file = "jb2a.liquid.splash.green";
@@ -376,8 +363,21 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
+    // BLESS.
+    check = name === "Bless";
+    if (check) {
+      const file = "jb2a.bless.400px.intro.yellow";
+      targets.forEach((target) => {
+        new Sequence()
+          .effect()
+          .file(file)
+          .attachTo(target)
+          .play({ remote: true });
+      });
+    }
+
     // CREATE OR DESTROY WATER.
-    check = name.includes("Create or Destroy Water");
+    check = name === "Create or Destroy Water";
     if (check) {
       const file = "jb2a.liquid.splash.bright_blue";
       return new Sequence()
@@ -388,7 +388,7 @@ export class AnimationsHandler {
     }
 
     // DETECT MAGIC.
-    check = name.includes("Detect Magic");
+    check = name === "Detect Magic";
     if (check) {
       const file = "jb2a.detect_magic.circle";
       return new Sequence()
@@ -399,7 +399,7 @@ export class AnimationsHandler {
     }
 
     // DIVINE SENSE.
-    check = name.includes("Divine Sense");
+    check = name === "Divine Sense";
     if (check) {
       const file = "jb2a.token_border.circle.static.blue.001";
       return new Sequence()
@@ -413,7 +413,7 @@ export class AnimationsHandler {
     }
 
     // HUNTER'S MARK.
-    check = name.includes("Hunter's Mark");
+    check = name === "Hunter's Mark";
     if (check) {
       if (!target) return;
       const file = "jb2a.hunters_mark.pulse.01.green";
@@ -438,7 +438,7 @@ export class AnimationsHandler {
     }
 
     // HEXBLADE'S CURSE.
-    check = name.includes("Hexblade's Curse");
+    check = name === "Hexblade's Curse";
     if (check) {
       if (!target) return;
       const file = "jb2a.smoke.puff.centered.dark_black.0";
@@ -450,8 +450,20 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
+    // JEWEL OF THREE PRAYERS.
+    check = name === "Jewel of Three Prayers";
+    if (check) {
+      const file = "jb2a.divine_smite.caster.reversed.blueyellow";
+      return new Sequence()
+        .effect()
+        .file(file)
+        .scale(1)
+        .atLocation(token)
+        .play({ remote: true });
+    }
+
     // UNSETTLING PRESENCE.
-    check = name.includes("Unsettling Presence");
+    check = name === "Unsettling Presence";
     if (check) {
       const file = "jb2a.icon.fear.dark_purple";
       return new Sequence()
@@ -465,7 +477,7 @@ export class AnimationsHandler {
     }
 
     // TOLL THE DEAD.
-    check = name.includes("Toll the Dead");
+    check = name === "Toll the Dead";
     if (check) {
       if (!target) return;
       const file = "jb2a.toll_the_dead.purple.complete";
@@ -478,12 +490,12 @@ export class AnimationsHandler {
     }
 
     // PALADIN AURA.
-    check = name.includes("Aura of Protection");
+    check = name === "Aura of Protection";
     if (check) {
       if (!token) return;
       const name = `paladin-aura-${token.document.id}`;
       const file = "jb2a.extras.tmfx.border.circle.outpulse.01.normal";
-      const has = !!Sequencer.EffectManager.getEffects({ name }).length;
+      const has = Sequencer.EffectManager.getEffects({ name }).length > 0;
       if (has) return Sequencer.EffectManager.endEffects({ name });
       return new Sequence()
         .effect()
@@ -513,14 +525,4 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
   }
-}
-
-// COLLAPSIBLES.
-export function _setupCollapsibles() {
-  document.addEventListener("click", (event) => {
-    event.target
-      .closest(".innil-collapsible-header")
-      ?.closest(".innil-collapsible")
-      ?.classList.toggle("active");
-  });
 }

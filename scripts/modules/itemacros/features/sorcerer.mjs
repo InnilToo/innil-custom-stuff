@@ -1,5 +1,4 @@
 import { MODULE } from "../../../const.mjs";
-import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const sorcerer = { FONT_OF_MAGIC };
 
@@ -90,8 +89,8 @@ async function FONT_OF_MAGIC(
         buttons: slotToPointsButtons,
         close: () => null,
         content: `
-<p>Pick a spell slot level to convert one spell slot to sorcery points (<strong>${spellPoints.value}/${spellPoints.max}</strong>).
-You regain a number of sorcery points equal to the level of the spell slot.</p>`,
+      <p>Pick a spell slot level to convert one spell slot to sorcery points (<strong>${spellPoints.value}/${spellPoints.max}</strong>).
+      You regain a number of sorcery points equal to the level of the spell slot.</p>`,
       },
       { classes: [MODULE, "dialog", "font-of-magic"] }
     );

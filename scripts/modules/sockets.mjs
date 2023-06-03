@@ -3,7 +3,6 @@ import { ImageAnchorPicker } from "./applications/imageAnchorPicker.mjs";
 export class SocketsHandler {
   static socketsOn() {
     game.socket.on(`world.${game.world.id}`, function (request) {
-      console.log("REQUEST:", request);
       return SocketsHandler[request.action](request.data, false);
     });
   }
@@ -133,9 +132,13 @@ export class SocketsHandler {
         data: { tokenId, amount, temp, userId },
       });
     } else if (game.user.id === userId) {
-      const func = temp ? "applyTempHP" : "applyDamage";
-      const heal = temp ? Math.abs(amount) : -Math.abs(amount);
-      return canvas.scene.tokens.get(tokenId).actor[func](heal);
+      if (temp)
+        return canvas.scene.tokens
+          .get(tokenId)
+          .actor.applyTempHP(Math.abs(amount));
+      return canvas.scene.tokens
+        .get(tokenId)
+        .actor.applyDamage(Math.abs(amount), -1);
     }
   }
 
@@ -161,10 +164,11 @@ export class SocketsHandler {
       const content = `${names} ${
         itemData.length > 1 ? "were" : "was"
       } added to ${actor.name}'s inventory.`;
+      const whisper = _getOwnerIds(actor);
       await ChatMessage.create({
         content,
         speaker: ChatMessage.getSpeaker({ actor }),
-        whisper: [userId],
+        whisper,
       });
       return actor.createEmbeddedDocuments("Item", itemData);
     }
@@ -199,7 +203,7 @@ export class SocketsHandler {
     if (!grant) return;
     ui.notifications.info(`Adding item to ${tokens[0].document.name}!`);
     const valid = await tokens[0].actor.sheet._onDropSingleItem(itemData);
-    if (!valid) return;
+    if (!valid) return; // The above method returns falsy if the item is invalid or otherwise handled.
     return SocketsHandler.grantItems({
       itemData: [itemData],
       tokenId: tokens[0].id,
@@ -211,7 +215,8 @@ export class SocketsHandler {
  * Find a user who is active and owns a token, preferring players.
  * @param {string} tokenId      The id of a token.
  * @returns {string|null}       The id of the found user, if any.
- */ function _getTargetUser(tokenId) {
+ */
+function _getTargetUser(tokenId) {
   if (game.user.isGM) return game.user.id;
   const user = game.users.find((u) => {
     return (
@@ -236,7 +241,8 @@ function _getFirstGM() {
  * Select a token from a selection of tokens.
  * @param {Token[]} tokens      An array of token placeables.
  * @param {object} itemData     An object of item data to create.
- */ async function _pickTokenTarget(tokens, itemData) {
+ */
+async function _pickTokenTarget(tokens, itemData) {
   const top = tokens.map((t) => ({
     name: t.document.id,
     src: t.document.texture.src,
@@ -249,4 +255,17 @@ function _getFirstGM() {
     return SocketsHandler.grantItems({ itemData: [itemData], tokenId });
   };
   return new ImageAnchorPicker({ top, title, callback }).render(true);
+}
+
+/**
+ * Get the ids of all owners of an actor.
+ * @param {Actor} actor     The actor.
+ * @returns {string[]}      The user ids.
+ */
+function _getOwnerIds(actor) {
+  return game.users.reduce((acc, u) => {
+    const owner = actor.testUserPermission(u, "OWNER");
+    if (owner) acc.push(u.id);
+    return acc;
+  }, []);
 }

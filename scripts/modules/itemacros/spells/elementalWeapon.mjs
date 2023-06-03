@@ -14,9 +14,8 @@ export async function ELEMENTAL_WEAPON(
   if (!ItemMacroHelpers._getDependencies(DEPEND.BAB, DEPEND.VAE, DEPEND.CN))
     return item.use();
 
-  const has = actor.effects.find(
-    (e) => e.flags.core?.statusId === item.name.slugify({ strict: true })
-  );
+  const status = item.name.slugify({ strict: true });
+  const has = actor.effects.find((e) => e.statuses.has(status));
   if (has) {
     await CN.isActorConcentratingOnItem(actor, item)?.delete();
     return has.delete();
@@ -59,7 +58,7 @@ export async function ELEMENTAL_WEAPON(
       filters: { customScripts: `return item.id === "${weaponId}";` },
     })
     .toObject();
-  const dmg = api
+  const dmg = babonus
     .createBabonus({
       type: "damage",
       name: "dmg",
@@ -74,11 +73,16 @@ export async function ELEMENTAL_WEAPON(
   const effectData = [
     {
       icon: item.img,
-      label: `${item.name} (${weapon.name})`,
+      name: `${item.name} (${weapon.name})`,
       duration: foundry.utils.deepClone(conc.duration),
-      "flags.core.statusId": item.name.slugify({ strict: true }),
-      "flags.babonus.bonuses": { [atk.id]: atk, [dmg.id]: dmg },
-      "flags.visual-active-effects.data.intro": `<p>You have a +${bonus} to attack rolls made with the chosen weapon (${weapon.name}) and it deals an additional ${dice} ${type} damage on a hit.</p>`,
+      statuses: [status],
+      description: game.i18n.format("INNIL.DescriptionElementalWeapon", {
+        bonus,
+        weaponName: weapon.name,
+        dice,
+        type,
+      }),
+      [`flags.${DEPEND.BAB}.bonuses`]: { [atk.id]: atk, [dmg.id]: dmg },
     },
   ];
 

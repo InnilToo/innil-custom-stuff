@@ -23,7 +23,7 @@ export async function AID(item, speaker, actor, token, character, event, args) {
   }
 
   const effectData = {
-    label: item.name,
+    name: item.name,
     icon: item.img,
     duration: ItemMacroHelpers._getItemDuration(item),
     changes: [
@@ -33,21 +33,20 @@ export async function AID(item, speaker, actor, token, character, event, args) {
         value: 5 * (spellLevel - 1),
       },
     ],
-    "flags.core.statusId": item.name.slugify({ strict: true }),
-    "flags.visual-active-effects.data.intro": `<p>Your hit point maximum is increased by ${
+    statuses: [item.name.slugify({ strict: true })],
+    description: `Your hit point maximum is increased by ${
       5 * (spellLevel - 1)
-    }.</p>`,
+    }.`,
     "flags.effectmacro.data.spellLevel": spellLevel,
     "flags.effectmacro.onCreate.script": `(${onCreate.toString()})()`,
   };
 
   const updates = {
-    embedded: { ActiveEffect: { [effectData.label]: effectData } },
+    embedded: { ActiveEffect: { [effectData.name]: effectData } },
   };
   const options = {
     permanent: true,
     description: `${actor.name} is casting ${item.name} on you.`,
-    comparisonKeys: { ActiveEffect: "label" },
   };
 
   ui.notifications.info("Granting hit points to your targets!");

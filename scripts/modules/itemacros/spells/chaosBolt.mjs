@@ -14,12 +14,12 @@ export async function CHAOS_BOLT(
     title: "Is this a casting, or a reroll of an attack?",
     buttons: {
       cast: {
-        icon: '<i class="fas fa-check"></i>',
+        icon: '<i class="fa-solid fa-check"></i>',
         label: "Cast",
         callback: () => "cast",
       },
       attack: {
-        icon: '<i class="fas fa-times"></i>',
+        icon: '<i class="fa-solid fa-times"></i>',
         label: "Reroll",
         callback: () => "reroll",
       },
@@ -60,41 +60,37 @@ export async function CHAOS_BOLT(
    */
   async function decideDamage(damage) {
     const totals = damage.dice[0].results.map((r) => r.result);
-
-    const damageTypes = [
-      "acid",
-      "cold",
-      "fire",
-      "force",
-      "lightning",
-      "poison",
-      "psychic",
-      "thunder",
-    ];
+    const types = {
+      1: "acid",
+      2: "cold",
+      3: "fire",
+      4: "force",
+      5: "lightning",
+      6: "poison",
+      7: "psychic",
+      8: "thunder",
+    };
 
     /* Async dialog */
-    const buttons = {};
-    const entries = damageTypes.map((type) => [
-      type,
-      CONFIG.DND5E.damageTypes[type],
-    ]);
-    for (const { result } of damage.dice[0].results) {
-      buttons[entries[result - 1][0]] = {
-        label: entries[result - 1][1],
-        callback: () => entries[result - 1],
-      };
+    const buttons = damage.dice[0].results.reduce((acc, { result }) => {
+      const key = types[result];
+      const label = CONFIG.DND5E.damageTypes[key];
+      acc[key] = { label, callback: _rollDamage };
+      return acc;
+    }, {});
+    return Dialog.wait({ title: "Choose damage type.", buttons });
+
+    async function _rollDamage(html, event) {
+      const key = event.currentTarget.dataset.button;
+      const type = CONFIG.DND5E.damageTypes[key];
+      let flavor = "<p><strong>Chaos Bolt</strong></p>";
+      flavor += `<p>Damage type: ${type}</p>`;
+      const chain = totals.length > new Set(totals).size;
+      if (chain)
+        flavor +=
+          '<p style="text-align: center;"><strong><em>Chaining!</em></strong></p>';
+      await ChatMessage.create({ content: flavor, speaker });
+      return chain;
     }
-    const dmgType = await Dialog.wait({
-      title: "Choose damage type.",
-      buttons,
-    });
-    let flavor = "<p><strong>Chaos Bolt</strong></p>";
-    flavor += `<p>Damage type: ${dmgType[1]}</p>`;
-    const chain = totals.length > new Set(totals).size;
-    if (chain)
-      flavor +=
-        '<p style="text-align: center;"><strong><em>Chaining!</em></strong></p>';
-    await ChatMessage.create({ content: flavor, speaker });
-    return chain;
   }
 }

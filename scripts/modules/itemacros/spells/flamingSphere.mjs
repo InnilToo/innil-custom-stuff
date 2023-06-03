@@ -10,7 +10,7 @@ export async function FLAMING_SPHERE(
   event,
   args
 ) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG, DEPEND.CN))
+  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.CN, DEPEND.EM))
     return item.use();
 
   const isConc = CN.isActorConcentratingOnItem(actor, item);
@@ -25,10 +25,14 @@ export async function FLAMING_SPHERE(
   const updates = {
     token: { name: `${actor.name.split(" ")[0]}'s Flaming Sphere` },
   };
-  const options = { crosshairs: { interval: -1 } };
+  const options = {
+    crosshairs: {
+      interval: -1,
+    },
+  };
 
   // then spawn the actor:
-  await actor.sheet.minimize();
+  await actor.sheet?.minimize();
   const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
   const [spawn] = await ItemMacroHelpers._spawnHelper(
     "Flaming Sphere",
@@ -36,8 +40,8 @@ export async function FLAMING_SPHERE(
     {},
     options
   );
-  await actor.sheet.maximize();
   canvas.app.stage.removeChild(p);
+  await actor.sheet?.maximize();
 
   const effect = CN.isActorConcentratingOnItem(actor, item);
   if (!spawn) return effect.delete();
