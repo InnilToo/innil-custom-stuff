@@ -26,17 +26,15 @@ export async function FIND_FAMILIAR(
       "Can't spawn a familiar for an unknown actor."
     );
 
-  const isSpawned = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
-  if (isSpawned) {
+  const isActive = actor.statuses.has(item.name.slugify({ strict: true }));
+  if (isActive) {
     return ui.notifications.warn(`You already have ${familiar.name} spawned.`);
   }
 
   const use = await item.use();
   if (!use) return;
 
-  const updates = { actor: { "flags.world.findFamiliar": actor.id } };
+  const updates = {};
   const options = { crosshairs: { interval: -1 } };
 
   // then spawn the actor:
@@ -50,6 +48,7 @@ export async function FIND_FAMILIAR(
   );
   canvas.app.stage.removeChild(p);
   await actor.sheet?.maximize();
+  if (!spawn) return;
 
   const level = ItemMacroHelpers._getSpellLevel(use);
   const effectData = ItemMacroHelpers._constructGenericEffectData({
@@ -61,6 +60,5 @@ export async function FIND_FAMILIAR(
     "ActiveEffect",
     effectData
   );
-  if (!spawn) return effect.delete();
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }

@@ -12,11 +12,11 @@ export async function MAGE_HAND(
 ) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG))
     return item.use();
-  const isActive = actor.effects.find((e) => {
-    return e.flags.core?.statusId === item.name.slugify({ strict: true });
-  });
-  if (isActive)
-    return ui.notifications.warn("You are already have a Mage Hand.");
+
+  const isActive = actor.statuses.has(item.name.slugify({ strict: true }));
+  if (isActive) {
+    return ui.notifications.warn(`You already have ${steed.name} spawned.`);
+  }
 
   const use = await item.use();
   if (!use) return;
@@ -37,6 +37,7 @@ export async function MAGE_HAND(
   );
   canvas.app.stage.removeChild(p);
   await actor.sheet?.maximize();
+  if (!spawn) return;
 
   const level = ItemMacroHelpers._getSpellLevel(use);
   const effectData = ItemMacroHelpers._constructGenericEffectData({
@@ -48,6 +49,5 @@ export async function MAGE_HAND(
     "ActiveEffect",
     effectData
   );
-  if (!spawn) return effect.delete();
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }
