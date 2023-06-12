@@ -373,11 +373,11 @@ export class GameChangesHandler {
 
     if (!options.length) return;
 
-    const DIV = document.createElement("DIV");
-    DIV.innerHTML = await renderTemplate(
+    const div = document.createElement("DIV");
+    div.innerHTML = await renderTemplate(
       "modules/innil-custom-stuff/templates/statusConditionSelect.hbs"
     );
-    list.append(...DIV.children);
+    list.append(...div.children);
 
     const add = html[0].querySelector(
       "[data-effect-type='statusCondition'] a[data-action='statusCondition']"
