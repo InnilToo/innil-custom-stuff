@@ -24,7 +24,7 @@
   "INNIL.ExperimentalElixirTypeResilience": "You add a +1 bonus to AC for 10 minutes.",
   "INNIL.ExperimentalElixirTypeRestorativeReagents": "The drinker gains 2d6 + {mod} temporary hit points.",
   "INNIL.ExperimentalElixirTypeSwiftness": "Your walking speed increases by 10 feet for 1 hour.",
-  "INNIL.ExperimentalElixirTypeTransformation": "The drinker's body is transformed as if by the <a class='content-link' data-uuid='Compendium.innil-catalogs.spells.DRN4UHvQDhzHZ1vD'>Alter Self</a> spell. The drinker determines the transformation caused by the spell, the effects of which last for 10 minutes.",
+  "INNIL.ExperimentalElixirTypeTransformation": "The drinker's body is transformed as if by the <a class='content-link' data-uuid='Compendium.innil-catalogs.spells.Item.DRN4UHvQDhzHZ1vD'>Alter Self</a> spell. The drinker determines the transformation caused by the spell, the effects of which last for 10 minutes.",
   "INNIL.SettingsColorationArtifactName": "Artifact",
   "INNIL.SettingsColorationItemAttunedHint": "The color of the attunement icon when attuned to an item.",
   "INNIL.SettingsColorationItemAttunedName": "Attuned Item Color",
