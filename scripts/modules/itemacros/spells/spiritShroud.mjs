@@ -31,7 +31,7 @@ export async function SPIRIT_SHROUD(
     {
       icon: "skull",
       type: "necrotic",
-      file: "jb2a.spirit_guardians.dark_black.ring",
+      file: "jb2a.spirit_guardians.dark_red.ring",
     },
     {
       icon: "holly-berry",
