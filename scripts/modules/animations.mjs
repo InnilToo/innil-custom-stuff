@@ -68,7 +68,6 @@ export class AnimationsHandler {
     if (check) {
       const beam = "jb2a.fireball.beam.orange";
       const expl = "jb2a.fireball.explosion.orange";
-
       const seq = new Sequence();
       if (token)
         seq
@@ -109,6 +108,21 @@ export class AnimationsHandler {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
+        .play({ remote: true });
+    }
+
+    // SORROW'S EMBRACE.
+    check = item.name === "Sorrow's Embrace";
+    if (check) {
+      const file = "jb2a.spirit_guardians.dark_black.ring";
+      return new Sequence()
+        .effect()
+        .file(file)
+        .attachTo(templateDoc)
+        .tieToDocuments(templateDoc)
+        .scale(2)
+        .fadeIn(500)
+        .persist()
         .play({ remote: true });
     }
 
