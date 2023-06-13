@@ -19,6 +19,7 @@ import { MISTY_STEP } from "./spells/mistyStep.mjs";
 import { MOONBEAM } from "./spells/moonbeam.mjs";
 import { PASS_WITHOUT_TRACE } from "./spells/passWithoutTrace.mjs";
 import { SEE_INVISIBILITY } from "./spells/seeInvisibility.mjs";
+import { SHADOW_OF_MOIL } from "./spells/shadowOfMoil.mjs";
 import { SPIRIT_GUARDIANS } from "./spells/spiritGuardians.mjs";
 import { SPIRIT_SHROUD } from "./spells/spiritShroud.mjs";
 import { SPIRITUAL_WEAPON } from "./spells/spiritualWeapon.mjs";
@@ -48,6 +49,7 @@ export const spells = {
   MOONBEAM,
   PASS_WITHOUT_TRACE,
   SEE_INVISIBILITY,
+  SHADOW_OF_MOIL,
   SPIRIT_GUARDIANS,
   SPIRIT_SHROUD,
   SPIRITUAL_WEAPON,
