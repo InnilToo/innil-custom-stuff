@@ -5,6 +5,12 @@ div[data-status-id="hmark"] {
   display: none !important;
 }
 
+/* CENTER HOTBAR */
+#ui-bottom>div {
+  display: flex;
+  justify-content: center;
+}
+
 /* TOKEN HUD STATUS EFFECTS */
 #token-hud .col.right .status-effects {
   width: max-content;
