@@ -2,13 +2,14 @@ export async function advanceTime(s = null) {
   const content = `
   <p style="text-align: center;">Advance time by a number of seconds.</p>
   <form class="dnd5e">
-  <div class="form-group">
-    <label>Seconds:</label>
-    <div class="form-fields">
-      <input type="text" autofocus ${s ? `value="${s}"` : ""}>
+    <div class="form-group">
+      <label>Seconds:</label>
+      <div class="form-fields">
+        <input type="text" autofocus ${s ? `value="${s}"` : ""}>
+      </div>
     </div>
-  </div>
   </form>`;
+
   const timeInput = await Dialog.prompt({
     title: "Advance Time",
     content,
@@ -16,6 +17,7 @@ export async function advanceTime(s = null) {
     rejectClose: false,
     callback: async (html) => html[0].querySelector("input").value,
   });
+
   if (!timeInput) return;
 
   let time;

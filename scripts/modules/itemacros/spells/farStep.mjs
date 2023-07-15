@@ -21,7 +21,7 @@ export async function FAR_STEP(
     return item.use();
   const vanish = "jb2a.misty_step.01.purple";
   const appear = "jb2a.misty_step.02.purple";
-  const distance = 60;
+  const distance = item.system.target.value;
 
   const conc = CN.isActorConcentratingOnItem(actor, item);
 

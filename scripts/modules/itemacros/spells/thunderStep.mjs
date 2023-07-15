@@ -14,7 +14,7 @@ export async function THUNDER_STEP(
     return item.use();
   const vanish = "jb2a.thunderwave.center.blue";
   const appear = "jb2a.thunderwave.center.blue";
-  const distance = 90;
+  const distance = item.system.target.value;
 
   const use = await item.use();
   if (!use) return;

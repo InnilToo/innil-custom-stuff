@@ -16,7 +16,7 @@ async function BLESSING_OF_THE_RAVEN_QUEEN(
     return item.use();
   const vanish = "jb2a.misty_step.01.dark_black";
   const appear = "jb2a.misty_step.02.dark_black";
-  const distance = 30;
+  const distance = item.system.target.value;
 
   const use = await item.use();
   if (!use) return;

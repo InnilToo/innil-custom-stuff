@@ -14,7 +14,7 @@ export async function MISTY_STEP(
     return item.use();
   const vanish = "jb2a.misty_step.01.blue";
   const appear = "jb2a.misty_step.02.blue";
-  const distance = 30;
+  const distance = item.system.target.value;
 
   const use = await item.use();
   if (!use) return;
