@@ -23,6 +23,7 @@ import { SHADOW_OF_MOIL } from "./spells/shadowOfMoil.mjs";
 import { SPIRIT_GUARDIANS } from "./spells/spiritGuardians.mjs";
 import { SPIRIT_SHROUD } from "./spells/spiritShroud.mjs";
 import { SPIRITUAL_WEAPON } from "./spells/spiritualWeapon.mjs";
+import { SUMMON_CELESTIAL } from "./spells/summonCelestial.mjs";
 import { THUNDER_STEP } from "./spells/thunderStep.mjs";
 import { VORTEX_WARP } from "./spells/vortexWarp.mjs";
 import { WIELDING } from "./spells/wielding.mjs";
@@ -53,6 +54,7 @@ export const spells = {
   SPIRIT_GUARDIANS,
   SPIRIT_SHROUD,
   SPIRITUAL_WEAPON,
+  SUMMON_CELESTIAL,
   THUNDER_STEP,
   VORTEX_WARP,
   WIELDING,
