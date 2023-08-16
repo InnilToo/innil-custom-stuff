@@ -427,6 +427,28 @@ export class AnimationsHandler {
         .play({ remote: true });
     }
 
+    // ELIXIR CANNON
+    check =
+      item.name.includes("Experimental Elixir") && item.type === "consumable";
+    if (check) {
+      if (!target || !token) return;
+      const file = "jb2a.throwable.throw.flask";
+      const file2 = "jb2a.explosion.05";
+      return new Sequence()
+        .effect()
+        .stretchTo(target)
+        .atLocation(token)
+        .file(file)
+        .fadeIn(200)
+        .fadeOut(200)
+        .waitUntilFinished()
+        .effect()
+        .attachTo(target)
+        .file(file2)
+        .scaleToObject(1.5, { uniform: true, considerTokenScale: true })
+        .play({ remote: true });
+    }
+
     // HUNTER'S MARK.
     check = name === "Hunter's Mark";
     if (check) {
