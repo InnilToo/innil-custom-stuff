@@ -32,18 +32,19 @@ function _registerSettings() {
     requiresReload: true,
   });
 
+  // Whether to track reactions.
   game.settings.register(MODULE, "trackReactions", {
     name: "INNIL.SettingsTrackReactionsName",
     hint: "INNIL.SettingsTrackReactionsHint",
     scope: "world",
     config: true,
-    type: String,
-    default: "all",
+    type: Number,
+    default: 1,
     requiresReload: true,
     choices: {
-      disabled: "Do not track reactions",
-      gm: "Track reactions for the GM",
-      all: "Track reactions for all actors",
+      0: "INNIL.SettingsTrackReactionsChoice0", // none
+      1: "INNIL.SettingsTrackReactionsChoice1", // gm only
+      2: "INNIL.SettingsTrackReactionsChoice2", // all
     },
   });
 }
