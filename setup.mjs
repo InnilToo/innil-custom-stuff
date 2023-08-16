@@ -3,6 +3,7 @@ import { MODULE } from "./scripts/const.mjs";
 import { AnimationsHandler } from "./scripts/modules/animations.mjs";
 import { DamageApplicator } from "./scripts/modules/applications/damageApplicator.mjs";
 import { SheetEdits } from "./scripts/modules/applications/sheetEdits.mjs";
+import { TargetSequencePicker } from "./scripts/modules/applications/targetSequencePicker.mjs";
 import { CombatEnhancements } from "./scripts/modules/combatHelpers.mjs";
 import { ExhaustionHandler } from "./scripts/modules/exhaustion.mjs";
 import { GameChangesHandler } from "./scripts/modules/gameChanges.mjs";
@@ -35,6 +36,7 @@ Hooks.on("preCreateChatMessage", DamageApplicator._appendMoreDamageRollData);
 Hooks.on("updateCombat", CombatEnhancements._rechargeMonsterFeatures);
 
 Hooks.once("ready", function () {
+  window.test = TargetSequencePicker;
   const reactionSetting = game.settings.get(MODULE, "trackReactions");
   if ((reactionSetting === "1" && game.user.isGM) || reactionSetting === "2") {
     Hooks.on("dnd5e.useItem", CombatEnhancements._spendReaction);

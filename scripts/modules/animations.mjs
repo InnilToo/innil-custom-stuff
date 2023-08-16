@@ -2,17 +2,18 @@ import { MODULE } from "../const.mjs";
 
 export class AnimationsHandler {
   // On template creation
-  static onCreateMeasuredTemplate(templateDoc, _, userId) {
+  static async onCreateMeasuredTemplate(templateDoc, _, userId) {
     if (userId !== game.user.id) return;
 
     const uuid = templateDoc.flags.dnd5e?.origin;
     if (!uuid) return;
 
-    const item = fromUuidSync(uuid);
+    const item = await fromUuid(uuid);
     if (!item || !(item instanceof Item)) return;
 
     const token = item.actor.token?.object ?? item.actor.getActiveTokens()[0];
     let check;
+    while (!templateDoc.object) await new Promise((r) => setTimeout(r, 50));
 
     // BREATH WEAPON.
     check = item.flags[MODULE]?.breathWeapon?.type;

@@ -12,6 +12,12 @@ export function setupAPI() {
       getOwnerIds: PublicAPI._getTokenOwnerIds,
       contained: PublicAPI._checkTokenInTemplate,
       selectContained: PublicAPI._selectContained,
+      detection: {
+        canSeeOtherToken: PublicAPI.canSeeOtherToken,
+        getFurthestPointOnTemplateFromPosition:
+          PublicAPI.getFurthestPointOnTemplateFromPosition,
+        getFurthestPointAlongRay: PublicAPI.getFurthestPointAlongRay,
+      },
     },
     utils: {
       getDocument: PublicAPI._getDocumentFromCompendium,
