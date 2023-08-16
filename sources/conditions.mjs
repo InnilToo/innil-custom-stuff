@@ -29,6 +29,7 @@
   2200: Hunter's Mark
   <-- Other -->
   1600: Reaction
+  2000: Target,
 */
 export const SPELL_EFFECTS = [
   {
@@ -561,5 +562,12 @@ export const STATUS_EFFECTS = [
         onTurnStart: { script: "return effect.delete();" },
       },
     },
+  },
+  {
+    id: "target",
+    name: "INNIL.StatusConditionTarget",
+    sort: 2000,
+    icon: "icons/svg/target.svg",
+    description: "<p>Generic effect.</p>",
   },
 ];
