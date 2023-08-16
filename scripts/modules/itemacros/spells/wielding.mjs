@@ -50,7 +50,7 @@ export async function WIELDING(
   const weapon = await fromUuid(uuid);
   const att = weapon.system.attunement === 0 ? 0 : level < 5 ? 1 : 2;
   const itemData = foundry.utils.mergeObject(weapon.toObject(), {
-    "system.proficient": true,
+    "system.proficient": 1,
     "system.ability": actor.system.attributes.spellcasting,
     "system.equipped": true,
     "system.attunement": att,
