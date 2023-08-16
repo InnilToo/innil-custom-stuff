@@ -432,8 +432,7 @@ export class ItemMacroHelpers {
     const { x, y } = token.center;
     const tokenRadius = Math.abs(token.document.x - x);
     const pixels =
-      (radius / canvas.scene.grid.distance) * canvas.scene.grid.size +
-      tokenRadius;
+      radius * canvas.scene.dimensions.distancePixels + tokenRadius;
     const color = game.user.color.replace("#", "0x");
     const p = new PIXI.Graphics()
       .beginFill(color, 0.5)

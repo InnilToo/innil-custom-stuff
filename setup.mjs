@@ -36,10 +36,7 @@ Hooks.on("updateCombat", CombatEnhancements._rechargeMonsterFeatures);
 
 Hooks.once("ready", function () {
   const reactionSetting = game.settings.get(MODULE, "trackReactions");
-  if (
-    (reactionSetting === "gm" && game.user.isGM) ||
-    reactionSetting === "all"
-  ) {
+  if ((reactionSetting === "1" && game.user.isGM) || reactionSetting === "2") {
     Hooks.on("dnd5e.useItem", CombatEnhancements._spendReaction);
   }
 

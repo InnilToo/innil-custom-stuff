@@ -31,10 +31,8 @@ export class GameChangesHandler {
     const toAdd = { turned: "Turned" };
     foundry.utils.mergeObject(CONFIG.DND5E.conditionTypes, toAdd);
 
-    CONFIG.DND5E.conditionTypes = Object.fromEntries(
-      Object.entries(CONFIG.DND5E.conditionTypes).sort((a, b) =>
-        a[1].localeCompare(b[1])
-      )
+    CONFIG.DND5E.conditionTypes = dnd5e.utils.sortObjectEntries(
+      CONFIG.DND5E.conditionTypes
     );
   }
 
@@ -60,40 +58,28 @@ export class GameChangesHandler {
     };
     foundry.utils.mergeObject(CONFIG.DND5E.consumableTypes, toAdd);
 
-    CONFIG.DND5E.consumableTypes = Object.fromEntries(
-      Object.entries(CONFIG.DND5E.consumableTypes).sort((a, b) =>
-        a[1].localeCompare(b[1])
-      )
+    CONFIG.DND5E.consumableTypes = dnd5e.utils.sortObjectEntries(
+      CONFIG.DND5E.consumableTypes
     );
   }
 
   static _languages() {
-    CONFIG.DND5E.languages = {
-      common: "Common",
-      aarakocra: "Aarakocra",
-      abyssal: "Abyssal",
+    const toDelete = [];
+    for (const lang of toDelete) delete CONFIG.DND5E.languages[lang];
+
+    const toAdd = {
       aeorian: "Aeorian",
-      celestial: "Celestial",
-      deep: "Deep Speech",
-      draconic: "Draconic",
-      druidic: "Druidic",
-      dwarvish: "Dwarvish",
-      elvish: "Elvish",
-      giant: "Giant",
-      gnomish: "Gnomish",
-      goblin: "Goblin",
-      halfling: "Halfling",
-      infernal: "Infernal",
       marquesian: "Marquesian",
       naush: "Naush",
       orc: "Orcish",
-      primordial: "Primordial",
       qoniiran: "Qoniiran",
-      sylvan: "Sylvan",
-      cant: "Thieves' Cant",
-      undercommon: "Undercommon",
       zemnian: "Zemnian",
     };
+    foundry.utils.mergeObject(CONFIG.DND5E.languages, toAdd);
+
+    CONFIG.DND5E.languages = dnd5e.utils.sortObjectEntries(
+      CONFIG.DND5E.languages
+    );
   }
 
   static _tools() {
@@ -251,14 +237,10 @@ export class GameChangesHandler {
   // Miscellaneous adjustments.
   static _miscAdjustments() {
     // Add more feature types.
-    const entries = Object.entries({
-      ...CONFIG.DND5E.featureTypes.class.subtypes,
-      ...{
-        arcaneShot: "Arcane Shot",
-        primordialEffect: "Primordial Effect",
-      },
-    }).sort((a, b) => a[1].localeCompare(b[1]));
-    CONFIG.DND5E.featureTypes.class.subtypes = Object.fromEntries(entries);
+    const types = CONFIG.DND5E.featureTypes.class.subtypes;
+    types.primordialEffect = "Primordial Effect";
+    CONFIG.DND5E.featureTypes.class.subtypes =
+      dnd5e.utils.sortObjectEntries(types);
 
     // Adjust the time it takes for tooltips to fade in and out.
     TooltipManager.TOOLTIP_ACTIVATION_MS = 100;
@@ -339,11 +321,14 @@ export class GameChangesHandler {
       icon: "<i class='fa-solid fa-scroll'></i>",
       callback: async () => {
         const path = "flags.concentrationnotifier.data.requiresConcentration";
-        const scroll = await Item.implementation.createScrollFromSpell(spell);
-        const itemData = game.items.fromCompendium(scroll);
-        foundry.utils.mergeObject(itemData.flags, spell.flags);
+        const data = { flags: { ...spell.flags } };
         if (spell.system.components.concentration)
-          foundry.utils.setProperty(itemData, path, true);
+          foundry.utils.setProperty(data, path, true);
+        const scroll = await Item.implementation.createScrollFromSpell(
+          spell,
+          data
+        );
+        const itemData = game.items.fromCompendium(scroll, { addFlags: false });
         ui.notifications.info(`Created scroll from ${spell.name}.`);
         return spell.actor.createEmbeddedDocuments("Item", [itemData]);
       },
@@ -513,17 +498,15 @@ export class GameChangesHandler {
     const { itemData, types } = effect.flags[MODULE] ?? {};
     if (!itemData || !types) return;
 
+    const item = new Item.implementation(itemData, { parent: effect.parent });
+    item.prepareData();
+    item.prepareFinalAttributes();
+
     // Use the item embedded.
     if (types.includes("use")) {
       buttons.push({
         label: `${itemData.name} (Use)`,
-        callback: () => {
-          const item = new Item.implementation(itemData, {
-            parent: effect.parent,
-          });
-          item.prepareFinalAttributes();
-          return item.use({}, { "flags.dnd5e.itemData": itemData });
-        },
+        callback: () => item.use({}, { "flags.dnd5e.itemData": itemData }),
       });
     }
 
@@ -531,13 +514,7 @@ export class GameChangesHandler {
     if (types.includes("redisplay")) {
       buttons.push({
         label: `${itemData.name} (Chat)`,
-        callback: () => {
-          const item = new Item.implementation(itemData, {
-            parent: effect.parent,
-          });
-          item.prepareFinalAttributes();
-          return item.displayCard();
-        },
+        callback: () => item.displayCard(),
       });
     }
 
@@ -545,12 +522,7 @@ export class GameChangesHandler {
     if (types.includes("attack")) {
       buttons.push({
         label: `${itemData.name} (Attack)`,
-        callback: () => {
-          const item = new Item.implementation(itemData, {
-            parent: effect.parent,
-          });
-          return item.rollAttack({ event });
-        },
+        callback: () => item.rollAttack({ event }),
       });
     }
 
@@ -558,12 +530,7 @@ export class GameChangesHandler {
     if (types.includes("damage")) {
       buttons.push({
         label: `${itemData.name} (Damage)`,
-        callback: () => {
-          const item = new Item.implementation(itemData, {
-            parent: effect.parent,
-          });
-          return item.rollDamage({ event });
-        },
+        callback: () => item.rollDamage({ event }),
       });
     }
 
@@ -571,12 +538,7 @@ export class GameChangesHandler {
     if (types.includes("healing")) {
       buttons.push({
         label: `${itemData.name} (Healing)`,
-        callback: () => {
-          const item = new Item.implementation(itemData, {
-            parent: effect.parent,
-          });
-          return item.rollDamage({ event });
-        },
+        callback: () => item.rollDamage({ event }),
       });
     }
 
@@ -584,12 +546,8 @@ export class GameChangesHandler {
     if (types.includes("template")) {
       buttons.push({
         label: `${itemData.name} (Template)`,
-        callback: () => {
-          const item = new Item.implementation(itemData, {
-            parent: effect.parent,
-          });
-          return dnd5e.canvas.AbilityTemplate.fromItem(item).drawPreview();
-        },
+        callback: () =>
+          dnd5e.canvas.AbilityTemplate.fromItem(item).drawPreview(),
       });
     }
   }

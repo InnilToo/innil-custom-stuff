@@ -9,9 +9,18 @@ export function setupAPI() {
     token: {
       teleport: PublicAPI._teleportTokens,
       target: PublicAPI._targetTokens,
+      healToken: SocketsHandler.healToken,
       getOwnerIds: PublicAPI._getTokenOwnerIds,
       contained: PublicAPI._checkTokenInTemplate,
       selectContained: PublicAPI._selectContained,
+      detection: {
+        canSeeOtherToken: PublicAPI.canSeeOtherToken,
+        getFurthestPointOnTemplateFromPosition:
+          PublicAPI.getFurthestPointOnTemplateFromPosition,
+        getFurthestPointAlongRayTemplate:
+          PublicAPI.getFurthestPointAlongRayTemplate,
+        getFurthestPointAlongRay: PublicAPI.getFurthestPointAlongRay,
+      },
     },
     utils: {
       getDocument: PublicAPI._getDocumentFromCompendium,
@@ -24,7 +33,6 @@ export function setupAPI() {
       awardLoot: SocketsHandler.awardLoot,
       updateToken: SocketsHandler.updateTokens,
       grantItems: SocketsHandler.grantItems,
-      healToken: SocketsHandler.healToken,
       ...gameTools,
     },
     ITEMACRO,
