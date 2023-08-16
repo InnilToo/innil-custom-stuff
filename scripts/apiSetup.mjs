@@ -9,6 +9,7 @@ export function setupAPI() {
     token: {
       teleport: PublicAPI._teleportTokens,
       target: PublicAPI._targetTokens,
+      healToken: SocketsHandler.healToken,
       getOwnerIds: PublicAPI._getTokenOwnerIds,
       contained: PublicAPI._checkTokenInTemplate,
       selectContained: PublicAPI._selectContained,
@@ -30,7 +31,6 @@ export function setupAPI() {
       awardLoot: SocketsHandler.awardLoot,
       updateToken: SocketsHandler.updateTokens,
       grantItems: SocketsHandler.grantItems,
-      healToken: SocketsHandler.healToken,
       ...gameTools,
     },
     ITEMACRO,
