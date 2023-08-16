@@ -35,6 +35,8 @@ async function RING_OF_LIGHT(
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
     return item.use();
 
+  if (!item.system.equipped) await item.update({ "system.equipped": true }); // Forcefully equip the item.
+
   const has = actor.effects.find((e) =>
     e.statuses.has(item.name.slugify({ strict: true }))
   );
@@ -53,6 +55,8 @@ async function RING_OF_LIGHT(
 async function TORCH(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
     return item.use();
+
+  if (!item.system.equipped) await item.update({ "system.equipped": true }); // Forcefully equip the item.
 
   const has = actor.effects.find((e) =>
     e.statuses.has(item.name.slugify({ strict: true }))
@@ -94,6 +98,8 @@ async function LANTERN_OF_TRACKING(
 ) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
     return item.use();
+
+  if (!item.system.equipped) await item.update({ "system.equipped": true }); // Forcefully equip the item.
 
   const has = actor.effects.find((e) =>
     e.statuses.has(item.name.slugify({ strict: true }))
