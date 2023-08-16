@@ -30,7 +30,7 @@ export class SlotRecoverer extends FormApplication {
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      template: "modules/zhell-custom-stuff/templates/slotRecoverer.hbs",
+      template: "modules/innil-custom-stuff/templates/slotRecoverer.hbs",
       title: "Recover Spell Slots",
     });
   }
