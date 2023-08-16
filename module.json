@@ -1,12 +1,12 @@
 {
   "id": "innil-custom-stuff",
   "title": "Innil's Custom Stuff",
-  "version": "11.0.4",
+  "version": "11.0.5",
   "authors": [
     {
       "name": "Innil",
       "url": "https://github.com/InnilToo",
-      "discord": "Innil#6666"
+      "discord": "innil"
     }
   ],
   "compatibility": {
