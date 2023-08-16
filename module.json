@@ -27,7 +27,7 @@
   "flags": {
     "hotReload": {
       "extensions": ["css", "hbs", "json"],
-      "paths": []
+      "paths": ["styles/styles.css"]
     }
   },
   "url": "https://github.com/InnilToo/innil-custom-stuff",
