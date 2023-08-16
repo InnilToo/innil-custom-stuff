@@ -9,25 +9,17 @@ export async function advanceTime(s = null) {
       </div>
     </div>
   </form>`;
-
-  const timeInput = await Dialog.prompt({
+  const time = await Dialog.prompt({
     title: "Advance Time",
     content,
     label: "Advance!",
     rejectClose: false,
     callback: async (html) => html[0].querySelector("input").value,
   });
+  if (!time || !Roll.validate(time)) return;
+  const data = canvas.tokens.controlled[0]?.actor?.getRollData() ?? {};
+  const { total } = await new Roll(time, data).evaluate();
 
-  if (!timeInput) return;
-
-  let time;
-  try {
-    time = Roll.safeEval(timeInput);
-  } catch (e) {
-    ui.notifications.error(`Failed to parse expression: ${e.message}`);
-    return;
-  }
-
-  ui.notifications.info(`Advanced time by ${time} seconds.`);
-  return game.time.advance(time);
+  ui.notifications.info(`Advanced time by ${total} seconds.`);
+  return game.time.advance(total);
 }
