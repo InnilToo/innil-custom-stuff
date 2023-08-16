@@ -17,6 +17,8 @@ export function setupAPI() {
         canSeeOtherToken: PublicAPI.canSeeOtherToken,
         getFurthestPointOnTemplateFromPosition:
           PublicAPI.getFurthestPointOnTemplateFromPosition,
+        getFurthestPointAlongRayTemplate:
+          PublicAPI.getFurthestPointAlongRayTemplate,
         getFurthestPointAlongRay: PublicAPI.getFurthestPointAlongRay,
       },
     },
