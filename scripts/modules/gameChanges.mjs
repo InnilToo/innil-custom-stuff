@@ -51,6 +51,7 @@ export class GameChangesHandler {
     for (const d of toDelete) delete CONFIG.DND5E.consumableTypes[d];
 
     const toAdd = {
+      charm: "Charm",
       drink: "Drink",
       elixir: "Elixir",
       bomb: "Bomb",
