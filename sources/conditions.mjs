@@ -563,11 +563,4 @@ export const STATUS_EFFECTS = [
       },
     },
   },
-  {
-    id: "target",
-    name: "INNIL.StatusConditionTarget",
-    sort: 2000,
-    icon: "icons/svg/target.svg",
-    description: "<p>Generic effect.</p>",
-  },
 ];
