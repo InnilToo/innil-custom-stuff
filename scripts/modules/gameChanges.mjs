@@ -43,6 +43,7 @@ export class GameChangesHandler {
       abbreviation: "pty",
       type: "mental",
       defaults: { vehicle: 0 },
+      improvement: false,
     };
   }
 
