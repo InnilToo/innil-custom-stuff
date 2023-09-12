@@ -33,7 +33,7 @@ export class TargetSequencePicker extends Application {
       id: `${MODULE}-target-sequence-picker`,
       template: "modules/innil-custom-stuff/templates/targetSequencePicker.hbs",
       classes: [MODULE, "target-sequence"],
-      title: game.i18n.localize("ZHELL.TargetSequencePicker"),
+      title: game.i18n.localize("INNIL.TargetSequencePicker"),
     });
   }
 
