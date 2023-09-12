@@ -111,5 +111,6 @@
   "INNIL.StatusConditionRestrain": "Restrained",
   "INNIL.StatusConditionSlow": "Slow",
   "INNIL.StatusConditionStun": "Stunned",
-  "INNIL.StatusConditionUnconscious": "Unconscious"
+  "INNIL.StatusConditionUnconscious": "Unconscious",
+  "INNIL.TargetSequencePicker": "Sequence of Targets"
 }

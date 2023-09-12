@@ -1,3 +1,6 @@
+import { ImageAnchorPicker } from "./modules/applications/imageAnchorPicker.mjs";
+import { SlotRecoverer } from "./modules/applications/slotRecoverer.mjs";
+import { TargetSequencePicker } from "./modules/applications/targetSequencePicker.mjs";
 import { WhisperPlayers } from "./modules/applications/whisperPlayers.mjs";
 import { gameTools } from "./modules/gameTools/_gameTools.mjs";
 import { ITEMACRO, ItemMacroHelpers } from "./modules/itemMacros.mjs";
@@ -36,5 +39,10 @@ export function setupAPI() {
       ...gameTools,
     },
     ITEMACRO,
+    applications: {
+      imagePicker: ImageAnchorPicker,
+      slotRecoverer: SlotRecoverer,
+      sequencePicker: TargetSequencePicker,
+    },
   };
 }
