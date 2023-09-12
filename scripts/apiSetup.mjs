@@ -36,6 +36,7 @@ export function setupAPI() {
       awardLoot: SocketsHandler.awardLoot,
       updateToken: SocketsHandler.updateTokens,
       grantItems: SocketsHandler.grantItems,
+      pickPosition: ItemMacroHelpers.pickPosition,
       ...gameTools,
     },
     ITEMACRO,
