@@ -13,10 +13,10 @@ import ModuleSettings from "./scripts/settings.mjs";
 
 Hooks.once("init", ModuleSettings.init);
 Hooks.once("init", PublicAPI.init);
-Hooks.once("init", GameChangesHandler._setUpGameChanges);
+Hooks.once("init", GameChangesHandler._initGameChanges);
+Hooks.once("setup", GameChangesHandler._setupGameChanges);
 Hooks.once("ready", SheetEdits.refreshColors);
 Hooks.once("ready", SocketsHandler.socketsOn);
-Hooks.once("setup", GameChangesHandler._miscAdjustments);
 Hooks.once("setup", ExhaustionHandler._appendActorMethods);
 
 Hooks.on(
@@ -83,5 +83,4 @@ Hooks.once("ready", function () {
 
 Hooks.once("init", ActorExtension.init);
 Hooks.once("init", ActorSheet5eCharacter.init);
-Hooks.on("renderItemSheet", ActorSheet5eCharacter.renderFeatureItemSheet);
 Hooks.on("applyActiveEffect", GameChangesHandler.evaluateArmorClassBonus);

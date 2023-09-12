@@ -135,3 +135,11 @@
 .dnd5e.sheet.actor .items-header.flexrow.no-create .effect-control {
   display: none;
 }
+
+/* Wide counter inputs on the actor sheet. */
+.dnd5e.sheet.actor .counters .counter-value.wide input {
+  max-width: 40px;
+  width: fit-content;
+  text-align: right;
+  padding-right: 5px;
+}
