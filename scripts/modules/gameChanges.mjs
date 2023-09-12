@@ -6,7 +6,6 @@ export class GameChangesHandler {
   static _setUpGameChanges() {
     const settings = game.settings.get(MODULE, "worldSettings");
     if (settings.addEquipment) GameChangesHandler._addEquipment();
-    if (settings.addDivine) GameChangesHandler._addDivine();
     if (settings.addConditions) GameChangesHandler._addConditions();
     if (settings.addPiety) GameChangesHandler._addPiety();
     if (settings.replaceConsumables) GameChangesHandler._consumables();
@@ -20,11 +19,6 @@ export class GameChangesHandler {
     const toAdd = { wand: "Wand" };
     foundry.utils.mergeObject(CONFIG.DND5E.equipmentTypes, toAdd);
     foundry.utils.mergeObject(CONFIG.DND5E.miscEquipmentTypes, toAdd);
-  }
-
-  static _addDivine() {
-    const toAdd = { divine: "DND5E.SchoolDivine" };
-    foundry.utils.mergeObject(CONFIG.DND5E.spellSchools, toAdd);
   }
 
   static _addConditions() {

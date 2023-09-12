@@ -12,7 +12,6 @@ export const DEPEND = {
 };
 export const WORLD_DEFAULTS = {
   addConditions: true,
-  addDivine: false,
   addEquipment: true,
   addPiety: false,
   collapsibleHeaders: true,
