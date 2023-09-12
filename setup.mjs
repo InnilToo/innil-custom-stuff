@@ -1,16 +1,18 @@
-import { setupAPI } from "./scripts/apiSetup.mjs";
 import { MODULE } from "./scripts/const.mjs";
 import { AnimationsHandler } from "./scripts/modules/animations.mjs";
 import { DamageApplicator } from "./scripts/modules/applications/damageApplicator.mjs";
 import { SheetEdits } from "./scripts/modules/applications/sheetEdits.mjs";
 import { CombatEnhancements } from "./scripts/modules/combatHelpers.mjs";
+import ActorSheet5eCharacter from "./scripts/modules/documents/character-sheet.mjs";
+import ActorExtension from "./scripts/modules/documents/character.mjs";
 import { ExhaustionHandler } from "./scripts/modules/exhaustion.mjs";
 import { GameChangesHandler } from "./scripts/modules/gameChanges.mjs";
+import PublicAPI from "./scripts/modules/publicAPI.mjs";
 import { SocketsHandler } from "./scripts/modules/sockets.mjs";
-import { registerSettings } from "./scripts/settings.mjs";
+import ModuleSettings from "./scripts/settings.mjs";
 
-Hooks.once("init", registerSettings);
-Hooks.once("init", setupAPI);
+Hooks.once("init", ModuleSettings.init);
+Hooks.once("init", PublicAPI.init);
 Hooks.once("init", GameChangesHandler._setUpGameChanges);
 Hooks.once("ready", SheetEdits.refreshColors);
 Hooks.once("ready", SocketsHandler.socketsOn);
@@ -78,3 +80,8 @@ Hooks.once("ready", function () {
     Hooks.on("dnd5e.rollSkill", AnimationsHandler.onRollSkill);
   }
 });
+
+Hooks.once("init", ActorExtension.init);
+Hooks.once("init", ActorSheet5eCharacter.init);
+Hooks.on("renderItemSheet", ActorSheet5eCharacter.renderFeatureItemSheet);
+Hooks.on("applyActiveEffect", GameChangesHandler.evaluateArmorClassBonus);

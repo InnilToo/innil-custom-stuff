@@ -565,4 +565,16 @@ export class GameChangesHandler {
     const ray = new Ray(doc, { x: update.x ?? doc.x, y: update.y ?? doc.y });
     update.rotation = (ray.angle * 180) / Math.PI - 90;
   }
+
+  /** Evaluate roll data in an ac bonus effect. */
+  static evaluateArmorClassBonus(actor, change, current, delta, changes) {
+    const { key, value } = change;
+    if (
+      key === "system.attributes.ac.bonus" &&
+      typeof value == "string" &&
+      value.includes("@")
+    ) {
+      changes[key] = dnd5e.utils.simplifyBonus(value, actor.getRollData());
+    }
+  }
 }
