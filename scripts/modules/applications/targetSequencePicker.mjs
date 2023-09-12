@@ -31,9 +31,9 @@ export class TargetSequencePicker extends Application {
       resizeable: false,
       minimizable: false,
       id: `${MODULE}-target-sequence-picker`,
-      template: "modules/innil-custom-stuff/templates/targetSequencePicker.hbs",
+      template: "modules/zhell-custom-stuff/templates/targetSequencePicker.hbs",
       classes: [MODULE, "target-sequence"],
-      title: game.i18n.localize("INNIL.TargetSequencePicker"),
+      title: game.i18n.localize("ZHELL.TargetSequencePicker"),
     });
   }
 
@@ -95,7 +95,9 @@ export class TargetSequencePicker extends Application {
         // Do not include a token already in the sequence.
         if (this.unique && this.sequence.has(token.id)) return acc;
 
-        if (Number.isFinite(this.maxDistance) && this.maxDistance > 0) {
+        const isFin = Number.isFinite(this.maxDistance);
+
+        if (isFin) {
           const range = babonus.getMinimumDistanceBetweenTokens(
             this.source,
             token.object
@@ -108,7 +110,13 @@ export class TargetSequencePicker extends Application {
           a ?? this.source,
           token.object
         );
-        if (range <= this.range) acc.push(token);
+
+        // The max range is the max distance if used and the first in the sequence.
+        const maxRange = Math.max(
+          this.range,
+          isFin && foundry.utils.isEmpty(this.sequence) ? this.maxDistance : 0
+        );
+        if (range <= maxRange) acc.push(token);
 
         return acc;
       }, [])
