@@ -1,12 +1,11 @@
 import { COLOR_DEFAULTS, MODULE } from "../../const.mjs";
-import { MoneySpender } from "./moneySpender.mjs";
 
 export class SheetEdits {
   constructor() {
     this.headers = new Set();
   }
 
-  /* Amusingly named method to inject the new functionality and elements into the sheet. */
+  // Inject the new functionality and elements into the sheet.
   async render() {
     this.settings = {
       ...game.settings.get(MODULE, "worldSettings"),
@@ -18,10 +17,10 @@ export class SheetEdits {
 
     this._setMagicItemsColor();
     if (!isGroup) this._setHealthColor();
-    if (this.settings.collapsibleHeaders) this._collapsibleHeaders();
+    this._collapsibleHeaders();
     if (isChar || isNPC) this._createDots();
+    if (isChar) await this._createCharacterSheetCounters();
     if (isChar) this._createExhaustion();
-    if (isChar && this.settings.createMoneySpender) this._createMoneySpender();
     if (isChar) this._createNewDay();
     if (isChar) this._createInspirationToggle();
   }
@@ -31,19 +30,10 @@ export class SheetEdits {
     const insp = this.html[0].querySelector(".inspiration h4");
     insp.classList.add("rollable");
     insp.dataset.action = "inspiration";
-    insp.addEventListener("click", this._onClickInspiration.bind(this.sheet));
-  }
-
-  /**
-   * Toggle inspiration on or off when clicking the 'label'.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<Actor>}        The updated actor.
-   */
-  async _onClickInspiration(event) {
-    return this.document.update({
-      "system.attributes.inspiration":
-        !this.document.system.attributes.inspiration,
-    });
+    insp.addEventListener(
+      "click",
+      this.sheet._onClickInspiration.bind(this.sheet)
+    );
   }
 
   /** Set the color of magic items by adding css classes to them. */
@@ -236,57 +226,47 @@ export class SheetEdits {
         });
     }
 
-    this.html[0]
-      .querySelectorAll("[data-action='toggleDot']")
-      .forEach((n) =>
-        n.addEventListener("click", this._onClickDot.bind(this.sheet))
-      );
-    this.html[0]
-      .querySelectorAll(".dot.has-more")
-      .forEach((n) =>
-        n.addEventListener("wheel", this._onWheelDot.bind(this.sheet))
-      );
+    this.html[0].querySelectorAll("[data-action='toggleDot']").forEach((n) => {
+      n.addEventListener("click", this.sheet._onClickDot.bind(this.sheet));
+    });
   }
 
-  /**
-   * Handle clicking a dot.
-   * @param {PointerEvent} event            The initiating click event.
-   * @returns {Promise<Actor5e|Item5e>}     The updated actor or item.
-   */
-  async _onClickDot(event) {
-    const { dataset: data, classList: list } = event.currentTarget;
-    const target = this.document.items.get(data.itemId) ?? this.document;
-    const path = data.spellLevel
-      ? `system.spells.${data.spellLevel}.value`
-      : "system.uses.value";
-    const current = foundry.utils.getProperty(target, path);
-
-    let value;
-    if (list.contains("has-more"))
-      value = current + (list.contains("empty") ? 1 : -1);
-    else value = Number(data.idx) + (list.contains("empty") ? 1 : 0);
-
-    return target.update({ [path]: value });
-  }
-
-  /**
-   * Handle using the mouse wheel when hovering over the "has more" dot.
-   * @param {WheelEvent} event          The initiating mouse wheel event.
-   * @returns {Promise<Actor|Item>}     The updated actor or item.
-   */
-  async _onWheelDot(event) {
-    const data = event.currentTarget.dataset;
-    const target = this.document.items.get(data.itemId) ?? this.document;
-    const path = data.spellLevel
-      ? `system.spells.${data.spellLevel}`
-      : "system.uses";
-    const current = foundry.utils.getProperty(target, path);
-    const value = Math.clamped(
-      current.value + Math.round(event.deltaY / -100),
-      0,
-      current.max
+  /** Create the money spender button. */
+  async _createCharacterSheetCounters() {
+    const div = document.createElement("DIV");
+    div.innerHTML = await renderTemplate(
+      "modules/innil-custom-stuff/templates/character-sheet-counters.hbs",
+      {
+        totalCurrency: Object.entries(
+          this.sheet.document.system.currency ?? {}
+        ).reduce((acc, [key, value]) => {
+          return (
+            acc + Math.floor(value / CONFIG.DND5E.currencies[key].conversion)
+          );
+        }, 0),
+      }
     );
-    return target.update({ [`${path}.value`]: value });
+    div.querySelectorAll("[data-dtype=Number]").forEach((n) => {
+      n.addEventListener("focus", (event) => event.currentTarget.select());
+      n.addEventListener(
+        "change",
+        this._onChangeInputDeltaCustom.bind(this.sheet)
+      );
+    });
+    div.querySelectorAll("[data-action]").forEach((n) => {
+      switch (n.dataset.action) {
+        case "spend-money": {
+          n.addEventListener(
+            "click",
+            this.sheet._onClickMoneySpender.bind(this.sheet)
+          );
+          break;
+        }
+      }
+    });
+    this.html[0]
+      .querySelector("div.counter.flexrow.exhaustion")
+      .after(...div.children);
   }
 
   /** Disable the exhaustion input and add a listener to the label. */
@@ -297,83 +277,10 @@ export class SheetEdits {
     const header = this.html[0].querySelector(".counter.flexrow.exhaustion h4");
     header.classList.add("rollable");
     header.setAttribute("data-action", "updateExhaustion");
-    header.addEventListener("click", this._onClickExhaustion.bind(this.sheet));
-  }
-
-  /**
-   * Handle clicking the exhaustion label.
-   * @param {PointerEvent} event      The initiating click event.
-   */
-  _onClickExhaustion(event) {
-    const actor = this.document;
-    const level = actor.system.attributes.exhaustion;
-    const effect =
-      {
-        0: "You are not currently exhausted.",
-        1: "You currently have 1 level of exhaustion.",
-      }[level] ?? `You currently have ${level} levels of exhaustion.`;
-    const buttons = {
-      up: {
-        icon: "<i class='fa-solid fa-arrow-up'></i>",
-        label: "Gain a Level",
-        callback: _applyExhaustion,
-      },
-      down: {
-        icon: "<i class='fa-solid fa-arrow-down'></i>",
-        label: "Down a Level",
-        callback: _applyExhaustion,
-      },
-    };
-    if (level < 1) delete buttons.down;
-    if (level > 10) delete buttons.up;
-
-    function _applyExhaustion(html, event) {
-      const type = event.currentTarget.dataset.button;
-      const num =
-        type === "up" ? level + 1 : type === "down" ? level - 1 : null;
-      if (num === null) return ui.notifications.warn("EXHAUSTION ERROR");
-      return actor.applyExhaustion(num);
-    }
-
-    return new Dialog(
-      {
-        title: `Exhaustion: ${actor.name}`,
-        content: `<p>Adjust your level of exhaustion.</p><p>${effect}</p>`,
-        buttons,
-      },
-      {
-        id: `${MODULE}-exhaustion-dialog-${actor.id}`,
-        classes: [MODULE, "exhaustion", "dialog"],
-      }
-    ).render(true);
-  }
-
-  /**
-   * Create an anchor next to currencies for easily spending money.
-   */
-  _createMoneySpender() {
-    const converter = this.html[0].querySelector(".currency > h3");
-    const template = `
-    <h3>Spend
-      <a data-action="spendMoney" data-tooltip="Spend Money">
-        <i class="fa-solid fa-hand-holding-dollar"></i>
-      </a>
-    </h3>`;
-    const div = document.createElement("DIV");
-    div.innerHTML = template;
-    div
-      .querySelector("[data-action]")
-      .addEventListener("click", this._onClickMoneySpender.bind(this));
-    converter.after(...div.children);
-  }
-
-  /**
-   * Handle clicking the money spending anchor.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {MoneySpender}          The rendered money spending app.
-   */
-  _onClickMoneySpender(event) {
-    return new MoneySpender({}, this.sheet.document).render(true);
+    header.addEventListener(
+      "click",
+      this.sheet._onClickExhaustion.bind(this.sheet)
+    );
   }
 
   /**
@@ -402,32 +309,8 @@ export class SheetEdits {
       "<a class='rest new-day' data-tooltip='DND5E.NewDay'>Day</a>";
     div
       .querySelector(".new-day")
-      .addEventListener("click", this._onClickNewDay.bind(this.sheet));
+      .addEventListener("click", this.sheet._onClickNewDay.bind(this.sheet));
     lr.after(div.firstChild);
-  }
-
-  /**
-   * Roll limited uses recharge of all items that recharge on a new day.
-   * @param {PointerEvent} event      The initiating click event.
-   * @returns {Promise<Item5e[]>}     The array of updated items.
-   */
-  async _onClickNewDay(event) {
-    const conf = await Dialog.confirm({
-      title: "New Day",
-      content:
-        "Would you like to recharge all items that regain charges on a new day?",
-      options: {
-        id: `${this.document.uuid.replaceAll(".", "-")}-new-day-confirm`,
-      },
-    });
-    if (!conf) return;
-    const updates = await this.document._getRestItemUsesRecovery({
-      recoverShortRestUses: false,
-      recoverLongRestUses: false,
-      recoverDailyUses: true,
-      rolls: [],
-    });
-    return this.document.updateEmbeddedDocuments("Item", updates);
   }
 
   static _performSheetEdits(sheet, html) {

@@ -2,84 +2,99 @@ import { SPELL_EFFECTS, STATUS_EFFECTS } from "../../sources/conditions.mjs";
 import { MODULE } from "../const.mjs";
 
 export class GameChangesHandler {
-  // hooks on setup.
-  static _setUpGameChanges() {
-    const settings = game.settings.get(MODULE, "worldSettings");
-    if (settings.addEquipment) GameChangesHandler._addEquipment();
-    if (settings.addDivine) GameChangesHandler._addDivine();
-    if (settings.addConditions) GameChangesHandler._addConditions();
-    if (settings.addPiety) GameChangesHandler._addPiety();
-    if (settings.replaceConsumables) GameChangesHandler._consumables();
-    if (settings.replaceLanguages) GameChangesHandler._languages();
-    if (settings.replaceTools) GameChangesHandler._tools();
-    if (settings.replaceWeapons) GameChangesHandler._weapons();
-    if (settings.replaceTokenConditions) GameChangesHandler._conditions();
+  // Hooks on init.
+  static _initGameChanges() {
+    GameChangesHandler._configChanges();
+
+    if (game.modules.get("innil-catalogs")?.active) {
+      GameChangesHandler._tools();
+      GameChangesHandler._weapons();
+    }
   }
 
-  static _addEquipment() {
-    const toAdd = { wand: "Wand" };
+  // Hooks on setup.
+  static _setupGameChanges() {
+    // Set note display to always on.
+    game.settings.set("core", NotesLayer.TOGGLE_SETTING, true);
+
+    // Adjust the time it takes for tooltips to fade in and out.
+    TooltipManager.TOOLTIP_ACTIVATION_MS = 100;
+  }
+
+  static _configChanges() {
+    -(
+      // Adjust spell schools.
+      foundry.utils.mergeObject(CONFIG.DND5E.spellSchools, {
+        divine: "DND5E.SchoolDivine",
+      })
+    );
+
+    // Adjust equipment item subtypes.
+    const toAdd = { wand: "DND5E.EquipmentWand" };
     foundry.utils.mergeObject(CONFIG.DND5E.equipmentTypes, toAdd);
     foundry.utils.mergeObject(CONFIG.DND5E.miscEquipmentTypes, toAdd);
-  }
 
-  static _addDivine() {
-    const toAdd = { divine: "DND5E.SchoolDivine" };
-    foundry.utils.mergeObject(CONFIG.DND5E.spellSchools, toAdd);
-  }
-
-  static _addConditions() {
-    const toAdd = { turned: "Turned" };
-    foundry.utils.mergeObject(CONFIG.DND5E.conditionTypes, toAdd);
-
-    CONFIG.DND5E.conditionTypes = dnd5e.utils.sortObjectEntries(
-      CONFIG.DND5E.conditionTypes
-    );
-  }
-
-  static _addPiety() {
-    // Ability scores.
+    // Adjust ability scores.
     CONFIG.DND5E.abilities.pty = {
       label: "DND5E.AbilityPty",
       abbreviation: "pty",
       type: "mental",
       defaults: { vehicle: 0 },
+      improvement: false,
     };
-  }
 
-  static _consumables() {
-    const toDelete = ["rod", "wand"];
-    for (const d of toDelete) delete CONFIG.DND5E.consumableTypes[d];
+    // Adjust conditions.
+    foundry.utils.mergeObject(CONFIG.DND5E.conditionTypes, {
+      turned: "DND5E.ConTurned",
+    });
 
-    const toAdd = {
-      charm: "Charm",
-      drink: "Drink",
-      elixir: "Elixir",
-      bomb: "Bomb",
-      trap: "Trap",
-    };
-    foundry.utils.mergeObject(CONFIG.DND5E.consumableTypes, toAdd);
-
-    CONFIG.DND5E.consumableTypes = dnd5e.utils.sortObjectEntries(
-      CONFIG.DND5E.consumableTypes
+    // Adjust consumable item subtypes.
+    foundry.utils.mergeObject(
+      CONFIG.DND5E.consumableTypes,
+      {
+        bomb: "DND5E.ConsumableBomb",
+        charm: "DND5E.ConsumableCharm",
+        drink: "DND5E.ConsumableDrink",
+        elixir: "DND5E.ConsumableElixir",
+        trap: "DND5E.ConsumableTrap",
+        "-=rod": null,
+        "-=wand": null,
+      },
+      { performDeletions: true }
     );
-  }
 
-  static _languages() {
-    const toDelete = [];
-    for (const lang of toDelete) delete CONFIG.DND5E.languages[lang];
+    // Adjust languages.
+    foundry.utils.mergeObject(
+      CONFIG.DND5E.languages,
+      {
+        aeorian: "DND5E.LanguagesAeorian",
+        marquesian: "DND5E.LanguagesMarquesian",
+        naush: "DND5E.LanguagesNaush",
+        orc: "DND5E.LanguagesOrcish",
+        qoniiran: "DND5E.LanguagesQoniiran",
+        zemnian: "DND5E.LanguagesZemnian",
+      },
+      { performDeletions: true }
+    );
 
-    const toAdd = {
-      aeorian: "Aeorian",
-      marquesian: "Marquesian",
-      naush: "Naush",
-      orc: "Orcish",
-      qoniiran: "Qoniiran",
-      zemnian: "Zemnian",
-    };
-    foundry.utils.mergeObject(CONFIG.DND5E.languages, toAdd);
+    // Adjust weapon properties.
+    foundry.utils.mergeObject(
+      CONFIG.DND5E.weaponProperties,
+      {
+        // "-=fir": null,
+        // "-=rel": null
+      },
+      { performDeletions: true }
+    );
 
-    CONFIG.DND5E.languages = dnd5e.utils.sortObjectEntries(
-      CONFIG.DND5E.languages
+    // Adjust feature item subtypes.
+    foundry.utils.mergeObject(CONFIG.DND5E.featureTypes.class.subtypes, {
+      primordialEffect: "DND5E.ClassFeature.PrimordialEffect",
+    });
+
+    // Replace status conditions.
+    CONFIG.statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort(
+      (a, b) => a.sort - b.sort
     );
   }
 
@@ -184,18 +199,6 @@ export class GameChangesHandler {
       warhammer: `${key}.YZzXPxRgpYcPh61M`,
       whip: `${key}.KGH7gJe5mvpbRoFZ`,
     };
-
-    // delete some weapon properties.
-    const toDelete = ["fir", "rel"];
-    for (const d of toDelete) delete CONFIG.DND5E.weaponProperties[d];
-  }
-
-  static _conditions() {
-    // these are gotten from a different file, combined, and then sorted.
-    const statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort((a, b) => {
-      return a.sort - b.sort;
-    });
-    CONFIG.statusEffects = statusEffects;
   }
 
   // Add 'View' button to scene headers for the GM.
@@ -233,18 +236,6 @@ export class GameChangesHandler {
       content: `Some of ${actor.name}'s items were destroyed:<ul>${content}</ul>`,
       speaker: ChatMessage.getSpeaker({ actor }),
     });
-  }
-
-  // Miscellaneous adjustments.
-  static _miscAdjustments() {
-    // Add more feature types.
-    const types = CONFIG.DND5E.featureTypes.class.subtypes;
-    types.primordialEffect = "Primordial Effect";
-    CONFIG.DND5E.featureTypes.class.subtypes =
-      dnd5e.utils.sortObjectEntries(types);
-
-    // Adjust the time it takes for tooltips to fade in and out.
-    TooltipManager.TOOLTIP_ACTIVATION_MS = 100;
   }
 
   /**
@@ -321,14 +312,9 @@ export class GameChangesHandler {
       name: "Create Scroll",
       icon: "<i class='fa-solid fa-scroll'></i>",
       callback: async () => {
-        const path = "flags.concentrationnotifier.data.requiresConcentration";
-        const data = { flags: { ...spell.flags } };
-        if (spell.system.components.concentration)
-          foundry.utils.setProperty(data, path, true);
-        const scroll = await Item.implementation.createScrollFromSpell(
-          spell,
-          data
-        );
+        const scroll = await Item.implementation.createScrollFromSpell(spell, {
+          flags: spell.flags,
+        });
         const itemData = game.items.fromCompendium(scroll, { addFlags: false });
         ui.notifications.info(`Created scroll from ${spell.name}.`);
         return spell.actor.createEmbeddedDocuments("Item", [itemData]);
@@ -568,5 +554,17 @@ export class GameChangesHandler {
       return;
     const ray = new Ray(doc, { x: update.x ?? doc.x, y: update.y ?? doc.y });
     update.rotation = (ray.angle * 180) / Math.PI - 90;
+  }
+
+  /** Evaluate roll data in an ac bonus effect. */
+  static evaluateArmorClassBonus(actor, change, current, delta, changes) {
+    const { key, value } = change;
+    if (
+      key === "system.attributes.ac.bonus" &&
+      typeof value == "string" &&
+      value.includes("@")
+    ) {
+      changes[key] = dnd5e.utils.simplifyBonus(value, actor.getRollData());
+    }
   }
 }

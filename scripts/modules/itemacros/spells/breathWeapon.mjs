@@ -61,6 +61,7 @@ export async function BREATH_WEAPON(
     cone: { value: 30, units: "ft", type: "cone", width: "" },
   }[template];
   const clone = item.clone({ "system.target": target }, { keepId: true });
+  clone.prepareData();
   clone.prepareFinalAttributes();
   return clone.use({}, { "flags.dnd5e.itemData": clone.toObject() });
 }

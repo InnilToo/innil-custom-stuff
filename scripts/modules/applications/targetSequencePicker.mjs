@@ -3,18 +3,26 @@ import { MODULE } from "../../const.mjs";
 export class TargetSequencePicker extends Application {
   /**
    * @constructor
-   * @param {Token|TokenDocument} source      The source token or token document.
-   * @param {number} range                    The max distance between targets.
-   * @param {number} links                    The maximum number of links to make.
-   * @param {Function} [callback]             A function that does something with the token ids.
+   * @param {Token|TokenDocument} source        The source token or token document.
+   * @param {number} range                      The max distance between targets.
+   * @param {number} links                      The maximum number of links to make.
+   * @param {Function} callback                 A function that does something with the token ids.
+   * @param {boolean} [unique=false]            Whether the same target can be picked twice.
+   * @param {boolean} [includeSource=true]      Include the source as the first target?
+   * @param {number} [maxDistance=Infinity]     The maximum distance from the source.
    */
-  constructor(source, range, links, callback) {
+  constructor(config) {
     super();
-    this.source = source.object ?? source;
-    this.range = range;
-    this.links = links;
-    this.link = 1;
-    this.callback = callback;
+    this.range = config.range;
+    this.links = config.links;
+    this.callback = config.callback;
+    this.unique = config.unique ?? false;
+    this.includeSource = config.includeSource ?? true;
+    this.source = config.source;
+    this.maxDistance = config.maxDistance ?? Infinity;
+
+    const seq = this.includeSource ? [this.source.id] : [];
+    this.sequence = this.unique ? new Set(seq) : seq;
   }
 
   /** @override */
@@ -31,13 +39,31 @@ export class TargetSequencePicker extends Application {
 
   /** @override */
   async getData() {
-    return { src: this.source, targets: this.gatherWithinRange(this.source) };
+    let lastToken = null;
+    let valid = 0;
+
+    const defaultImg = "icons/magic/symbols/question-stone-yellow.webp";
+    const sequence = this.sequence.reduce((acc, id, idx) => {
+      const token = canvas.scene.tokens.get(id);
+      if (token) {
+        lastToken = token;
+        valid++;
+      }
+      acc[idx] = { token, default: defaultImg };
+      return acc;
+    }, new Array(this.links).fill({ default: defaultImg }));
+
+    const canAdd = valid < this.links;
+    const targets = this.gatherWithinRange(lastToken);
+    return { sequence, canAdd, targets };
   }
 
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html[0].addEventListener("click", this._onToggle.bind(this));
+    html[0].querySelectorAll("[data-action='add-target']").forEach((n) => {
+      n.addEventListener("click", this._addTarget.bind(this));
+    });
     html[0]
       .querySelector("[data-action='submit']")
       .addEventListener("click", this.submit.bind(this));
@@ -47,30 +73,11 @@ export class TargetSequencePicker extends Application {
    * Handle clicking an inactive img.
    * @param {PointerEvent} event      The initiating click event.
    */
-  _onToggle(event) {
-    const img = event.target.closest("img:not(.active)");
-    if (!img) return;
-    img.classList.toggle("active");
-    img
-      .closest(".level")
-      .querySelectorAll("img:not(.active)")
-      .forEach((i) => i.classList.toggle("inactive"));
-    const tokens = this.gatherWithinRange(
-      this.source.scene.tokens.get(img.dataset.tokenId)
-    );
-    return this.constructLevel(tokens);
-  }
-
-  /**
-   * Are a and b two different tokens within a certain distance from each other?
-   * @param {Token} a       One token.
-   * @param {Token} b       Another token.
-   * @returns {boolean}     Whether they are within range of each other.
-   */
-  withinRange(a, b) {
-    return (
-      a !== b && babonus.getMinimumDistanceBetweenTokens(a, b) <= this.range
-    );
+  _addTarget(event) {
+    const id = event.currentTarget.dataset.tokenId;
+    if (this.unique) this.sequence.add(id);
+    else this.sequence.push(id);
+    return this.render();
   }
 
   /**
@@ -79,30 +86,43 @@ export class TargetSequencePicker extends Application {
    * @returns {TokenDocument[]}         An array of token documents within range.
    */
   gatherWithinRange(a) {
-    a = a.object ?? a;
-    return a.scene.tokens.filter((b) => this.withinRange(a, b.object));
-  }
+    if (a !== null) a = a.object ?? a;
+    return canvas.scene.tokens
+      .reduce((acc, token) => {
+        // Do not include the token itself when finding others near it.
+        if (a && a === token.object) return acc;
 
-  /**
-   * Construct and inject a new 'level' in the application.
-   * @param {TokenDocument[]} tokens      An array of token documents to show at this level.
-   */
-  constructLevel(tokens) {
-    const level = this.element[0].querySelector(`[data-level="${this.link}"]`);
-    this.link++;
-    if (this.link >= this.links) return;
-    const div = document.createElement("DIV");
-    div.dataset.level = this.link;
-    div.classList.add("level");
-    div.innerHTML =
-      tokens.reduce((acc, token) => {
-        return (
-          acc +
-          `<img src="${token.texture.src}" data-tooltip="${token.name}" data-token-id="${token.id}">`
+        // Do not include a token already in the sequence.
+        if (this.unique && this.sequence.has(token.id)) return acc;
+
+        const isFin = Number.isFinite(this.maxDistance);
+
+        if (isFin) {
+          const range = babonus.getMinimumDistanceBetweenTokens(
+            this.source,
+            token.object
+          );
+          if (range > this.maxDistance) return acc;
+        }
+
+        // Include a token if it is within range.
+        const range = babonus.getMinimumDistanceBetweenTokens(
+          a ?? this.source,
+          token.object
         );
-      }, `<span class="label">${this.link.ordinalString()} Target</span><div class="images">`) +
-      "</div>";
-    level.after(div);
+
+        // The max range is the max distance if used and the first in the sequence.
+        const maxRange = Math.max(
+          this.range,
+          isFin && foundry.utils.isEmpty(this.sequence) ? this.maxDistance : 0
+        );
+        if (range <= maxRange) acc.push(token);
+
+        return acc;
+      }, [])
+      .sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
   }
 
   /**
@@ -110,25 +130,27 @@ export class TargetSequencePicker extends Application {
    * @param {PointerEvent} event      The initiating click event.
    */
   submit(event) {
-    const tokenIds = {};
-    for (const level of this.element[0].querySelectorAll("[data-level]")) {
-      const id = level.querySelector(".active")?.dataset.tokenId;
-      if (id) tokenIds[level.dataset.level] = id;
-    }
+    const tokenIds = this.sequence.reduce((acc, id, idx) => {
+      acc[idx] = id;
+      return acc;
+    }, {});
+    if (this.callback instanceof Function) this.callback(tokenIds);
     this.close();
-    return this.callback instanceof Function
-      ? this.callback(tokenIds)
-      : tokenIds;
+  }
+
+  /** @override */
+  async close() {
+    if (this.callback instanceof Function) this.callback(null);
+    return super.close();
   }
 
   /**
-   * Initial rendering method for this application.
-   * @returns {TargetSequencePicker}      An instance of this application.
+   * Create an instance of this application and wait for the callback.
+   * @returns {Promise<object|null>}      An object of token ids, or null if closed.
    */
-  static createApplication(token, range, links, callback) {
-    if (token && range > 0 && links > 0)
-      return new TargetSequencePicker(token, range, links, callback).render(
-        true
-      );
+  static async wait(config) {
+    return new Promise((resolve) => {
+      new TargetSequencePicker({ ...config, callback: resolve }).render(true);
+    });
   }
 }

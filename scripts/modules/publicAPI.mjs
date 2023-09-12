@@ -1,6 +1,58 @@
 import { MODULE } from "../const.mjs";
+import { ImageAnchorPicker } from "./applications/imageAnchorPicker.mjs";
+import { SlotRecoverer } from "./applications/slotRecoverer.mjs";
+import { TargetSequencePicker } from "./applications/targetSequencePicker.mjs";
+import { WhisperPlayers } from "./applications/whisperPlayers.mjs";
+import { gameTools } from "./gameTools/_gameTools.mjs";
+import { ITEMACRO, ItemMacroHelpers } from "./itemMacros.mjs";
+import { SocketsHandler } from "./sockets.mjs";
 
-export class PublicAPI {
+export default class PublicAPI {
+  static init() {
+    globalThis.INNIL = {
+      token: {
+        teleport: PublicAPI._teleportTokens,
+        target: PublicAPI._targetTokens,
+        healToken: SocketsHandler.healToken,
+        getOwnerIds: PublicAPI._getTokenOwnerIds,
+        contained: PublicAPI._checkTokenInTemplate,
+        selectContained: PublicAPI._selectContained,
+        detection: {
+          canSeeOtherToken: PublicAPI.canSeeOtherToken,
+          getFurthestPointOnTemplateFromPosition:
+            PublicAPI.getFurthestPointOnTemplateFromPosition,
+          getFurthestPointAlongRayTemplate:
+            PublicAPI.getFurthestPointAlongRayTemplate,
+          getFurthestPointAlongRay: PublicAPI.getFurthestPointAlongRay,
+        },
+      },
+      utils: {
+        getDocument: PublicAPI._getDocumentFromCompendium,
+        roman: PublicAPI._romanize,
+        whisperPlayers: WhisperPlayers.whisperPlayers,
+        titleCard: PublicAPI._titleCard,
+        drawCircle: ItemMacroHelpers.drawCircle,
+        loadTextureForAll: SocketsHandler.loadTextureForAll,
+        createTiles: SocketsHandler.createTiles,
+        awardLoot: SocketsHandler.awardLoot,
+        updateToken: SocketsHandler.updateTokens,
+        grantItems: SocketsHandler.grantItems,
+        pickPosition: ItemMacroHelpers.pickPosition,
+        ...gameTools,
+      },
+      applications: {
+        imagePicker: ImageAnchorPicker,
+        slotRecoverer: SlotRecoverer,
+        sequencePicker: TargetSequencePicker,
+      },
+      ITEMACRO: ITEMACRO,
+    };
+  }
+
+  /* --------------------------------- */
+  /*           FUNCTIONS               */
+  /* --------------------------------- */
+
   /**
    * Get a document from a compendium.
    * @param {string} documentName     Name of the document.

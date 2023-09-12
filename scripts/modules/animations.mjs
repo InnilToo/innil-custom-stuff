@@ -13,7 +13,16 @@ export class AnimationsHandler {
 
     const token = item.actor.token?.object ?? item.actor.getActiveTokens()[0];
     let check;
-    while (!templateDoc.object) await new Promise((r) => setTimeout(r, 50));
+    let x = 0;
+    let y = 0;
+    let wait = 0;
+
+    while ((!templateDoc.object || !x) && wait < 2000) {
+      await new Promise((r) => setTimeout(r, 50));
+      x = templateDoc.object.x;
+      y = templateDoc.object.y;
+      wait += 50;
+    }
 
     // BREATH WEAPON.
     check = item.flags[MODULE]?.breathWeapon?.type;
@@ -24,7 +33,7 @@ export class AnimationsHandler {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play({ remote: true });
+        .play();
     }
 
     // BURNING HANDS.
@@ -36,7 +45,7 @@ export class AnimationsHandler {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play({ remote: true });
+        .play();
     }
 
     // CALL LIGHTNING.
@@ -46,9 +55,9 @@ export class AnimationsHandler {
       return new Sequence()
         .effect()
         .file(file)
-        .atLocation(templateDoc)
+        .atLocation({ x, y })
         .scale(2)
-        .play({ remote: true });
+        .play();
     }
 
     // BLACK TENTACLES.
@@ -61,7 +70,7 @@ export class AnimationsHandler {
         .attachTo(templateDoc)
         .tieToDocuments(templateDoc)
         .persist()
-        .play({ remote: true });
+        .play();
     }
 
     // FIREBALL.
@@ -78,11 +87,7 @@ export class AnimationsHandler {
           .stretchTo(templateDoc)
           .playbackRate(2)
           .waitUntilFinished();
-      return seq
-        .effect()
-        .file(expl)
-        .atLocation(templateDoc)
-        .play({ remote: true });
+      return seq.effect().file(expl).atLocation(templateDoc).play();
     }
 
     // GRAVITY WAVE.
@@ -97,7 +102,7 @@ export class AnimationsHandler {
         .scale(2)
         .fadeIn(500)
         .persist()
-        .play({ remote: true });
+        .play();
     }
 
     // LIGHTNING BOLT.
@@ -109,7 +114,7 @@ export class AnimationsHandler {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play({ remote: true });
+        .play();
     }
 
     // SORROW'S EMBRACE.
@@ -124,7 +129,7 @@ export class AnimationsHandler {
         .scale(2)
         .fadeIn(500)
         .persist()
-        .play({ remote: true });
+        .play();
     }
 
     // STAR DUST.
@@ -136,7 +141,7 @@ export class AnimationsHandler {
         .file(file)
         .atLocation(templateDoc)
         .stretchTo(templateDoc)
-        .play({ remote: true });
+        .play();
     }
   }
 
@@ -159,7 +164,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
 
     // CROSSBOWS in general.
@@ -174,7 +179,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
 
     // CRACKLE.
@@ -187,7 +192,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
 
     // ELDRITCH BLAST.
@@ -200,7 +205,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
 
     // FIRE BOLT.
@@ -213,7 +218,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
 
     // GUIDING BOLT.
@@ -226,7 +231,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
 
     // ICE KNIFE.
@@ -239,7 +244,7 @@ export class AnimationsHandler {
         .file(file)
         .atLocation(token)
         .stretchTo(target)
-        .play({ remote: true });
+        .play();
     }
 
     // LIGHTING SPEAR.
@@ -253,7 +258,7 @@ export class AnimationsHandler {
         .atLocation(token)
         .file(file)
         .playbackRate(2)
-        .play({ remote: true });
+        .play();
     }
 
     // RADIANT FLAME.
@@ -266,7 +271,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
 
     // THUNDER PUNCH.
@@ -279,7 +284,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
   }
 
@@ -302,7 +307,7 @@ export class AnimationsHandler {
         .attachTo(target)
         .file(file)
         .scaleIn(0, 500)
-        .play({ remote: true });
+        .play();
     }
 
     // DIVINE SMITE.
@@ -310,11 +315,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.divine_smite.target.greenyellow";
-      return new Sequence()
-        .effect()
-        .attachTo(target)
-        .file(file)
-        .play({ remote: true });
+      return new Sequence().effect().attachTo(target).file(file).play();
     }
 
     // ELDRITCH SMITE.
@@ -322,11 +323,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.divine_smite.target.purplepink";
-      return new Sequence()
-        .effect()
-        .attachTo(target)
-        .file(file)
-        .play({ remote: true });
+      return new Sequence().effect().attachTo(target).file(file).play();
     }
 
     // HEALING WORD.
@@ -339,7 +336,7 @@ export class AnimationsHandler {
         .attachTo(target)
         .file(file)
         .scaleIn(0, 500)
-        .play({ remote: true });
+        .play();
     }
 
     // LIGHTNING TENDRIL.
@@ -352,7 +349,7 @@ export class AnimationsHandler {
         .stretchTo(target)
         .atLocation(token)
         .file(file)
-        .play({ remote: true });
+        .play();
     }
   }
 
@@ -371,11 +368,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.liquid.splash.green";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation(target)
-        .play({ remote: true });
+      return new Sequence().effect().file(file).atLocation(target).play();
     }
 
     // BLESS.
@@ -383,11 +376,7 @@ export class AnimationsHandler {
     if (check) {
       const file = "jb2a.bless.400px.intro.yellow";
       targets.forEach((target) => {
-        new Sequence()
-          .effect()
-          .file(file)
-          .attachTo(target)
-          .play({ remote: true });
+        new Sequence().effect().file(file).attachTo(target).play();
       });
     }
 
@@ -395,22 +384,14 @@ export class AnimationsHandler {
     check = name === "Create or Destroy Water";
     if (check) {
       const file = "jb2a.liquid.splash.bright_blue";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .attachTo(token)
-        .play({ remote: true });
+      return new Sequence().effect().file(file).attachTo(token).play();
     }
 
     // DETECT MAGIC.
     check = name === "Detect Magic";
     if (check) {
       const file = "jb2a.detect_magic.circle";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .attachTo(token)
-        .play({ remote: true });
+      return new Sequence().effect().file(file).attachTo(token).play();
     }
 
     // DIVINE SENSE.
@@ -424,7 +405,7 @@ export class AnimationsHandler {
         .duration(10000)
         .fadeOut(500)
         .attachTo(token)
-        .play({ remote: true });
+        .play();
     }
 
     // ELIXIR CANNON
@@ -446,7 +427,7 @@ export class AnimationsHandler {
         .attachTo(target)
         .file(file2)
         .scaleToObject(1.5, { uniform: true, considerTokenScale: true })
-        .play({ remote: true });
+        .play();
     }
 
     // HUNTER'S MARK.
@@ -454,11 +435,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.hunters_mark.pulse.01.green";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation(target)
-        .play({ remote: true });
+      return new Sequence().effect().file(file).atLocation(target).play();
     }
 
     // HEX.
@@ -471,7 +448,7 @@ export class AnimationsHandler {
         .file(file)
         .scale(0.5)
         .atLocation(target)
-        .play({ remote: true });
+        .play();
     }
 
     // HEXBLADE'S CURSE.
@@ -484,7 +461,7 @@ export class AnimationsHandler {
         .file(file)
         .scale(0.5)
         .atLocation(target)
-        .play({ remote: true });
+        .play();
     }
 
     // JEWEL OF THREE PRAYERS.
@@ -496,7 +473,7 @@ export class AnimationsHandler {
         .file(file)
         .scale(1)
         .atLocation(token)
-        .play({ remote: true });
+        .play();
     }
 
     // UNSETTLING PRESENCE.
@@ -510,7 +487,7 @@ export class AnimationsHandler {
         .duration(3000)
         .fadeOut(500)
         .attachTo(token)
-        .play({ remote: true });
+        .play();
     }
 
     // TOLL THE DEAD.
@@ -523,7 +500,7 @@ export class AnimationsHandler {
         .file(file)
         .scale(0.5)
         .atLocation(target)
-        .play({ remote: true });
+        .play();
     }
 
     // PALADIN AURA.
@@ -541,7 +518,7 @@ export class AnimationsHandler {
         .persist()
         .name(name)
         .tint("#ff7300")
-        .play({ remote: true });
+        .play();
     }
   }
 
@@ -555,11 +532,7 @@ export class AnimationsHandler {
     if (check) {
       if (!token) return;
       const file = "jb2a.sneak_attack.";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .attachTo(token)
-        .play({ remote: true });
+      return new Sequence().effect().file(file).attachTo(token).play();
     }
   }
 }
