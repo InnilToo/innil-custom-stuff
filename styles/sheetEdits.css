@@ -1,4 +1,11 @@
 /* Style of the dots. */
+.innil-custom-stuff.dot-container {
+  flex-direction: row-reverse;
+  gap: 2px;
+  display: flex;
+  flex: 0;
+}
+
 .innil-custom-stuff.dot-container .dot {
   height: 15px;
   width: 15px;
@@ -17,7 +24,7 @@
  */
 .innil-custom-stuff.dot-container .dot:hover,
 .innil-custom-stuff.dot-container .dot:not(.empty):hover~.dot:not(.empty),
-.innil-custom-stuff.dot-container:hover .dot.empty:not(.dot:hover ~ .dot) {
+.innil-custom-stuff.dot-container .dot.empty:has(~.dot.empty:hover) {
   transform: scale(1.2);
 }
 
@@ -26,30 +33,12 @@
   background-color: lightgray;
 }
 
-/* Style of the 'not all dots shown' dot. */
-.innil-custom-stuff.dot-container .dot.empty.has-more {
-  mix-blend-mode: color-burn;
-}
-
 .innil-custom-stuff.dot-container .dot.has-more {
   mix-blend-mode: inherit;
 }
 
-.dnd5e.sheet.actor .spellbook .spell-uses {
-  padding-left: 5px;
-}
-
-/* Dot container. */
-.innil-custom-stuff.dot-container {
-  flex-direction: row-reverse;
-  gap: 2px;
-  display: flex;
-  flex: 0;
-}
-
-/* Show shadow overflow. */
-.dnd5e .items-list .items-header.spellbook-header .item-name {
-  overflow: visible;
+.innil-custom-stuff.dot-container .dot.has-more.empty {
+  mix-blend-mode: color-burn;
 }
 
 /* Attunement icon. */
