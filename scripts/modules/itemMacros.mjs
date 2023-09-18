@@ -464,8 +464,8 @@ export class ItemMacroHelpers {
    * @param {number} radius                 The maximum radius, in feet.
    * @param {object} config                 Additional options to configure the workflow.
    * @param {string} config.type            The type of restriction ('move' or 'sight').
-   * @param {boolean} config.showToken      Show the token's image on the cursor.
-   * @param {color} config.red              The color used for invalid positions.
+   * @param {boolean} config.showImage      Show the given image on the cursor.
+   * @param {string} config.img             The image to show on the cursor, if any.   * @param {color} config.red              The color used for invalid positions.
    * @param {color} config.grn              The color used for valid positions.
    * @param {number} config.alpha           The opacity of the drawn shapes.
    * @param {boolean} config.highlight     Highlight the gridspace of the current position.
@@ -475,7 +475,8 @@ export class ItemMacroHelpers {
     config = foundry.utils.mergeObject(
       {
         type: "move",
-        showToken: true,
+        showImage: true,
+        img: token.document.texture.src,
         red: 0xff0000,
         grn: 0x00ff00,
         alpha: 0.5,
@@ -484,9 +485,7 @@ export class ItemMacroHelpers {
       config
     );
 
-    const pointerSprite = new PIXI.Sprite(
-      await loadTexture(token.document.texture.src)
-    );
+    const pointerSprite = new PIXI.Sprite(await loadTexture(img));
     const name = `pick-position.${token.id}`;
     const layer = canvas.grid.addHighlightLayer(name);
 
@@ -520,7 +519,7 @@ export class ItemMacroHelpers {
         const pos = getPosition(x, y);
         canvas.grid.clearHighlightLayer(name);
 
-        if (config.showToken) {
+        if (config.showImage) {
           pointerSpriteContainer.x = pos.x;
           pointerSpriteContainer.y = pos.y;
         }
@@ -543,7 +542,7 @@ export class ItemMacroHelpers {
       pointerSprite.height = token.h;
       pointerSprite.alpha = config.alpha;
       pointerSpriteContainer.addChild(pointerSprite);
-      pointerSpriteContainer.visible = config.showToken;
+      pointerSpriteContainer.visible = config.showImage;
       pointerSpriteContainer.eventMode = "none";
       canvas.controls.addChild(pointerSpriteContainer);
       canvas.app.ticker.add(pointerImage);
@@ -566,7 +565,7 @@ export class ItemMacroHelpers {
       drawing.on("click", onClick);
       drawing.on("pointerover", () => {
         drawing.tint = config.grn;
-        pointerSpriteContainer.visible = config.showToken;
+        pointerSpriteContainer.visible = config.showImage;
       });
       drawing.on("pointerout", () => {
         drawing.tint = config.red;
