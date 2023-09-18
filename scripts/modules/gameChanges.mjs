@@ -22,26 +22,10 @@ export class GameChangesHandler {
   }
 
   static _configChanges() {
-    -(
-      // Adjust spell schools.
-      foundry.utils.mergeObject(CONFIG.DND5E.spellSchools, {
-        divine: "DND5E.SchoolDivine",
-      })
-    );
-
     // Adjust equipment item subtypes.
     const toAdd = { wand: "DND5E.EquipmentWand" };
     foundry.utils.mergeObject(CONFIG.DND5E.equipmentTypes, toAdd);
     foundry.utils.mergeObject(CONFIG.DND5E.miscEquipmentTypes, toAdd);
-
-    // Adjust ability scores.
-    CONFIG.DND5E.abilities.pty = {
-      label: "DND5E.AbilityPty",
-      abbreviation: "pty",
-      type: "mental",
-      defaults: { vehicle: 0 },
-      improvement: false,
-    };
 
     // Adjust conditions.
     foundry.utils.mergeObject(CONFIG.DND5E.conditionTypes, {

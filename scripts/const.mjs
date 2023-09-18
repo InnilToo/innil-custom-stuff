@@ -10,7 +10,6 @@ export const DEPEND = {
   VAE: "visual-active-effects",
   WG: "warpgate",
 };
-export const WORLD_DEFAULTS = { addPiety: false, replaceLanguages: true };
 export const COLOR_DEFAULTS = {
   sheetColors: {
     usesUnexpended: "#00c9cc",
