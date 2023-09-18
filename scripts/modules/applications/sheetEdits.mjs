@@ -10,16 +10,17 @@ export class SheetEdits {
     this.settings = game.settings.get(MODULE, "colorationSettings");
     const isChar = this.sheet.document.type === "character";
     const isGroup = this.sheet.document.type === "group";
-    const isNPC = this.sheet.document.type === "npc";
 
     this._setMagicItemsColor();
-    if (!isGroup) this._setHealthColor();
     this._collapsibleHeaders();
-    if (isChar || isNPC) this._createDots();
-    if (isChar) await this._createCharacterSheetCounters();
-    if (isChar) this._createExhaustion();
-    if (isChar) this._createNewDay();
-    if (isChar) this._createInspirationToggle();
+    if (!isGroup) this._setHealthColor();
+    if (isChar) {
+      this._createDots();
+      this._createCharacterSheetCounters();
+      this._createExhaustion();
+      this._createNewDay();
+      this._createInspirationToggle();
+    }
   }
 
   /** Make 'Inspiration' a toggle. */

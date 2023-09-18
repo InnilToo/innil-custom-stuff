@@ -10,7 +10,7 @@ export default class ModuleSettings {
 
   static _registerSettings() {
     game.settings.register(MODULE, "markDefeatedCombatants", {
-      name: "INNIL.SettingsCombatantDefeatedName",
+      name: "INNIL.SettingsCombatantDefeated",
       hint: "INNIL.SettingsCombatantDefeatedHint",
       scope: "world",
       config: true,
@@ -20,7 +20,7 @@ export default class ModuleSettings {
     });
 
     game.settings.register(MODULE, "displaySavingThrowAmmo", {
-      name: "INNIL.SettingsDisplayAmmoName",
+      name: "INNIL.SettingsDisplayAmmo",
       hint: "INNIL.SettingsDisplayAmmoHint",
       scope: "world",
       config: true,
@@ -31,7 +31,7 @@ export default class ModuleSettings {
 
     // Whether to track reactions.
     game.settings.register(MODULE, "trackReactions", {
-      name: "INNIL.SettingsTrackReactionsName",
+      name: "INNIL.SettingsTrackReactions",
       hint: "INNIL.SettingsTrackReactionsHint",
       scope: "world",
       config: true,
@@ -57,9 +57,9 @@ export default class ModuleSettings {
     });
 
     game.settings.registerMenu(MODULE, "colorationSettings", {
-      name: "INNIL.SettingsMenuColorationSettingsName",
+      name: "INNIL.SettingsMenuColorationSettings",
       hint: "INNIL.SettingsMenuColorationSettingsHint",
-      label: "INNIL.SettingsMenuColorationSettingsName",
+      label: "INNIL.SettingsMenuColorationSettings",
       icon: "fa-solid fa-paint-roller",
       type: ColorationMenu,
       restricted: false,

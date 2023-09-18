@@ -76,7 +76,7 @@ export class ColorationMenu extends SettingsMenu {
       data[section].push({
         id: entry,
         value: val,
-        name: `INNIL.SettingsColoration${entry.capitalize()}Name`,
+        name: `INNIL.SettingsColoration${entry.capitalize()}`,
         hint: `INNIL.SettingsColoration${entry.capitalize()}Hint`,
         placeholder: COLOR_DEFAULTS[section][entry],
       });
