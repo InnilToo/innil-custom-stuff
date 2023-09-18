@@ -320,12 +320,7 @@ button:active:not(.pm-dropdown, :disabled),
 }
 
 /* SETTINGS MENU */
-.innil-custom-stuff.settings-menu {
-  min-width: 400px;
-  height: auto !important;
-}
-
-.innil-custom-stuff.settings-menu form .form-group .form-fields input[type=checkbox] {
+.innil-custom-stuff.settings-menu input[type=checkbox] {
   margin-right: 5em;
 }
 
