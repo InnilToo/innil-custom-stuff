@@ -59,8 +59,6 @@
   "INNIL.SettingsDisplayAmmoName": "Show Saving Throw Ammo",
   "INNIL.SettingsMenuColorationSettingsHint": "Settings for the colors that are applied to the actor sheets.",
   "INNIL.SettingsMenuColorationSettingsName": "Sheet Colors",
-  "INNIL.SettingsMenuIdentifierSettingsHint": "Menu of various ids, identifiers, uuids, and keys.",
-  "INNIL.SettingsMenuIdentifierSettingsName": "Identifiers and Keys",
   "INNIL.SettingsMenuRarityColorsName": "Rarity Colors",
   "INNIL.SettingsTrackReactionsHint": "Track reactions for combatants when combat is ongoing.",
   "INNIL.SettingsTrackReactionsName": "Track Reactions in Combat",

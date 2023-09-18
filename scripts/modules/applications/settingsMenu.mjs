@@ -84,37 +84,3 @@ export class ColorationMenu extends SettingsMenu {
     return data;
   }
 }
-
-export class IdentifiersMenu extends SettingsMenu {
-  /** @override */
-  get template() {
-    return `modules/${MODULE}/templates/settingsIdentifiersMenu.hbs`;
-  }
-
-  /** @override */
-  get id() {
-    return "innil-custom-stuff-settings-identifiers";
-  }
-
-  /** @override */
-  get title() {
-    return game.i18n.localize("INNIL.SettingsMenuIdentifierSettingsName");
-  }
-
-  /** @override */
-  async _updateObject(event, formData) {
-    const data = foundry.utils.expandObject(formData);
-    return game.settings.set(MODULE, "identifierSettings", data);
-  }
-
-  /** @override */
-  async getData() {
-    const data = game.settings.get(MODULE, "identifierSettings") ?? {};
-    return data;
-  }
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
-  }
-}

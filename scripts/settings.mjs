@@ -1,8 +1,5 @@
 import { COLOR_DEFAULTS, MODULE } from "./const.mjs";
-import {
-  ColorationMenu,
-  IdentifiersMenu,
-} from "./modules/applications/settingsMenu.mjs";
+import { ColorationMenu } from "./modules/applications/settingsMenu.mjs";
 import { SheetEdits } from "./modules/applications/sheetEdits.mjs";
 
 export default class ModuleSettings {
@@ -66,23 +63,6 @@ export default class ModuleSettings {
       icon: "fa-solid fa-paint-roller",
       type: ColorationMenu,
       restricted: false,
-    });
-
-    // Settings for various keys, ids, and uuids.
-    game.settings.register(MODULE, "identifierSettings", {
-      scope: "world",
-      config: false,
-      type: Object,
-      default: {},
-    });
-
-    game.settings.registerMenu(MODULE, "identifierSettings", {
-      name: "INNIL.SettingsMenuIdentifierSettingsName",
-      hint: "INNIL.SettingsMenuIdentifierSettingsHint",
-      label: "INNIL.SettingsMenuIdentifierSettingsName",
-      icon: "fa-solid fa-key",
-      type: IdentifiersMenu,
-      restricted: true,
     });
   }
 }
