@@ -320,27 +320,12 @@ button:active:not(.pm-dropdown, :disabled),
 }
 
 /* SETTINGS MENU */
-.innil-custom-stuff.settings-menu {
-  min-width: 400px;
-  height: auto !important;
-}
-
-.innil-custom-stuff.settings-menu form .form-group .form-fields input[type=checkbox] {
+.innil-custom-stuff.settings-menu input[type=checkbox] {
   margin-right: 5em;
 }
 
 .innil-custom-stuff.settings-menu .form-group:not(:last-of-type) {
   border-bottom: 2px groove;
-}
-
-.innil-custom-stuff.settings-menu .identifiers-and-keys [data-action="add-key"] {
-  position: absolute;
-  right: 0.75em;
-}
-
-.innil-custom-stuff.settings-menu .identifiers-and-keys [data-action="delete-key"] {
-  flex: 0;
-  padding: 0 0.5em;
 }
 
 /* COLUMN DIALOG */

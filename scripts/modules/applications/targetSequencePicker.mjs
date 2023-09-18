@@ -100,7 +100,8 @@ export class TargetSequencePicker extends Application {
         if (isFin) {
           const range = babonus.getMinimumDistanceBetweenTokens(
             this.source,
-            token.object
+            token.object,
+            { gridSpaces: true }
           );
           if (range > this.maxDistance) return acc;
         }
@@ -108,7 +109,8 @@ export class TargetSequencePicker extends Application {
         // Include a token if it is within range.
         const range = babonus.getMinimumDistanceBetweenTokens(
           a ?? this.source,
-          token.object
+          token.object,
+          { gridSpaces: true }
         );
 
         // The max range is the max distance if used and the first in the sequence.

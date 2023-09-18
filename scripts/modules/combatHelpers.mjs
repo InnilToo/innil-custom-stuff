@@ -1,3 +1,5 @@
+import { MODULE } from "../const.mjs";
+
 export class CombatEnhancements {
   /**
    * Mark a non-player-owned and unlinked combatant's token as defeated when it reaches zero hit points.
@@ -6,6 +8,8 @@ export class CombatEnhancements {
    * @returns {Promise<Combatant>}      The combatant that was updated.
    */
   static async _markDefeatedCombatant(actor, updates) {
+    if (!game.settings.get(MODULE, "markDefeatedCombatants") || !game.user.isGM)
+      return;
     if (actor.hasPlayerOwner || !actor.inCombat) return;
     const hpUpdate = updates.system?.attributes?.hp?.value;
     if (!Number.isNumeric(hpUpdate) || !(hpUpdate <= 0)) return;
@@ -26,6 +30,7 @@ export class CombatEnhancements {
    * @returns {Promise<ChatMessage>}      The displayed chat message.
    */
   static async _displaySavingThrowAmmo(weapon, roll, ammoUpdate) {
+    if (!game.settings.get(MODULE, "displaySavingThrowAmmo")) return;
     if (!ammoUpdate.length) return;
     const ammoId = ammoUpdate[0]._id;
     const ammo = weapon.actor.items.get(ammoId);
@@ -37,10 +42,15 @@ export class CombatEnhancements {
    * Hook function to add the 'reaction' effect to an actor when using an item that requires a reaction.
    * The effect is altered to show the name of the item used and is removed at the start of the same actor's
    * turn. This hook only fires during combat and can be toggled to fire for GM, none, or players too.
-   * @param {Item} item     The item that was used.
-   * @returns {boolean}     Whether the effect is now on or off (always true).
+   * @param {Item} item               The item that was used.
+   * @returns {Promise<boolean>}      Whether the effect is now on or off (always true).
    */
-  static _spendReaction(item) {
+  static async _spendReaction(item) {
+    const reactionSetting = game.settings.get(MODULE, "trackReactions");
+    const valid =
+      (reactionSetting === 1 && game.user.isGM) || reactionSetting === 2;
+    if (!valid) return;
+
     if (item.system.activation?.type !== "reaction") return;
     if (!game.combat) return;
     if (item.actor.statuses.has("reaction")) return;
@@ -88,5 +98,12 @@ export class CombatEnhancements {
       content: `${actor.name}'s legendary actions were reset.`,
       whisper: [game.user.id],
     });
+  }
+
+  static init() {
+    Hooks.on("dnd5e.rollAttack", CombatEnhancements._displaySavingThrowAmmo);
+    Hooks.on("updateActor", CombatEnhancements._markDefeatedCombatant);
+    Hooks.on("updateCombat", CombatEnhancements._rechargeMonsterFeatures);
+    Hooks.on("dnd5e.useItem", CombatEnhancements._spendReaction);
   }
 }

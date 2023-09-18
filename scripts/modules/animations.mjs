@@ -535,4 +535,23 @@ export class AnimationsHandler {
       return new Sequence().effect().file(file).attachTo(token).play();
     }
   }
+
+  static init() {
+    Hooks.once("sequencerReady", AnimationsHandler._sequencerSetup);
+    // hook for various actions are performed to display animations.
+    if (
+      !["sequencer", "jb2a_patreon"].every(
+        (id) => !!game.modules.get(id)?.active
+      )
+    )
+      return;
+    Hooks.on(
+      "createMeasuredTemplate",
+      AnimationsHandler.onCreateMeasuredTemplate
+    );
+    Hooks.on("dnd5e.useItem", AnimationsHandler.onItemUse);
+    Hooks.on("dnd5e.rollAttack", AnimationsHandler.onItemRollAttack);
+    Hooks.on("dnd5e.rollDamage", AnimationsHandler.onItemRollDamage);
+    Hooks.on("dnd5e.rollSkill", AnimationsHandler.onRollSkill);
+  }
 }

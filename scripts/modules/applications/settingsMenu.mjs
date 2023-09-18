@@ -1,4 +1,4 @@
-import { COLOR_DEFAULTS, MODULE, WORLD_DEFAULTS } from "../../const.mjs";
+import { COLOR_DEFAULTS, MODULE } from "../../const.mjs";
 
 class SettingsMenu extends FormApplication {
   /** @override */
@@ -6,7 +6,7 @@ class SettingsMenu extends FormApplication {
     return foundry.utils.mergeObject(super.defaultOptions, {
       popOut: true,
       width: 550,
-      resizable: true,
+      resizable: false,
       classes: [MODULE, "settings-menu"],
     });
   }
@@ -34,47 +34,6 @@ class SettingsMenu extends FormApplication {
   /** @override */
   async getData() {
     throw new Error("You must override getData.");
-  }
-}
-
-export class GameChangesMenu extends SettingsMenu {
-  /** @override */
-  get template() {
-    return `modules/${MODULE}/templates/settingsGameChangesMenu.hbs`;
-  }
-
-  /** @override */
-  get id() {
-    return "innil-custom-stuff-settings-game-changes";
-  }
-
-  /** @override */
-  get title() {
-    return "Additions and Replacements";
-  }
-
-  /** @override */
-  async _updateObject(event, formData) {
-    return game.settings.set(MODULE, "worldSettings", formData, {
-      diff: false,
-    });
-  }
-
-  /** @override */
-  async getData() {
-    const def = game.settings.get(MODULE, "worldSettings");
-    const data = foundry.utils.mergeObject(WORLD_DEFAULTS, def, {
-      insertKeys: false,
-    });
-    const settings = Object.entries(data).map((s) => {
-      return {
-        id: s[0],
-        checked: s[1],
-        name: `INNIL.SettingsWorld${s[0].capitalize()}Name`,
-        hint: `INNIL.SettingsWorld${s[0].capitalize()}Hint`,
-      };
-    });
-    return { settings };
   }
 }
 
@@ -117,45 +76,11 @@ export class ColorationMenu extends SettingsMenu {
       data[section].push({
         id: entry,
         value: val,
-        name: `INNIL.SettingsColoration${entry.capitalize()}Name`,
+        name: `INNIL.SettingsColoration${entry.capitalize()}`,
         hint: `INNIL.SettingsColoration${entry.capitalize()}Hint`,
         placeholder: COLOR_DEFAULTS[section][entry],
       });
     }
     return data;
-  }
-}
-
-export class IdentifiersMenu extends SettingsMenu {
-  /** @override */
-  get template() {
-    return `modules/${MODULE}/templates/settingsIdentifiersMenu.hbs`;
-  }
-
-  /** @override */
-  get id() {
-    return "innil-custom-stuff-settings-identifiers";
-  }
-
-  /** @override */
-  get title() {
-    return game.i18n.localize("INNIL.SettingsMenuIdentifierSettingsName");
-  }
-
-  /** @override */
-  async _updateObject(event, formData) {
-    const data = foundry.utils.expandObject(formData);
-    return game.settings.set(MODULE, "identifierSettings", data);
-  }
-
-  /** @override */
-  async getData() {
-    const data = game.settings.get(MODULE, "identifierSettings") ?? {};
-    return data;
-  }
-
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
   }
 }

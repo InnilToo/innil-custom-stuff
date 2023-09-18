@@ -26,7 +26,7 @@ export async function CHAOS_BOLT(
     },
   });
 
-  /* Bail out of dialog was cancelled. */
+  /* Bail out if dialog was cancelled. */
   if (!castOrAttack) return;
 
   /**

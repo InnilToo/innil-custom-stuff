@@ -7,22 +7,20 @@ export class SheetEdits {
 
   // Inject the new functionality and elements into the sheet.
   async render() {
-    this.settings = {
-      ...game.settings.get(MODULE, "worldSettings"),
-      ...game.settings.get(MODULE, "colorationSettings"),
-    };
+    this.settings = game.settings.get(MODULE, "colorationSettings");
     const isChar = this.sheet.document.type === "character";
     const isGroup = this.sheet.document.type === "group";
-    const isNPC = this.sheet.document.type === "npc";
 
     this._setMagicItemsColor();
-    if (!isGroup) this._setHealthColor();
     this._collapsibleHeaders();
-    if (isChar || isNPC) this._createDots();
-    if (isChar) await this._createCharacterSheetCounters();
-    if (isChar) this._createExhaustion();
-    if (isChar) this._createNewDay();
-    if (isChar) this._createInspirationToggle();
+    if (!isGroup) this._setHealthColor();
+    if (isChar) {
+      this._createDots();
+      this._createCharacterSheetCounters();
+      this._createExhaustion();
+      this._createNewDay();
+      this._createInspirationToggle();
+    }
   }
 
   /** Make 'Inspiration' a toggle. */
@@ -337,5 +335,10 @@ export class SheetEdits {
       stl.setProperty(`--${key}`, colors.sheetColors[key]);
     for (const key of Object.keys(COLOR_DEFAULTS.rarityColors))
       stl.setProperty(`--rarity${key.capitalize()}`, colors.rarityColors[key]);
+  }
+
+  static init() {
+    Hooks.once("ready", SheetEdits.refreshColors);
+    Hooks.on("renderActorSheet", SheetEdits._performSheetEdits);
   }
 }

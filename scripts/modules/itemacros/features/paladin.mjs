@@ -55,7 +55,7 @@ async function DIVINE_SMITE(
         : Number(data.level.at(-1));
     const formula = `${Math.min(5, 1 + level) + Number(data.evil)}d8`;
 
-    const item = new Item.implementation(
+    const clone = new Item.implementation(
       {
         type: "feat",
         name: item.name,
@@ -66,10 +66,10 @@ async function DIVINE_SMITE(
       },
       { parent: actor }
     );
-    item.prepareData();
-    item.prepareFinalAttributes();
+    clone.prepareData();
+    clone.prepareFinalAttributes();
 
-    const roll = await item.rollDamage({ event });
+    const roll = await clone.rollDamage({ event });
     if (!roll) return;
     const value = actor.system.spells[data.level].value - 1;
     return actor.update({ [`system.spells.${data.level}.value`]: value });

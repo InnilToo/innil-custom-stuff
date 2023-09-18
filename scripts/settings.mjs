@@ -1,9 +1,5 @@
-import { COLOR_DEFAULTS, MODULE, WORLD_DEFAULTS } from "./const.mjs";
-import {
-  ColorationMenu,
-  GameChangesMenu,
-  IdentifiersMenu,
-} from "./modules/applications/settingsMenu.mjs";
+import { COLOR_DEFAULTS, MODULE } from "./const.mjs";
+import { ColorationMenu } from "./modules/applications/settingsMenu.mjs";
 import { SheetEdits } from "./modules/applications/sheetEdits.mjs";
 
 export default class ModuleSettings {
@@ -14,7 +10,7 @@ export default class ModuleSettings {
 
   static _registerSettings() {
     game.settings.register(MODULE, "markDefeatedCombatants", {
-      name: "INNIL.SettingsCombatantDefeatedName",
+      name: "INNIL.SettingsCombatantDefeated",
       hint: "INNIL.SettingsCombatantDefeatedHint",
       scope: "world",
       config: true,
@@ -24,7 +20,7 @@ export default class ModuleSettings {
     });
 
     game.settings.register(MODULE, "displaySavingThrowAmmo", {
-      name: "INNIL.SettingsDisplayAmmoName",
+      name: "INNIL.SettingsDisplayAmmo",
       hint: "INNIL.SettingsDisplayAmmoHint",
       scope: "world",
       config: true,
@@ -35,7 +31,7 @@ export default class ModuleSettings {
 
     // Whether to track reactions.
     game.settings.register(MODULE, "trackReactions", {
-      name: "INNIL.SettingsTrackReactionsName",
+      name: "INNIL.SettingsTrackReactions",
       hint: "INNIL.SettingsTrackReactionsHint",
       scope: "world",
       config: true,
@@ -51,24 +47,6 @@ export default class ModuleSettings {
   }
 
   static _registerSettingsMenus() {
-    // Game additions, replacements, and tweaks.
-    game.settings.register(MODULE, "worldSettings", {
-      scope: "world",
-      config: false,
-      type: Object,
-      default: WORLD_DEFAULTS,
-      onChange: () => SettingsConfig.reloadConfirm({ world: true }),
-    });
-
-    game.settings.registerMenu(MODULE, "worldSettings", {
-      name: "INNIL.SettingsMenuWorldSettingsName",
-      hint: "INNIL.SettingsMenuWorldSettingsHint",
-      label: "INNIL.SettingsMenuWorldSettingsName",
-      icon: "fa-solid fa-atlas",
-      type: GameChangesMenu,
-      restricted: true,
-    });
-
     // Settings that change the colors on character sheets.
     game.settings.register(MODULE, "colorationSettings", {
       scope: "client",
@@ -79,29 +57,12 @@ export default class ModuleSettings {
     });
 
     game.settings.registerMenu(MODULE, "colorationSettings", {
-      name: "INNIL.SettingsMenuColorationSettingsName",
+      name: "INNIL.SettingsMenuColorationSettings",
       hint: "INNIL.SettingsMenuColorationSettingsHint",
-      label: "INNIL.SettingsMenuColorationSettingsName",
+      label: "INNIL.SettingsMenuColorationSettings",
       icon: "fa-solid fa-paint-roller",
       type: ColorationMenu,
       restricted: false,
-    });
-
-    // Settings for various keys, ids, and uuids.
-    game.settings.register(MODULE, "identifierSettings", {
-      scope: "world",
-      config: false,
-      type: Object,
-      default: {},
-    });
-
-    game.settings.registerMenu(MODULE, "identifierSettings", {
-      name: "INNIL.SettingsMenuIdentifierSettingsName",
-      hint: "INNIL.SettingsMenuIdentifierSettingsHint",
-      label: "INNIL.SettingsMenuIdentifierSettingsName",
-      icon: "fa-solid fa-key",
-      type: IdentifiersMenu,
-      restricted: true,
     });
   }
 }
