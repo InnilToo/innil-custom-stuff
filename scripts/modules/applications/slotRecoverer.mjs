@@ -35,7 +35,7 @@ export class SlotRecoverer extends FormApplication {
 
   /** @override */
   async getData() {
-    const levels = this.constructor.#getLevels(this.actor, this.config);
+    const levels = this.constructor.getLevels(this.actor, this.config);
 
     let recovered = 0;
     for (const level of levels) {
@@ -66,7 +66,7 @@ export class SlotRecoverer extends FormApplication {
    * @returns {object[]}
    * @private
    */
-  static #getLevels(actor, config) {
+  static getLevels(actor, config) {
     return Object.entries(actor.system.spells).reduce((acc, [key, data]) => {
       if (data.value >= data.max) return acc;
       const level = key === "pact" ? data.level : Number(key.at(-1));
@@ -144,7 +144,7 @@ export class SlotRecoverer extends FormApplication {
       config,
       { insertKeys: false, enforceTypes: true }
     );
-    const levels = this.#getLevels(actor, config);
+    const levels = this.getLevels(actor, config);
     return levels.length > 0;
   }
 }
