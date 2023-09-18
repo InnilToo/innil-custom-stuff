@@ -3,13 +3,38 @@ import { MODULE } from "../const.mjs";
 
 export class GameChangesHandler {
   // Hooks on init.
-  static _initGameChanges() {
+  static init() {
     GameChangesHandler._configChanges();
 
     if (game.modules.get("innil-catalogs")?.active) {
       GameChangesHandler._tools();
       GameChangesHandler._weapons();
     }
+
+    Hooks.once("setup", GameChangesHandler._setupGameChanges);
+    Hooks.on("renderItemSheet", GameChangesHandler._itemStatusCondition);
+    Hooks.on("preUpdateToken", GameChangesHandler._rotateTokensOnMovement);
+    Hooks.on("renderTokenHUD", GameChangesHandler._replaceTokenHUD);
+    Hooks.on("dnd5e.restCompleted", GameChangesHandler._restItemDeletion);
+    Hooks.on(
+      "dnd5e.getItemContextOptions",
+      GameChangesHandler._addContextMenuOptions
+    );
+    Hooks.on(
+      "preCreateActiveEffect",
+      GameChangesHandler._preCreateActiveEffect
+    );
+    Hooks.on("applyActiveEffect", GameChangesHandler.evaluateArmorClassBonus);
+    Hooks.on(
+      "getSceneConfigHeaderButtons",
+      GameChangesHandler._sceneHeaderView
+    );
+    Hooks.on("dropCanvasData", GameChangesHandler._dropActorFolder);
+    Hooks.on("preCreateScene", GameChangesHandler._preCreateScene);
+    Hooks.on(
+      "visual-active-effects.createEffectButtons",
+      GameChangesHandler._visualActiveEffectsCreateEffectButtons
+    );
   }
 
   // Hooks on setup.
@@ -229,6 +254,7 @@ export class GameChangesHandler {
    * @returns {Promise<TokenDocument[]>}      The created token documents.
    */
   static async _dropActorFolder(canvas, data) {
+    if (!game.user.isGM) return;
     if (data.type !== "Folder") return;
     const folder = fromUuidSync(data.uuid);
     if (folder.type !== "Actor") return;
@@ -550,5 +576,43 @@ export class GameChangesHandler {
     ) {
       changes[key] = dnd5e.utils.simplifyBonus(value, actor.getRollData());
     }
+  }
+
+  static sceneControls(array) {
+    const token = array.find((a) => a.name === "token");
+
+    // Render the class page.
+    token.tools.push({
+      name: "class-page",
+      title: "Class Pages",
+      icon: "fa-solid fa-wand-magic-sparkles",
+      button: true,
+      visible: true,
+      onClick: () => {
+        const [initial] = Object.keys(game.user.character?.classes ?? {});
+        return ClassPages.show(initial ?? null);
+      },
+    });
+
+    // Render the party features.
+    token.tools.push({
+      name: "party-features",
+      title: "Party Features",
+      icon: "fa-solid fa-yin-yang",
+      button: true,
+      visible: true,
+      onClick: PartyFeatures.renderPartyFeatures,
+    });
+
+    // Show Mayhem dialog.
+    if (game.user.isGM)
+      token.tools.push({
+        name: "mayhem-dialog",
+        title: "Mayhem",
+        icon: "fa-solid fa-poo-storm",
+        button: true,
+        visible: true,
+        onClick: mayhem,
+      });
   }
 }
