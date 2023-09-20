@@ -99,6 +99,7 @@ export class GameChangesHandler {
     // Adjust feature item subtypes.
     foundry.utils.mergeObject(CONFIG.DND5E.featureTypes.class.subtypes, {
       primordialEffect: "DND5E.ClassFeature.PrimordialEffect",
+      naturalExplorer: "DND5E.ClassFeature.NaturalExplorer",
     });
 
     // Replace status conditions.
