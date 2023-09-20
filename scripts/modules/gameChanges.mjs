@@ -100,6 +100,7 @@ export class GameChangesHandler {
     foundry.utils.mergeObject(CONFIG.DND5E.featureTypes.class.subtypes, {
       primordialEffect: "DND5E.ClassFeature.PrimordialEffect",
       naturalExplorer: "DND5E.ClassFeature.NaturalExplorer",
+      favoredEnemy: "DND5E.ClassFeature.FavoredEnemy",
     });
 
     // Replace status conditions.
