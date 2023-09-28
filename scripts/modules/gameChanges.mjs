@@ -16,25 +16,13 @@ export class GameChangesHandler {
     Hooks.on("preUpdateToken", GameChangesHandler._rotateTokensOnMovement);
     Hooks.on("renderTokenHUD", GameChangesHandler._replaceTokenHUD);
     Hooks.on("dnd5e.restCompleted", GameChangesHandler._restItemDeletion);
-    Hooks.on(
-      "dnd5e.getItemContextOptions",
-      GameChangesHandler._addContextMenuOptions
-    );
-    Hooks.on(
-      "preCreateActiveEffect",
-      GameChangesHandler._preCreateActiveEffect
-    );
+    Hooks.on("dnd5e.getItemContextOptions", GameChangesHandler._addContextMenuOptions);
+    Hooks.on("preCreateActiveEffect", GameChangesHandler._preCreateActiveEffect);
     Hooks.on("applyActiveEffect", GameChangesHandler.evaluateArmorClassBonus);
-    Hooks.on(
-      "getSceneConfigHeaderButtons",
-      GameChangesHandler._sceneHeaderView
-    );
+    Hooks.on("getSceneConfigHeaderButtons", GameChangesHandler._sceneHeaderView);
     Hooks.on("dropCanvasData", GameChangesHandler._dropActorFolder);
     Hooks.on("preCreateScene", GameChangesHandler._preCreateScene);
-    Hooks.on(
-      "visual-active-effects.createEffectButtons",
-      GameChangesHandler._visualActiveEffectsCreateEffectButtons
-    );
+    Hooks.on("visual-active-effects.createEffectButtons", GameChangesHandler._visualActiveEffectsCreateEffectButtons);
   }
 
   // Hooks on setup.
@@ -104,13 +92,11 @@ export class GameChangesHandler {
     });
 
     // Replace status conditions.
-    CONFIG.statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort(
-      (a, b) => a.sort - b.sort
-    );
+    CONFIG.statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort((a, b) => a.sort - b.sort);
   }
 
   static _tools() {
-    const key = "innil-catalogs.items";
+    const key = "innil-catalogs.items-basic";
 
     CONFIG.DND5E.toolIds = {
       alchemist: `${key}.4tStn8Ym5IHOZMEn`,
@@ -167,7 +153,7 @@ export class GameChangesHandler {
   }
 
   static _weapons() {
-    const key = "innil-catalogs.items";
+    const key = "innil-catalogs.items-basic";
 
     CONFIG.DND5E.weaponIds = {
       battleaxe: `${key}.5YvvZ5KsGgzlVBJg`,
@@ -262,9 +248,7 @@ export class GameChangesHandler {
     if (folder.type !== "Actor") return;
     const [x, y] = canvas.grid.getTopLeft(data.x, data.y);
     ui.notifications.info(`Dropping actors of '${folder.name}' folder.`);
-    const tokenData = await Promise.all(
-      folder.contents.map((a) => a.getTokenDocument({ x, y }))
-    );
+    const tokenData = await Promise.all(folder.contents.map((a) => a.getTokenDocument({ x, y })));
     return canvas.scene.createEmbeddedDocuments("Token", tokenData);
   }
 
@@ -284,17 +268,7 @@ export class GameChangesHandler {
    * @param {object[]} array      The array of context menu options.
    */
   static _moveItemToSharedInventory(item, array) {
-    if (
-      ![
-        "weapon",
-        "equipment",
-        "consumable",
-        "tool",
-        "backpack",
-        "loot",
-      ].includes(item.type)
-    )
-      return;
+    if (!["weapon", "equipment", "consumable", "tool", "backpack", "loot"].includes(item.type)) return;
     const inventory = game.actors.filter((a) => {
       return a.isOwner && a.type === "group" && a !== item.actor;
     });
@@ -350,28 +324,19 @@ export class GameChangesHandler {
       })
       .sort((a, b) => a.name.localeCompare(b.name))
       .reduce(function (acc, s) {
-        return (
-          acc + `<option value="${s.id}">${game.i18n.localize(s.name)}</option>`
-        );
+        return acc + `<option value="${s.id}">${game.i18n.localize(s.name)}</option>`;
       }, "");
 
     if (!options.length) return;
 
     const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(
-      "modules/innil-custom-stuff/templates/statusConditionSelect.hbs"
-    );
+    div.innerHTML = await renderTemplate("modules/innil-custom-stuff/templates/statusConditionSelect.hbs");
     list.append(...div.children);
 
-    const add = html[0].querySelector(
-      "[data-effect-type='statusCondition'] a[data-action='statusCondition']"
-    );
+    const add = html[0].querySelector("[data-effect-type='statusCondition'] a[data-action='statusCondition']");
     if (add)
       add.addEventListener("click", async function () {
-        const id =
-          sheet.document.uuid.replaceAll(".", "-") +
-          "-" +
-          "add-status-condition";
+        const id = sheet.document.uuid.replaceAll(".", "-") + "-" + "add-status-condition";
         const effId = await Dialog.wait(
           {
             title: "Add Status Condition",
@@ -396,9 +361,7 @@ export class GameChangesHandler {
           { id }
         );
         if (!effId) return;
-        const eff = foundry.utils.deepClone(
-          CONFIG.statusEffects.find((e) => e.id === effId)
-        );
+        const eff = foundry.utils.deepClone(CONFIG.statusEffects.find((e) => e.id === effId));
         const data = foundry.utils.mergeObject(eff, {
           statuses: [eff.id],
           transfer: false,
@@ -464,17 +427,11 @@ export class GameChangesHandler {
         return sorting[a.id] - sorting[b.id];
       })
       .reduce((acc, eff) => {
-        const condition =
-          CONFIG.statusEffects.find((e) => e.id === eff.id) ?? {};
+        const condition = CONFIG.statusEffects.find((e) => e.id === eff.id) ?? {};
         const clss = "status-effect effect-control";
-        const atts =
-          (eff.isActive ? "active" : "") +
-          " " +
-          (eff.isOverlay ? "overlay" : "");
+        const atts = (eff.isActive ? "active" : "") + " " + (eff.isOverlay ? "overlay" : "");
         const tooltip = condition.description;
-        const name = game.i18n.localize(
-          `INNIL.StatusCondition${eff.id.capitalize()}`
-        );
+        const name = game.i18n.localize(`INNIL.StatusCondition${eff.id.capitalize()}`);
         return (
           acc +
           `
@@ -545,8 +502,7 @@ export class GameChangesHandler {
     if (types.includes("template")) {
       buttons.push({
         label: `${itemData.name} (Template)`,
-        callback: () =>
-          dnd5e.canvas.AbilityTemplate.fromItem(item).drawPreview(),
+        callback: () => dnd5e.canvas.AbilityTemplate.fromItem(item).drawPreview(),
       });
     }
   }
@@ -559,11 +515,7 @@ export class GameChangesHandler {
    */
   static _rotateTokensOnMovement(doc, update, options) {
     if (doc.lockRotation || options.animate === false) return;
-    if (
-      !foundry.utils.hasProperty(update, "x") &&
-      !foundry.utils.hasProperty(update, "y")
-    )
-      return;
+    if (!foundry.utils.hasProperty(update, "x") && !foundry.utils.hasProperty(update, "y")) return;
     const ray = new Ray(doc, { x: update.x ?? doc.x, y: update.y ?? doc.y });
     update.rotation = (ray.angle * 180) / Math.PI - 90;
   }
@@ -571,11 +523,7 @@ export class GameChangesHandler {
   /** Evaluate roll data in an ac bonus effect. */
   static evaluateArmorClassBonus(actor, change, current, delta, changes) {
     const { key, value } = change;
-    if (
-      key === "system.attributes.ac.bonus" &&
-      typeof value == "string" &&
-      value.includes("@")
-    ) {
+    if (key === "system.attributes.ac.bonus" && typeof value == "string" && value.includes("@")) {
       changes[key] = dnd5e.utils.simplifyBonus(value, actor.getRollData());
     }
   }
