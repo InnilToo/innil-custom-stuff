@@ -1,5 +1,4 @@
 import { AnimationsHandler } from "./scripts/modules/animations.mjs";
-import { DamageApplicator } from "./scripts/modules/applications/damageApplicator.mjs";
 import { SheetEdits } from "./scripts/modules/applications/sheetEdits.mjs";
 import { CombatEnhancements } from "./scripts/modules/combatHelpers.mjs";
 import ActorSheet5eCharacter from "./scripts/modules/documents/character-sheet.mjs";
@@ -14,7 +13,6 @@ Hooks.once("init", ActorExtension.init);
 Hooks.once("init", ActorSheet5eCharacter.init);
 Hooks.once("init", AnimationsHandler.init);
 Hooks.once("init", CombatEnhancements.init);
-Hooks.once("init", DamageApplicator.init);
 Hooks.once("init", ExhaustionHandler.init);
 Hooks.once("init", GameChangesHandler.init);
 Hooks.once("init", ModuleSettings.init);
