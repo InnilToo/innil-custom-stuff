@@ -28,49 +28,28 @@ export class AnimationsHandler {
     check = item.flags[MODULE]?.breathWeapon?.type;
     if (check) {
       const file = check;
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation(templateDoc)
-        .stretchTo(templateDoc)
-        .play();
+      return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
     }
 
     // BURNING HANDS.
     check = item.name === "Burning Hands";
     if (check) {
       const file = "jb2a.burning_hands.01.orange";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation(templateDoc)
-        .stretchTo(templateDoc)
-        .play();
+      return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
     }
 
     // CALL LIGHTNING.
     check = item.name === "Call Lightning";
     if (check) {
       const file = "jb2a.lightning_strike.blue.0";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation({ x, y })
-        .scale(2)
-        .play();
+      return new Sequence().effect().file(file).atLocation({ x, y }).scale(2).play();
     }
 
     // BLACK TENTACLES.
     check = item.name === "Black Tentacles";
     if (check) {
       const file = "jb2a.black_tentacles.dark_purple";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .attachTo(templateDoc)
-        .tieToDocuments(templateDoc)
-        .persist()
-        .play();
+      return new Sequence().effect().file(file).attachTo(templateDoc).tieToDocuments(templateDoc).persist().play();
     }
 
     // FIREBALL.
@@ -79,14 +58,7 @@ export class AnimationsHandler {
       const beam = "jb2a.fireball.beam.orange";
       const expl = "jb2a.fireball.explosion.orange";
       const seq = new Sequence();
-      if (token)
-        seq
-          .effect()
-          .file(beam)
-          .atLocation(token)
-          .stretchTo(templateDoc)
-          .playbackRate(2)
-          .waitUntilFinished();
+      if (token) seq.effect().file(beam).atLocation(token).stretchTo(templateDoc).playbackRate(2).waitUntilFinished();
       return seq.effect().file(expl).atLocation(templateDoc).play();
     }
 
@@ -109,12 +81,7 @@ export class AnimationsHandler {
     check = item.name === "Lightning Bolt";
     if (check) {
       const file = "jb2a.lightning_bolt.wide.blue";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation(templateDoc)
-        .stretchTo(templateDoc)
-        .play();
+      return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
     }
 
     // SORROW'S EMBRACE.
@@ -136,12 +103,7 @@ export class AnimationsHandler {
     check = item.name === "Star Dust";
     if (check) {
       const file = "jb2a.side_impact.part.slow.star.pinkyellow";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation(templateDoc)
-        .stretchTo(templateDoc)
-        .play();
+      return new Sequence().effect().file(file).atLocation(templateDoc).stretchTo(templateDoc).play();
     }
   }
 
@@ -159,27 +121,15 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.arrow.physical.white.01";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
 
     // CROSSBOWS in general.
-    check = ["handcrossbow", "heavycrossbow", "lightcrossbow"].includes(
-      item.system.baseItem
-    );
+    check = ["handcrossbow", "heavycrossbow", "lightcrossbow"].includes(item.system.baseItem);
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.bolt.physical.white02";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
 
     // CRACKLE.
@@ -187,12 +137,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.chain_lightning.primary.blue";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
 
     // ELDRITCH BLAST.
@@ -200,12 +145,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.eldritch_blast";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
 
     // FIRE BOLT.
@@ -213,12 +153,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.fire_bolt.orange";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
 
     // GUIDING BOLT.
@@ -226,12 +161,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.bullet";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
 
     // ICE KNIFE.
@@ -239,12 +169,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.spell_projectile.ice_shard.blue";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .atLocation(token)
-        .stretchTo(target)
-        .play();
+      return new Sequence().effect().file(file).atLocation(token).stretchTo(target).play();
     }
 
     // LIGHTING SPEAR.
@@ -252,13 +177,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.bolt.lightning.blue";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .playbackRate(2)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).playbackRate(2).play();
     }
 
     // RADIANT FLAME.
@@ -266,12 +185,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.chain_lightning.secondary.yellow";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
 
     // THUNDER PUNCH.
@@ -279,12 +193,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.unarmed_strike.magical.01.blue";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
   }
 
@@ -302,12 +211,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.cure_wounds.400px";
-      return new Sequence()
-        .effect()
-        .attachTo(target)
-        .file(file)
-        .scaleIn(0, 500)
-        .play();
+      return new Sequence().effect().attachTo(target).file(file).scaleIn(0, 500).play();
     }
 
     // DIVINE SMITE.
@@ -331,12 +235,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.healing_generic.loop.tealyellow";
-      return new Sequence()
-        .effect()
-        .attachTo(target)
-        .file(file)
-        .scaleIn(0, 500)
-        .play();
+      return new Sequence().effect().attachTo(target).file(file).scaleIn(0, 500).play();
     }
 
     // LIGHTNING TENDRIL.
@@ -344,12 +243,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.chain_lightning.secondary.blue";
-      return new Sequence()
-        .effect()
-        .stretchTo(target)
-        .atLocation(token)
-        .file(file)
-        .play();
+      return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
     }
   }
 
@@ -398,19 +292,11 @@ export class AnimationsHandler {
     check = name === "Divine Sense";
     if (check) {
       const file = "jb2a.token_border.circle.static.blue.001";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .fadeIn(500)
-        .duration(10000)
-        .fadeOut(500)
-        .attachTo(token)
-        .play();
+      return new Sequence().effect().file(file).fadeIn(500).duration(10000).fadeOut(500).attachTo(token).play();
     }
 
     // ELIXIR CANNON
-    check =
-      item.name.includes("Experimental Elixir") && item.type === "consumable";
+    check = item.name.includes("Experimental Elixir") && item.type === "consumable";
     if (check) {
       if (!target || !token) return;
       const file = "jb2a.throwable.throw.flask";
@@ -443,12 +329,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.magic_signs.rune.enchantment.intro.purple";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .scale(0.5)
-        .atLocation(target)
-        .play();
+      return new Sequence().effect().file(file).scale(0.5).atLocation(target).play();
     }
 
     // HEXBLADE'S CURSE.
@@ -456,38 +337,21 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.smoke.puff.centered.dark_black.0";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .scale(0.5)
-        .atLocation(target)
-        .play();
+      return new Sequence().effect().file(file).scale(0.5).atLocation(target).play();
     }
 
     // JEWEL OF THREE PRAYERS.
     check = name === "Jewel of Three Prayers";
     if (check) {
       const file = "jb2a.divine_smite.caster.reversed.blueyellow";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .scale(1)
-        .atLocation(token)
-        .play();
+      return new Sequence().effect().file(file).scale(1).atLocation(token).play();
     }
 
     // UNSETTLING PRESENCE.
     check = name === "Unsettling Presence";
     if (check) {
       const file = "jb2a.icon.fear.dark_purple";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .fadeIn(500)
-        .duration(3000)
-        .fadeOut(500)
-        .attachTo(token)
-        .play();
+      return new Sequence().effect().file(file).fadeIn(500).duration(3000).fadeOut(500).attachTo(token).play();
     }
 
     // TOLL THE DEAD.
@@ -495,12 +359,7 @@ export class AnimationsHandler {
     if (check) {
       if (!target) return;
       const file = "jb2a.toll_the_dead.purple.complete";
-      return new Sequence()
-        .effect()
-        .file(file)
-        .scale(0.5)
-        .atLocation(target)
-        .play();
+      return new Sequence().effect().file(file).scale(0.5).atLocation(target).play();
     }
 
     // PALADIN AURA.
@@ -511,14 +370,7 @@ export class AnimationsHandler {
       const file = "jb2a.extras.tmfx.border.circle.outpulse.01.normal";
       const has = Sequencer.EffectManager.getEffects({ name }).length > 0;
       if (has) return Sequencer.EffectManager.endEffects({ name });
-      return new Sequence()
-        .effect()
-        .attachTo(token)
-        .file(file)
-        .persist()
-        .name(name)
-        .tint("#ff7300")
-        .play();
+      return new Sequence().effect().attachTo(token).file(file).persist().name(name).tint("#ff7300").play();
     }
   }
 
@@ -537,18 +389,9 @@ export class AnimationsHandler {
   }
 
   static init() {
-    Hooks.once("sequencerReady", AnimationsHandler._sequencerSetup);
     // hook for various actions are performed to display animations.
-    if (
-      !["sequencer", "jb2a_patreon"].every(
-        (id) => !!game.modules.get(id)?.active
-      )
-    )
-      return;
-    Hooks.on(
-      "createMeasuredTemplate",
-      AnimationsHandler.onCreateMeasuredTemplate
-    );
+    if (!["sequencer", "jb2a_patreon"].every((id) => !!game.modules.get(id)?.active)) return;
+    Hooks.on("createMeasuredTemplate", AnimationsHandler.onCreateMeasuredTemplate);
     Hooks.on("dnd5e.useItem", AnimationsHandler.onItemUse);
     Hooks.on("dnd5e.rollAttack", AnimationsHandler.onItemRollAttack);
     Hooks.on("dnd5e.rollDamage", AnimationsHandler.onItemRollDamage);
