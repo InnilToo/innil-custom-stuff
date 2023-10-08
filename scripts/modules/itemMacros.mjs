@@ -60,24 +60,14 @@ export class ItemMacroHelpers {
    * @param {number} [maxLevel=Infinity]      The maximum spell slot level to use as an option.
    * @returns {string}                        The string of select options.
    */
-  static _constructSpellSlotOptions(
-    actor,
-    { missing = false, maxLevel = Infinity } = {}
-  ) {
+  static _constructSpellSlotOptions(actor, { missing = false, maxLevel = Infinity } = {}) {
     return Object.entries(actor.system.spells).reduce((acc, [key, data]) => {
-      if ((missing && data.value >= data.max) || (!missing && data.value <= 0))
-        return acc;
+      if ((missing && data.value >= data.max) || (!missing && data.value <= 0)) return acc;
       if (data.level > maxLevel || key.at(-1) > maxLevel) return acc;
-      const label = game.i18n.format(
-        `DND5E.SpellLevel${key === "pact" ? "Pact" : "Slot"}`,
-        {
-          level:
-            key === "pact"
-              ? data.level
-              : game.i18n.localize(`DND5E.SpellLevel${key.at(-1)}`),
-          n: `${data.value}/${data.max}`,
-        }
-      );
+      const label = game.i18n.format(`DND5E.SpellLevel${key === "pact" ? "Pact" : "Slot"}`, {
+        level: key === "pact" ? data.level : game.i18n.localize(`DND5E.SpellLevel${key.at(-1)}`),
+        n: `${data.value}/${data.max}`,
+      });
       return acc + `<option value="${key}">${label}</option>`;
     }, "");
   }
@@ -124,9 +114,7 @@ export class ItemMacroHelpers {
         name: item.name,
         origin: item.uuid,
         duration: {
-          seconds:
-            (value ? value : 1) *
-            (units === "minute" ? 60 : units === "hour" ? 3600 : 1),
+          seconds: (value ? value : 1) * (units === "minute" ? 60 : units === "hour" ? 3600 : 1),
         },
         statuses: [item.name.slugify({ strict: true })],
         description: intro ?? "You are lit up!",
@@ -161,9 +149,7 @@ export class ItemMacroHelpers {
   static _constructDetectionModeEffectData({ modes = [], item }) {
     const onCreate = async function () {
       const modes = effect.flags.effectmacro.data.modes;
-      const previousModes = foundry.utils.deepClone(
-        token.document.detectionModes
-      );
+      const previousModes = foundry.utils.deepClone(token.document.detectionModes);
       const ids = previousModes.map((m) => m.id);
       previousModes.push(...modes.filter((m) => !ids.includes(m.id)));
       return token.document.update({
@@ -205,9 +191,7 @@ export class ItemMacroHelpers {
    * @returns {object[]}              An array of ActiveEffect data.
    */
   static _constructGenericEffectData({ item, level = null, types }) {
-    const itemData = item
-      .clone({ "system.level": level }, { keepId: true })
-      .toObject();
+    const itemData = item.clone({ "system.level": level }, { keepId: true }).toObject();
     types ??= ["redisplay"];
     return [
       {
@@ -232,11 +216,7 @@ export class ItemMacroHelpers {
     if (effect instanceof ActiveEffect) {
       return effect.setFlag(DEPEND.EM, "onDelete.script", command);
     } else {
-      foundry.utils.setProperty(
-        effect,
-        `flags.${DEPEND.EM}.onDelete.script`,
-        command
-      );
+      foundry.utils.setProperty(effect, `flags.${DEPEND.EM}.onDelete.script`, command);
       return effect;
     }
   }
@@ -252,23 +232,16 @@ export class ItemMacroHelpers {
    * @param {number} distance     The maximum distance the token can teleport.
    * @returns {Promise<void>}     A promise that resolves when a token has been teleported.
    */
-  static async _teleportationHelper({
-    item,
-    actor,
-    token,
-    vanish,
-    appear,
-    distance,
-  }) {
+  static async _teleportationHelper({ item, actor, token, vanish, appear, distance }) {
     await actor.sheet?.minimize();
     const p = ItemMacroHelpers.drawCircle(token, distance);
 
-    const { x, y, cancelled } = await ItemMacroHelpers.pickTargetLocation(
-      token,
-      distance
-    );
+    const { x, y, cancelled } = await ItemMacroHelpers.pickTargetLocation(token, distance);
     canvas.app.stage.removeChild(p);
     if (cancelled) return actor.sheet?.maximize();
+
+    // Define the position to teleport to
+    const position = { x, y };
 
     await new Sequence()
       .effect()
@@ -280,15 +253,9 @@ export class ItemMacroHelpers {
       .animation()
       .on(token)
       .opacity(0.0)
+      .teleportTo(position)
+      .snapToGrid()
       .waitUntilFinished()
-      .play({ remote: false });
-
-    await token.document.update(
-      { x: x - canvas.grid.size / 2, y: y - canvas.grid.size / 2 },
-      { animate: false }
-    );
-
-    await new Sequence()
       .effect()
       .file(appear)
       .atLocation(token)
@@ -298,6 +265,7 @@ export class ItemMacroHelpers {
       .animation()
       .on(token)
       .opacity(1.0)
+      .waitUntilFinished()
       .play({ remote: false });
 
     await warpgate.wait(1000);
@@ -360,8 +328,7 @@ export class ItemMacroHelpers {
   static async _spawnHelper(name, updates = {}, callbacks = {}, options = {}) {
     const images = await game.actors.getName(name).getTokenImages();
     await Promise.all(images.map((img) => loadTexture(img)));
-    const spawn =
-      (await warpgate.spawn(name, updates, callbacks, options)) ?? [];
+    const spawn = (await warpgate.spawn(name, updates, callbacks, options)) ?? [];
     return spawn;
   }
 
@@ -382,12 +349,7 @@ export class ItemMacroHelpers {
    * @param {boolean} [autofocus=true]      Whether to add autofocus to the created input.
    * @returns {string}                      The dialog content.
    */
-  static _basicFormContent({
-    label = "",
-    type = "text",
-    options = "",
-    autofocus = true,
-  }) {
+  static _basicFormContent({ label = "", type = "text", options = "", autofocus = true }) {
     const lab = label.length ? `<label>${label}</label>` : "";
     const auto = autofocus ? "autofocus" : "";
     const inp =
@@ -444,8 +406,7 @@ export class ItemMacroHelpers {
   static drawCircle(token, radius) {
     const { x, y } = token.center;
     const tokenRadius = Math.abs(token.document.x - x);
-    const pixels =
-      radius * canvas.scene.dimensions.distancePixels + tokenRadius;
+    const pixels = radius * canvas.scene.dimensions.distancePixels + tokenRadius;
     const color = game.user.color.replace("#", "0x");
     const p = new PIXI.Graphics()
       .beginFill(color, 0.5)
@@ -504,9 +465,7 @@ export class ItemMacroHelpers {
 
     return new Promise((resolve) => {
       const c = token.center;
-      const pixels =
-        radius * canvas.scene.dimensions.distancePixels +
-        Math.abs(token.document.x - c.x);
+      const pixels = radius * canvas.scene.dimensions.distancePixels + Math.abs(token.document.x - c.x);
 
       async function onClick() {
         const x = canvas.mousePosition.x - Math.abs(token.document.x - c.x);
@@ -572,9 +531,7 @@ export class ItemMacroHelpers {
       drawing.beginFill(0xffffff, 0.2);
       drawing.drawShape(movePoly);
       drawing.endFill();
-      drawing.tint = drawing.containsPoint(canvas.mousePosition)
-        ? config.grn
-        : config.red;
+      drawing.tint = drawing.containsPoint(canvas.mousePosition) ? config.grn : config.red;
       drawing.cursor = "pointer";
       drawing.alpha = config.alpha;
       drawing.on("click", onClick);
