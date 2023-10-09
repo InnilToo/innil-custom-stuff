@@ -36,7 +36,7 @@ export const SPELL_EFFECTS = [
     id: "bane",
     name: "INNIL.StatusConditionBane",
     sort: 1100,
-    icon: "assets/images/conditions/bane.webp",
+    icon: "assets/images/icons/conditions/bane.webp",
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Bane spell.</p>" +
@@ -73,7 +73,7 @@ export const SPELL_EFFECTS = [
     id: "bless",
     name: "INNIL.StatusConditionBless",
     sort: 1000,
-    icon: "assets/images/conditions/bless.webp",
+    icon: "assets/images/icons/conditions/bless.webp",
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Bless spell.</p>" +
@@ -110,7 +110,7 @@ export const SPELL_EFFECTS = [
     id: "haste",
     name: "INNIL.StatusConditionHaste",
     sort: 1200,
-    icon: "assets/images/conditions/haste.webp",
+    icon: "assets/images/icons/conditions/haste.webp",
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Haste spell.</p>" +
@@ -152,7 +152,7 @@ export const SPELL_EFFECTS = [
     id: "slow",
     name: "INNIL.StatusConditionSlow",
     sort: 1300,
-    icon: "assets/images/conditions/slowed.webp",
+    icon: "assets/images/icons/conditions/slowed.webp",
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Slow spell.</p>" +
@@ -199,7 +199,7 @@ export const SPELL_EFFECTS = [
     id: "invisible",
     name: "INNIL.StatusConditionInvisible",
     sort: 1500,
-    icon: "assets/images/conditions/invisible.webp",
+    icon: "assets/images/icons/conditions/invisible.webp",
     duration: { seconds: 3600 },
     description:
       "<p>You are invisible.</p>" +
@@ -210,11 +210,9 @@ export const SPELL_EFFECTS = [
     id: "fly",
     name: "INNIL.StatusConditionFly",
     sort: 1400,
-    icon: "assets/images/conditions/flying.webp",
+    icon: "assets/images/icons/conditions/flying.webp",
     duration: { seconds: 600 },
-    description:
-      "<p>You are under the effects of the Fly spell.</p>" +
-      "<p>You have a flying speed of 60 feet.</p>",
+    description: "<p>You are under the effects of the Fly spell.</p>" + "<p>You have a flying speed of 60 feet.</p>",
     changes: [
       {
         key: "system.attributes.movement.fly",
@@ -261,7 +259,7 @@ export const STATUS_EFFECTS = [
     id: "blind",
     name: "INNIL.StatusConditionBlind",
     sort: 300,
-    icon: "assets/images/conditions/blinded.webp",
+    icon: "assets/images/icons/conditions/blinded.webp",
     description:
       "<p>You cannot see, and you automatically fail any ability checks that require sight.</p>" +
       "<p>Attack rolls against you have advantage, and your attack rolls have disadvantage.</p>",
@@ -270,7 +268,7 @@ export const STATUS_EFFECTS = [
     id: "charm",
     name: "INNIL.StatusConditionCharm",
     sort: 200,
-    icon: "assets/images/conditions/charmed.webp",
+    icon: "assets/images/icons/conditions/charmed.webp",
     description:
       "<p>You cannot attack the charmer or target them with harmful abilities or magical effects.</p>" +
       "<p>The charmer has advantage on any ability check to interact socially with you.</p>",
@@ -279,22 +277,21 @@ export const STATUS_EFFECTS = [
     id: "dead",
     name: "INNIL.StatusConditionDead",
     sort: 100,
-    icon: "assets/images/conditions/dead.webp",
+    icon: "assets/images/icons/conditions/dead.webp",
     description: "<p>You have met an unfortunate end.</p>",
   },
   {
     id: "deaf",
     name: "INNIL.StatusConditionDeaf",
     sort: 330,
-    icon: "assets/images/conditions/deafened.webp",
-    description:
-      "<p>You cannot hear and automatically fail any ability checks that require hearing.</p>",
+    icon: "assets/images/icons/conditions/deafened.webp",
+    description: "<p>You cannot hear and automatically fail any ability checks that require hearing.</p>",
   },
   {
     id: "mute",
     name: "INNIL.StatusConditionMute",
     sort: 360,
-    icon: "assets/images/conditions/muted.webp",
+    icon: "assets/images/icons/conditions/muted.webp",
     description:
       "<p>You cannot speak and cannot cast spells with a verbal component.</p>" +
       "<p>You automatically fail any ability checks that require speech.</p>",
@@ -303,7 +300,7 @@ export const STATUS_EFFECTS = [
     id: "fear",
     name: "INNIL.StatusConditionFear",
     sort: 250,
-    icon: "assets/images/conditions/frightened.webp",
+    icon: "assets/images/icons/conditions/frightened.webp",
     description:
       "<p>You have disadvantage on all attack rolls and ability checks while the source of your fear is within your line of sight.</p>" +
       "<p>You cannot willingly move closer to the source of your fear.</p>",
@@ -312,7 +309,7 @@ export const STATUS_EFFECTS = [
     id: "grappled",
     name: "INNIL.StatusConditionGrappled",
     sort: 430,
-    icon: "assets/images/conditions/grappled.webp",
+    icon: "assets/images/icons/conditions/grappled.webp",
     description: "<p>Your speed is zero.</p>",
     changes: [
       {
@@ -351,14 +348,14 @@ export const STATUS_EFFECTS = [
     id: "incapacitated",
     name: "INNIL.StatusConditionIncapacitated",
     sort: 500,
-    icon: "assets/images/conditions/incapacitated.webp",
+    icon: "assets/images/icons/conditions/incapacitated.webp",
     description: "<p>You cannot take actions or reactions.</p>",
   },
   {
     id: "paralysis",
     name: "INNIL.StatusConditionParalysis",
     sort: 600,
-    icon: "assets/images/conditions/paralyzed.webp",
+    icon: "assets/images/icons/conditions/paralyzed.webp",
     description:
       "<p>You are incapacitated, and you cannot move or speak.</p>" +
       "<p>You automatically fail Strength and Dexterity saving throws.</p>" +
@@ -400,7 +397,7 @@ export const STATUS_EFFECTS = [
     id: "petrified",
     name: "INNIL.StatusConditionPetrified",
     sort: 650,
-    icon: "assets/images/conditions/petrified.webp",
+    icon: "assets/images/icons/conditions/petrified.webp",
     description:
       "<p>You are inanimate, incapacitated, and unaware of your surroundings.</p>" +
       "<p>Your weight is increased by a factor of ten, you cannot move or speak, and attack rolls against you have advantage.</p>" +
@@ -411,15 +408,14 @@ export const STATUS_EFFECTS = [
     id: "poison",
     name: "INNIL.StatusConditionPoison",
     sort: 280,
-    icon: "assets/images/conditions/poisoned.webp",
-    description:
-      "<p>You have disadvantage on all attack rolls and ability checks.</p>",
+    icon: "assets/images/icons/conditions/poisoned.webp",
+    description: "<p>You have disadvantage on all attack rolls and ability checks.</p>",
   },
   {
     id: "prone",
     name: "INNIL.StatusConditionProne",
     sort: 400,
-    icon: "assets/images/conditions/prone.webp",
+    icon: "assets/images/icons/conditions/prone.webp",
     description:
       "<p>You can only crawl unless you expend half your movement to stand up.</p>" +
       "<p>You have disadvantage on attack rolls, and any attack roll has advantage against you if the attacker is within 5 feet of you; it otherwise has disadvantage.</p>",
@@ -428,7 +424,7 @@ export const STATUS_EFFECTS = [
     id: "restrain",
     name: "INNIL.StatusConditionRestrain",
     sort: 450,
-    icon: "assets/images/conditions/restrained.webp",
+    icon: "assets/images/icons/conditions/restrained.webp",
     description:
       "<p>Your speed is zero, attack rolls against you have advantage, and your attack rolls have disadvantage.</p>" +
       "<p>You have disadvantage on Dexterity saving throws.</p>",
@@ -469,7 +465,7 @@ export const STATUS_EFFECTS = [
     id: "stun",
     name: "INNIL.StatusConditionStun",
     sort: 540,
-    icon: "assets/images/conditions/stunned.webp",
+    icon: "assets/images/icons/conditions/stunned.webp",
     description:
       "<p>You are incapacitated, cannot move, and can speak only falteringly.</p>" +
       "<p>You automatically fail Strength and Dexterity saving throws, and attack rolls against you have advantage.</p>",
@@ -510,7 +506,7 @@ export const STATUS_EFFECTS = [
     id: "unconscious",
     name: "INNIL.StatusConditionUnconscious",
     sort: 560,
-    icon: "assets/images/conditions/unconscious.webp",
+    icon: "assets/images/icons/conditions/unconscious.webp",
     description:
       "<p>You are incapacitated, cannot move or speak, you fall prone, and you automatically fail all Strength and Dexterity saving throws.</p>" +
       "<p>Attack rolls against you have advantage, and any attack that hits you is a critical hit if the attacker is within 5 feet of you.</p>",
@@ -551,10 +547,9 @@ export const STATUS_EFFECTS = [
     id: "reaction",
     name: "INNIL.StatusConditionReaction",
     sort: 1600,
-    icon: "assets/images/conditions/reaction.webp",
+    icon: "assets/images/icons/conditions/reaction.webp",
     duration: { rounds: 1 },
-    description:
-      "<p>You have spent your reaction. You cannot take another reaction until the start of your next turn.</p>",
+    description: "<p>You have spent your reaction. You cannot take another reaction until the start of your next turn.</p>",
     flags: {
       effectmacro: {
         onCombatEnd: { script: "return effect.delete();" },
