@@ -28,10 +28,7 @@ export class SheetEdits {
     const insp = this.html[0].querySelector(".inspiration h4");
     insp.classList.add("rollable");
     insp.dataset.action = "inspiration";
-    insp.addEventListener(
-      "click",
-      this.sheet._onClickInspiration.bind(this.sheet)
-    );
+    insp.addEventListener("click", this.sheet._onClickInspiration.bind(this.sheet));
   }
 
   /** Set the color of magic items by adding css classes to them. */
@@ -50,38 +47,34 @@ export class SheetEdits {
     const b = (hp.max ?? 0) + (hp.tempmax ?? 0);
     if (!b || a / b > 0.65) return;
 
-    const node = this.html[0].querySelector(
-      "[name='system.attributes.hp.value']"
-    );
+    const node = this.html[0].querySelector("[name='system.attributes.hp.value']");
     node.style.color = dnd5e.documents.Actor5e.getHPColor(a, b).css;
   }
 
   /** Make embedded document headers collapsible. */
   _collapsibleHeaders() {
-    this.html[0]
-      .querySelectorAll(".dnd5e .items-list .items-header h3")
-      .forEach((header) => {
-        const itemHeader = header.closest(".items-header.flexrow");
-        if (!itemHeader) return;
+    this.html[0].querySelectorAll(".dnd5e .items-list .items-header h3").forEach((header) => {
+      const itemHeader = header.closest(".items-header.flexrow");
+      if (!itemHeader) return;
 
-        // apply collapse class for hover effect.
-        itemHeader.classList.toggle("innil-header-collapse");
+      // apply collapse class for hover effect.
+      itemHeader.classList.toggle("innil-header-collapse");
 
-        // Read whether to initially collapse.
-        const applyNoCreate = this.headers.has(header.innerText);
+      // Read whether to initially collapse.
+      const applyNoCreate = this.headers.has(header.innerText);
 
-        // initially add 'no-create' class if applicable.
-        if (applyNoCreate) itemHeader.classList.add("no-create");
+      // initially add 'no-create' class if applicable.
+      if (applyNoCreate) itemHeader.classList.add("no-create");
 
-        // set up listeners to change display.
-        header.addEventListener("click", (event) => {
-          const text = event.currentTarget.innerText;
-          const current = this.headers.has(text);
-          if (current) this.headers.delete(text);
-          else this.headers.add(text);
-          itemHeader.classList.toggle("no-create", this.headers.has(text));
-        });
+      // set up listeners to change display.
+      header.addEventListener("click", (event) => {
+        const text = event.currentTarget.innerText;
+        const current = this.headers.has(text);
+        if (current) this.headers.delete(text);
+        else this.headers.add(text);
+        itemHeader.classList.toggle("no-create", this.headers.has(text));
       });
+    });
   }
 
   /** Handle creating dots for spell slots and items with limited uses. */
@@ -91,9 +84,7 @@ export class SheetEdits {
 
     if (this.settings.checks.showSpellSlots) {
       Object.entries(actor.system.spells).forEach(([key, { value, max }]) => {
-        const _max = this.html[0].querySelector(
-          `.spell-max[data-level=${key}]`
-        );
+        const _max = this.html[0].querySelector(`.spell-max[data-level=${key}]`);
         const dotContainer = document.createElement("DIV");
         dotContainer.classList.add(MODULE, "dot-container");
         if (!max || !_max) return;
@@ -125,47 +116,19 @@ export class SheetEdits {
         .forEach((item) => {
           const uses = item.system.uses;
           if (!uses.max) return;
-          const itemHTML = this.html[0].querySelector(
-            `.item[data-item-id="${item.id}"]`
-          );
+          const itemHTML = this.html[0].querySelector(`.item[data-item-id="${item.id}"]`);
           // skip if item is hidden via filter.
           if (!itemHTML) return;
           const position = item.type === "spell" ? "beforeBegin" : "afterEnd";
           const adjacent =
-            item.type === "spell"
-              ? itemHTML.querySelector(".item-detail.spell-uses")
-              : itemHTML.querySelector(".item-name");
+            item.type === "spell" ? itemHTML.querySelector(".item-detail.spell-uses") : itemHTML.querySelector(".item-name");
 
           if (item.type !== "spell") {
             const dotContainer = document.createElement("DIV");
             dotContainer.classList.add(MODULE, "dot-container");
             const q = 10;
             const max = Math.min(q, uses.max);
-            dotContainer.innerHTML = Array.fromRange(max).reduce(
-              (acc, e, i) => {
-                const le = e < q - 1 || uses.max <= q;
-                const cls = le
-                  ? e < uses.value
-                    ? "dot"
-                    : "dot empty"
-                  : uses.value < uses.max
-                  ? "dot empty has-more"
-                  : "dot has-more";
-                return (
-                  acc +
-                  `<span class="${cls}" data-action="toggleDot" data-item-id="${item.id}" data-idx="${i}"></span>`
-                );
-              },
-              ""
-            );
-            adjacent.insertAdjacentElement(position, dotContainer);
-          } else {
-            const dotContainer = document.createElement("DIV");
-            dotContainer.classList.add(MODULE, "dot-container");
-            const q = 5;
-            dotContainer.innerHTML = Array.fromRange(
-              Math.min(q, uses.max)
-            ).reduce((acc, e, i) => {
+            dotContainer.innerHTML = Array.fromRange(max).reduce((acc, e, i) => {
               const le = e < q - 1 || uses.max <= q;
               const cls = le
                 ? e < uses.value
@@ -174,10 +137,23 @@ export class SheetEdits {
                 : uses.value < uses.max
                 ? "dot empty has-more"
                 : "dot has-more";
-              return (
-                acc +
-                `<span class="${cls}" data-action="toggleDot" data-item-id="${item.id}" data-idx="${i}"></span>`
-              );
+              return acc + `<span class="${cls}" data-action="toggleDot" data-item-id="${item.id}" data-idx="${i}"></span>`;
+            }, "");
+            adjacent.insertAdjacentElement(position, dotContainer);
+          } else {
+            const dotContainer = document.createElement("DIV");
+            dotContainer.classList.add(MODULE, "dot-container");
+            const q = 5;
+            dotContainer.innerHTML = Array.fromRange(Math.min(q, uses.max)).reduce((acc, e, i) => {
+              const le = e < q - 1 || uses.max <= q;
+              const cls = le
+                ? e < uses.value
+                  ? "dot"
+                  : "dot empty"
+                : uses.value < uses.max
+                ? "dot empty has-more"
+                : "dot has-more";
+              return acc + `<span class="${cls}" data-action="toggleDot" data-item-id="${item.id}" data-idx="${i}"></span>`;
             }, "");
             adjacent.insertAdjacentElement(position, dotContainer);
           }
@@ -190,11 +166,7 @@ export class SheetEdits {
           return f && u;
         })
         .forEach((item) => {
-          const header = [
-            ...this.html[0].querySelectorAll(
-              ".items-header.spellbook-header > .item-name > h3"
-            ),
-          ].find((h) => {
+          const header = [...this.html[0].querySelectorAll(".items-header.spellbook-header > .item-name > h3")].find((h) => {
             return h.innerText.trim() === item.name && !h.dataset.itemId;
           });
           if (!header) return;
@@ -203,23 +175,17 @@ export class SheetEdits {
           div.classList.add(MODULE, "dot-container");
           const q = 10;
           const uses = item.system.uses;
-          div.innerHTML = Array.fromRange(Math.min(q, uses.max)).reduce(
-            (acc, e, i) => {
-              const le = e < q - 1 || uses.max <= q;
-              const cls = le
-                ? e < uses.value
-                  ? "dot"
-                  : "dot empty"
-                : uses.value < uses.max
-                ? "dot empty has-more"
-                : "dot has-more";
-              return (
-                acc +
-                `<span class="${cls}" data-action="toggleDot" data-item-id="${item.id}" data-idx="${i}"></span>`
-              );
-            },
-            ""
-          );
+          div.innerHTML = Array.fromRange(Math.min(q, uses.max)).reduce((acc, e, i) => {
+            const le = e < q - 1 || uses.max <= q;
+            const cls = le
+              ? e < uses.value
+                ? "dot"
+                : "dot empty"
+              : uses.value < uses.max
+              ? "dot empty has-more"
+              : "dot has-more";
+            return acc + `<span class="${cls}" data-action="toggleDot" data-item-id="${item.id}" data-idx="${i}"></span>`;
+          }, "");
           header.after(div);
         });
     }
@@ -229,56 +195,41 @@ export class SheetEdits {
     });
   }
 
-  /** Create the money spender button. */
+  /** Create the money spender and corruption tracker buttons. */
   async _createCharacterSheetCounters() {
     const div = document.createElement("DIV");
-    div.innerHTML = await renderTemplate(
-      "modules/innil-custom-stuff/templates/character-sheet-counters.hbs",
-      {
-        totalCurrency: Object.entries(
-          this.sheet.document.system.currency ?? {}
-        ).reduce((acc, [key, value]) => {
-          return (
-            acc + Math.floor(value / CONFIG.DND5E.currencies[key].conversion)
-          );
-        }, 0),
-      }
-    );
+    div.innerHTML = await renderTemplate("modules/innil-custom-stuff/templates/character-sheet-counters.hbs", {
+      totalCurrency: Object.entries(this.sheet.document.system.currency ?? {}).reduce((acc, [key, value]) => {
+        return acc + Math.floor(value / CONFIG.DND5E.currencies[key].conversion);
+      }, 0),
+      corruption: foundry.utils.getProperty(this.sheet.document, `flags.${MODULE}.corruption`) || 0,
+    });
     div.querySelectorAll("[data-dtype=Number]").forEach((n) => {
       n.addEventListener("focus", (event) => event.currentTarget.select());
-      n.addEventListener(
-        "change",
-        this._onChangeInputDeltaCustom.bind(this.sheet)
-      );
+      n.addEventListener("change", this._onChangeInputDeltaCustom.bind(this.sheet));
     });
     div.querySelectorAll("[data-action]").forEach((n) => {
       switch (n.dataset.action) {
         case "spend-money": {
-          n.addEventListener(
-            "click",
-            this.sheet._onClickMoneySpender.bind(this.sheet)
-          );
+          n.addEventListener("click", this.sheet._onClickMoneySpender.bind(this.sheet));
+          break;
+        }
+        case "open-corruption-tracker": {
+          n.addEventListener("click", this.sheet._onClickCorruptionTracker.bind(this.sheet));
           break;
         }
       }
     });
-    this.html[0]
-      .querySelector("div.counter.flexrow.exhaustion")
-      .after(...div.children);
+    this.html[0].querySelector("div.counter.flexrow.exhaustion").after(...div.children);
   }
 
   /** Disable the exhaustion input and add a listener to the label. */
   _createExhaustion() {
-    this.html[0].querySelector(
-      ".counter.flexrow.exhaustion .counter-value input"
-    ).disabled = true;
+    this.html[0].querySelector(".counter.flexrow.exhaustion .counter-value input").disabled = true;
     const header = this.html[0].querySelector(".counter.flexrow.exhaustion h4");
     header.classList.add("rollable");
     header.setAttribute("data-action", "updateExhaustion");
-    header.addEventListener(
-      "click",
-      this.sheet._onClickExhaustion.bind(this.sheet)
-    );
+    header.addEventListener("click", this.sheet._onClickExhaustion.bind(this.sheet));
   }
 
   /**
@@ -291,8 +242,7 @@ export class SheetEdits {
     const value = input.value;
     if (["+", "-"].includes(value[0])) {
       const delta = parseFloat(value);
-      input.value =
-        Number(foundry.utils.getProperty(this.document, input.name)) + delta;
+      input.value = Number(foundry.utils.getProperty(this.document, input.name)) + delta;
     } else if (value[0] === "=") input.value = value.slice(1);
     input.value = Math.clamped(input.value, 0, 999);
   }
@@ -303,11 +253,8 @@ export class SheetEdits {
   _createNewDay() {
     const lr = this.html[0].querySelector(".rest.long-rest");
     const div = document.createElement("DIV");
-    div.innerHTML =
-      "<a class='rest new-day' data-tooltip='DND5E.NewDay'>Day</a>";
-    div
-      .querySelector(".new-day")
-      .addEventListener("click", this.sheet._onClickNewDay.bind(this.sheet));
+    div.innerHTML = "<a class='rest new-day' data-tooltip='DND5E.NewDay'>Day</a>";
+    div.querySelector(".new-day").addEventListener("click", this.sheet._onClickNewDay.bind(this.sheet));
     lr.after(div.firstChild);
   }
 
@@ -331,8 +278,7 @@ export class SheetEdits {
   static refreshColors() {
     const colors = game.settings.get(MODULE, "colorationSettings");
     const stl = document.querySelector(":root").style;
-    for (const key of Object.keys(COLOR_DEFAULTS.sheetColors))
-      stl.setProperty(`--${key}`, colors.sheetColors[key]);
+    for (const key of Object.keys(COLOR_DEFAULTS.sheetColors)) stl.setProperty(`--${key}`, colors.sheetColors[key]);
     for (const key of Object.keys(COLOR_DEFAULTS.rarityColors))
       stl.setProperty(`--rarity${key.capitalize()}`, colors.rarityColors[key]);
   }

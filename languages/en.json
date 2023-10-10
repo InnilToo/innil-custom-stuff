@@ -18,6 +18,7 @@
   "DND5E.RestL": "Long",
   "DND5E.RestS": "Short",
   "DND5E.ShortRestNormal": "Short Rest (10 minutes)",
+  "INNIL.CorruptionTracker": "Corruption",
   "INNIL.DescriptionAbsorbElements": "You have {type} resistance and deal {level}d6 additional {type} damage on your first melee attack before this effect expires.",
   "INNIL.DescriptionElementalWeapon": "You have a +{bonus} to attack rolls made with the chosen weapon ({weaponName}) and it deals an additional {dice} {type} damage on a hit.",
   "INNIL.ExperimentalElixirBoundedWarning": "You must pick between 1 and {max} options.",
