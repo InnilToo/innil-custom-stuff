@@ -17,15 +17,14 @@ export class ExhaustionHandler {
     if (num > 10) {
       // Delete and apply 'dead'.
       await exhaustion?.delete();
-      const dead = foundry.utils.deepClone(
-        CONFIG.statusEffects.find(
-          (e) => e.id === CONFIG.specialStatusEffects.DEFEATED
-        )
-      );
+      const dead = foundry.utils.deepClone(CONFIG.statusEffects.find((e) => e.id === CONFIG.specialStatusEffects.DEFEATED));
       foundry.utils.mergeObject(dead, {
         statuses: [dead.id],
         name: game.i18n.localize(dead.name),
         "flags.core.overlay": true,
+      });
+      this.update({
+        [`system.attributes.hp.value`]: 0,
       });
       return this.createEmbeddedDocuments("ActiveEffect", [dead]);
     } else {
@@ -33,10 +32,7 @@ export class ExhaustionHandler {
       const data = {
         name: game.i18n.localize("INNIL.StatusConditionExhaustion"),
         statuses: ["exhaustion"],
-        description: `<p>${game.i18n.format(
-          "INNIL.StatusConditionExhaustionDescription",
-          { level: num }
-        )}</p>`,
+        description: `<p>${game.i18n.format("INNIL.StatusConditionExhaustionDescription", { level: num })}</p>`,
         "flags.innil-custom-stuff.exhaustion": num,
         icon: "icons/skills/wounds/injury-body-pain-gray.webp",
         changes: [
@@ -92,10 +88,7 @@ export class ExhaustionHandler {
    */
   static init() {
     Actor.prototype.applyExhaustion = ExhaustionHandler.applyExhaustion;
-    Hooks.on(
-      "dnd5e.restCompleted",
-      ExhaustionHandler._longRestExhaustionReduction
-    );
+    Hooks.on("dnd5e.restCompleted", ExhaustionHandler._longRestExhaustionReduction);
   }
 
   /**
@@ -108,9 +101,7 @@ export class ExhaustionHandler {
     if (!data.longRest) return;
 
     // New exhaustion level:
-    const level =
-      actor.effects.find((e) => e.statuses.has("exhaustion"))?.flags[MODULE]
-        .exhaustion ?? 0;
+    const level = actor.effects.find((e) => e.statuses.has("exhaustion"))?.flags[MODULE].exhaustion ?? 0;
     return actor.applyExhaustion(level - 1);
   }
 }
