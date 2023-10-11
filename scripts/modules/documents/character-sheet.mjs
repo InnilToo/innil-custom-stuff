@@ -1,5 +1,4 @@
 import { MODULE } from "../../const.mjs";
-import { CorruptionTracker } from "../applications/corruptionTracker.mjs";
 import { MoneySpender } from "../applications/moneySpender.mjs";
 
 export default class ActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eCharacter {
@@ -134,7 +133,7 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor.Acto
   /**
    * Handle clicking the corruption tracker anchor.
    * @param {PointerEvent} event      The initiating click event.
-   * @returns {CorruptionTracker}     The rendered money spending app.
+   * @returns {CorruptionTracker}     The rendered corruption tracker app.
    */
   _onClickCorruptionTracker(event) {
     const actor = this.document;
