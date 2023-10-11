@@ -147,7 +147,7 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor.Acto
       up: {
         icon: "<i class='fa-solid fa-arrow-up'></i>",
         label: "Gain a Level",
-        condition: corruption < 10,
+        condition: corruption < 11,
         callback: (html) => _applyCorruption(1),
       },
       down: {
@@ -160,7 +160,26 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor.Acto
 
     function _applyCorruption(change) {
       const newCorruption = Math.max(corruption + change, 0);
-      return actor.update({ [`flags.${MODULE}.corruption.value`]: newCorruption });
+
+      // Check if new corruption exceeds the maximum allowed value.
+      if (newCorruption > 10) {
+        // Delete and apply 'dead'.
+        actor.unsetFlag(MODULE, "corruption");
+        const dead = foundry.utils.deepClone(
+          CONFIG.statusEffects.find((e) => e.id === CONFIG.specialStatusEffects.DEFEATED)
+        );
+        foundry.utils.mergeObject(dead, {
+          statuses: [dead.id],
+          name: game.i18n.localize(dead.name),
+          "flags.core.overlay": true,
+        });
+        actor.update({
+          [`system.attributes.hp.value`]: 0,
+        });
+        return actor.createEmbeddedDocuments("ActiveEffect", [dead]);
+      } else {
+        return actor.update({ [`flags.${MODULE}.corruption.value`]: newCorruption });
+      }
     }
 
     return new Dialog(
