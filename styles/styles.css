@@ -350,6 +350,12 @@ button:active:not(.pm-dropdown, :disabled),
   margin-bottom: 0.5em;
 }
 
+/* Corruption Dialog */
+.corruption.dialog .dialog-content {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
 /* MONEY SPENDER */
 .innil-custom-stuff.money-spender .content {
   display: flex;
