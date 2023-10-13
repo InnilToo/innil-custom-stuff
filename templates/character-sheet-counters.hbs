@@ -1,3 +1,11 @@
+<div class="counter flexrow corruption-tracker">
+  <h4 class="rollable" data-action="open-corruption-tracker">{{localize "INNIL.CorruptionTracker"}}</h4>
+  <div class="counter-value wide">
+    <input name="flags.innil-custom-stuff.corruption.value" type="text" value="{{corruption.value}}" data-dtype="Number"
+      placeholder="0" disabled>
+  </div>
+</div>
+
 <div class="counter flexrow money-spender">
   <h4 class="rollable" data-action="spend-money">{{localize "INNIL.SpendMoney"}}</h4>
   <div class="counter-value">{{totalCurrency}} gp</div>

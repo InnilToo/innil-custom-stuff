@@ -1,8 +1,7 @@
 import { MODULE } from "../../const.mjs";
 import { MoneySpender } from "../applications/moneySpender.mjs";
 
-export default class ActorSheet5eCharacter extends dnd5e.applications.actor
-  .ActorSheet5eCharacter {
+export default class ActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eCharacter {
   static init() {
     Actors.registerSheet("dnd5e", ActorSheet5eCharacter, {
       types: ["character"],
@@ -31,8 +30,7 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor
   async _onClickNewDay(event) {
     const conf = await Dialog.confirm({
       title: "New Day",
-      content:
-        "Would you like to recharge all items that regain charges on a new day?",
+      content: "Would you like to recharge all items that regain charges on a new day?",
       options: {
         id: `${this.document.uuid.replaceAll(".", "-")}-new-day-confirm`,
       },
@@ -54,8 +52,7 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor
    */
   async _onClickInspiration(event) {
     return this.document.update({
-      "system.attributes.inspiration":
-        !this.document.system.attributes.inspiration,
+      "system.attributes.inspiration": !this.document.system.attributes.inspiration,
     });
   }
 
@@ -67,14 +64,11 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor
   async _onClickDot(event) {
     const { dataset: data, classList: list } = event.currentTarget;
     const target = this.document.items.get(data.itemId) ?? this.document;
-    const path = data.spellLevel
-      ? `system.spells.${data.spellLevel}.value`
-      : "system.uses.value";
+    const path = data.spellLevel ? `system.spells.${data.spellLevel}.value` : "system.uses.value";
     const current = foundry.utils.getProperty(target, path);
 
     let value;
-    if (list.contains("has-more"))
-      value = current + (list.contains("empty") ? 1 : -1);
+    if (list.contains("has-more")) value = current + (list.contains("empty") ? 1 : -1);
     else value = Number(data.idx) + (list.contains("empty") ? 1 : 0);
 
     return target.update({ [path]: value });
@@ -118,8 +112,7 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor
 
     function _applyExhaustion(html, event) {
       const type = event.currentTarget.dataset.button;
-      const num =
-        type === "up" ? level + 1 : type === "down" ? level - 1 : null;
+      const num = type === "up" ? level + 1 : type === "down" ? level - 1 : null;
       if (num === null) return ui.notifications.warn("EXHAUSTION ERROR");
       return actor.applyExhaustion(num);
     }
@@ -133,6 +126,71 @@ export default class ActorSheet5eCharacter extends dnd5e.applications.actor
       {
         id: `${MODULE}-exhaustion-dialog-${actor.id}`,
         classes: [MODULE, "exhaustion", "dialog"],
+      }
+    ).render(true);
+  }
+
+  /**
+   * Handle clicking the corruption tracker anchor.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {CorruptionTracker}     The rendered corruption tracker app.
+   */
+  _onClickCorruptionTracker(event) {
+    const actor = this.document;
+    const corruption = actor.flags[MODULE]?.corruption?.value ?? 0;
+    const effect =
+      {
+        0: "You are not currently corrupted.",
+        1: "You currently have 1 level of corruption.",
+      }[corruption] ?? `You currently have ${corruption} levels of corruption.`;
+    const buttons = {
+      up: {
+        icon: "<i class='fa-solid fa-arrow-up'></i>",
+        label: "Gain a Level",
+        condition: corruption < 11,
+        callback: (html) => _applyCorruption(1),
+      },
+      down: {
+        icon: "<i class='fa-solid fa-arrow-rotate-left'></i>",
+        label: "Reset",
+        condition: corruption > 0,
+        callback: (html) => _applyCorruption(-corruption),
+      },
+    };
+
+    function _applyCorruption(change) {
+      const newCorruption = Math.max(corruption + change, 0);
+
+      // Check if new corruption exceeds the maximum allowed value.
+      if (newCorruption > 10) {
+        // Delete and apply 'dead'.
+        actor.unsetFlag(MODULE, "corruption");
+        const dead = foundry.utils.deepClone(
+          CONFIG.statusEffects.find((e) => e.id === CONFIG.specialStatusEffects.DEFEATED)
+        );
+        foundry.utils.mergeObject(dead, {
+          statuses: [dead.id],
+          name: game.i18n.localize(dead.name),
+          "flags.core.overlay": true,
+        });
+        actor.update({
+          [`system.attributes.hp.value`]: 0,
+        });
+        return actor.createEmbeddedDocuments("ActiveEffect", [dead]);
+      } else {
+        return actor.update({ [`flags.${MODULE}.corruption.value`]: newCorruption });
+      }
+    }
+
+    return new Dialog(
+      {
+        title: `Corruption Tracker: ${actor.name}`,
+        content: `<p>Adjust the corruption points.</p><p>${effect}</p>`,
+        buttons,
+      },
+      {
+        id: `${MODULE}-corruption-dialog-${actor.id}`,
+        classes: [MODULE, "corruption", "dialog"],
       }
     ).render(true);
   }
