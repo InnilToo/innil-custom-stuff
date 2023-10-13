@@ -20,10 +20,8 @@ export default class PublicAPI {
         multipleCombatants: PublicAPI._multipleCombatants,
         detection: {
           canSeeOtherToken: PublicAPI.canSeeOtherToken,
-          getFurthestPointOnTemplateFromPosition:
-            PublicAPI.getFurthestPointOnTemplateFromPosition,
-          getFurthestPointAlongRayTemplate:
-            PublicAPI.getFurthestPointAlongRayTemplate,
+          getFurthestPointOnTemplateFromPosition: PublicAPI.getFurthestPointOnTemplateFromPosition,
+          getFurthestPointAlongRayTemplate: PublicAPI.getFurthestPointAlongRayTemplate,
           getFurthestPointAlongRay: PublicAPI.getFurthestPointAlongRay,
         },
       },
@@ -78,11 +76,7 @@ export default class PublicAPI {
    * @param {number} [fadeDuration=500]         The duration of the fade in and out.
    * @returns {Promise<TokenDocument[]>}        The array of updated token documents.
    */
-  static async _teleportTokens(
-    crosshairsConfig = {},
-    fade = true,
-    fadeDuration = 500
-  ) {
+  static async _teleportTokens(crosshairsConfig = {}, fade = true, fadeDuration = 500) {
     const config = foundry.utils.mergeObject(
       {
         size: 4,
@@ -130,11 +124,7 @@ export default class PublicAPI {
         y: tokenDoc.y - origin.y + target.y,
       };
     });
-    const update = await canvas.scene.updateEmbeddedDocuments(
-      "Token",
-      updates,
-      { animate: false }
-    );
+    const update = await canvas.scene.updateEmbeddedDocuments("Token", updates, { animate: false });
 
     if (fade) {
       await warpgate.wait(fadeDuration);
@@ -180,8 +170,7 @@ export default class PublicAPI {
    */
   static _getTokenOwnerIds(tokens = [], excludeGM = false) {
     const userIds = game.users.reduce((acc, user) => {
-      if (tokens.some((t) => t.document.testUserPermission(user, "OWNER")))
-        acc.push(user.id);
+      if (tokens.some((t) => t.document.testUserPermission(user, "OWNER"))) acc.push(user.id);
       return acc;
     }, []);
     if (excludeGM) return userIds.filter((i) => !game.users.get(i).isGM);
@@ -314,16 +303,11 @@ export default class PublicAPI {
    * @param {string} [type="move"]                  The scene obstruction to use for evaluation.
    * @returns {number[]}                            An array with x and y coordinates.
    */
-  static getFurthestPointOnTemplateFromPosition(
-    origin,
-    template,
-    type = "move"
-  ) {
+  static getFurthestPointOnTemplateFromPosition(origin, template, type = "move") {
     const moveableArea = CONFIG.Canvas.polygonBackends[type].create(origin, {
       type,
     });
-    const positions =
-      canvas.grid.highlightLayers[`MeasuredTemplate.${template.id}`].positions;
+    const positions = canvas.grid.highlightLayers[`MeasuredTemplate.${template.id}`].positions;
     const pos = positions.reduce(
       (acc, str) => {
         const [x, y] = str.split(".");
@@ -347,21 +331,18 @@ export default class PublicAPI {
    */
   static getFurthestPointAlongRayTemplate(template, type = "move") {
     const origin = template.object.ray.A;
-    return PublicAPI.getFurthestPointOnTemplateFromPosition(
-      origin,
-      template,
-      type
-    );
+    return PublicAPI.getFurthestPointOnTemplateFromPosition(origin, template, type);
   }
 
   /**
    * Add the selected token to initiative a number of times.
    * @param {Token|TokenDocument} token     The token from whom to make combatants.
-   * @param {Number} [amount=2]             The amount of combatants to create.
+   * @param {Number} [amount=1]             The amount of combatants to create.
    * @param {object} [options={}]           Additional parameters that change the combatants.
    * @returns {Combatant[]}
    */
-  static async _multipleCombatants(token, amount = 2, options = {}) {
+  static async _multipleCombatants(token, amount = 1, options = {}) {
+    if (!game.combat) return ui.notifications.warn("No current combat!");
     const data = [];
     for (let i = 0; i < amount; i++) {
       const roll = await token.actor.getInitiativeRoll().evaluate();
@@ -392,9 +373,7 @@ export default class PublicAPI {
         t: "ray",
         x: ray.A.x,
         y: ray.A.y,
-        distance:
-          ray.distance / canvas.dimensions.distancePixels +
-          canvas.dimensions.distance / 2,
+        distance: ray.distance / canvas.dimensions.distancePixels + canvas.dimensions.distance / 2,
         direction: Math.toDegrees(ray.angle),
         width: 5,
         hidden: true,
@@ -420,9 +399,7 @@ export default class PublicAPI {
    * @param {number} ft               The radius to push tokens out to.
    */
   static async pushTokensAwayFromPoint(origin, ft) {
-    const shape = MeasuredTemplate.getCircleShape(
-      canvas.dimensions.distancePixels * ft
-    );
+    const shape = MeasuredTemplate.getCircleShape(canvas.dimensions.distancePixels * ft);
     if (origin instanceof Token) origin = origin.center;
     shape.x = origin.x;
     shape.y = origin.y;
@@ -456,10 +433,7 @@ export default class PublicAPI {
     canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", [], {
       deleteAll: true,
     });
-    if (
-      canvas.grid.measureDistance(oc, { x, y }) <
-      canvas.grid.measureDistance(oc, tc)
-    ) {
+    if (canvas.grid.measureDistance(oc, { x, y }) < canvas.grid.measureDistance(oc, tc)) {
       ui.notifications.warn("You can't smack someone closer to you.");
       return null;
     }
