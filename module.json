@@ -14,20 +14,37 @@
     "maximum": "11",
     "verified": "11"
   },
-  "esmodules": ["./setup.mjs"],
-  "styles": ["./styles/styles.css", "./styles/sheetEdits.css"],
+  "esmodules": ["setup.mjs"],
+  "styles": [
+    "styles/dialogs.css",
+    "styles/experimentalElixir.css",
+    "styles/fontOfMagic.css",
+    "styles/moneySpender.css",
+    "styles/monsterStatBlock.css",
+    "styles/sheetEdits.css",
+    "styles/statusEffects.css",
+    "styles/styles.css"
+  ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
-      "path": "languages/en.json",
-      "description": "Personal module for replacing or adding to many things."
+      "path": "languages/en.json"
     }
   ],
   "flags": {
     "hotReload": {
       "extensions": ["css", "hbs", "json"],
-      "paths": ["styles/styles.css"]
+      "paths": [
+        "styles/dialogs.css",
+        "styles/experimentalElixir.css",
+        "styles/fontOfMagic.css",
+        "styles/moneySpender.css",
+        "styles/monsterStatBlock.css",
+        "styles/sheetEdits.css",
+        "styles/statusEffects.css",
+        "styles/styles.css"
+      ]
     }
   },
   "url": "https://github.com/InnilToo/innil-custom-stuff",

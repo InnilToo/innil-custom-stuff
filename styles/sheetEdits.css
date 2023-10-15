@@ -1,4 +1,4 @@
-/* Style of the dots. */
+/* STYLE OF THE DOTS. */
 .innil-custom-stuff.dot-container {
   flex-direction: row-reverse;
   gap: 2px;
@@ -28,7 +28,7 @@
   transform: scale(1.2);
 }
 
-/* Style of the expended dots. */
+/* STYLE OF THE EXPENDED DOTS. */
 .innil-custom-stuff.dot-container .dot.empty {
   background-color: lightgray;
 }
@@ -41,7 +41,7 @@
   mix-blend-mode: color-burn;
 }
 
-/* Attunement icon. */
+/* ATTUNEMENT ICON. */
 .dnd5e.sheet.actor .inventory-list .item .item-name .item-detail.attunement {
   filter: drop-shadow(0 0 1px black);
 }
@@ -54,7 +54,7 @@
   color: var(--itemNotAttuned) !important;
 }
 
-/* Prepared icon. */
+/* PREPARED ICON. */
 .dnd5e.sheet.actor .tab.spellbook .item-controls .item-control.item-toggle.active i {
   color: var(--spellPrepared) !important;
   filter: drop-shadow(0 0 1px black);
@@ -91,7 +91,7 @@
   color: var(--rarityArtifact) !important;
 }
 
-/* Nuke resources. */
+/* NUKE RESOURCES. */
 .dnd5e.sheet.actor .tab.attributes.flexrow .center-pane .attributes {
   display: none;
 }
@@ -111,7 +111,7 @@
   margin: 0;
 }
 
-/* collapsible items and effect headers. */
+/* Collapsible items and effect headers. */
 .dnd5e.sheet.actor .items-list .items-header.innil-header-collapse h3:hover {
   text-shadow: 0 0 8px var(--color-shadow-primary) !important;
   cursor: pointer;
