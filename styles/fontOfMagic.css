@@ -1,0 +1,10 @@
+/* FONT OF MAGIC */
+.innil-custom-stuff.font-of-magic .dialog-buttons {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.innil-custom-stuff.font-of-magic .dialog-buttons button {
+  display: flex;
+  justify-content: space-around;
+}
