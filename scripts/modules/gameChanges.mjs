@@ -60,6 +60,9 @@ export class GameChangesHandler {
       { performDeletions: true }
     );
 
+    // Remove electrum.
+    foundry.utils.mergeObject(CONFIG.DND5E.currencies, { "-=ep": null }, { performDeletions: true });
+
     // Adjust languages.
     foundry.utils.mergeObject(
       CONFIG.DND5E.languages,
