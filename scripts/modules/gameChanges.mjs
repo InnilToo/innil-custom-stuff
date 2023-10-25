@@ -1,4 +1,4 @@
-import { SPELL_EFFECTS, STATUS_EFFECTS } from "../../sources/conditions.mjs";
+import { STATUS_EFFECTS } from "../../sources/statusEffects.mjs";
 import { MODULE } from "../const.mjs";
 
 export class GameChangesHandler {
@@ -95,7 +95,7 @@ export class GameChangesHandler {
     });
 
     // Replace status conditions.
-    CONFIG.statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort((a, b) => a.sort - b.sort);
+    CONFIG.statusEffects = STATUS_EFFECTS.sort((a, b) => a.sort - b.sort);
   }
 
   static _tools() {
