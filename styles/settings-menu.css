@@ -1,0 +1,8 @@
+/* SETTINGS MENU */
+.innil-custom-stuff.settings-menu input[type=checkbox] {
+  margin-right: 5em;
+}
+
+.innil-custom-stuff.settings-menu .form-group:not(:last-of-type) {
+  border-bottom: 2px groove;
+}

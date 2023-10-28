@@ -26,14 +26,24 @@
   ],
   "esmodules": ["setup.mjs"],
   "styles": [
-    "styles/dialogs.css",
-    "styles/experimentalElixir.css",
-    "styles/fontOfMagic.css",
-    "styles/moneySpender.css",
-    "styles/monsterStatBlock.css",
-    "styles/sheetEdits.css",
-    "styles/statusEffects.css",
-    "styles/styles.css"
+    "styles/app-column-dialog.css",
+    "styles/app-corruption-dialog.css",
+    "styles/app-elemental-dialog.css",
+    "styles/app-exhaustion-dialog.css",
+    "styles/app-experimental-elixir.css",
+    "styles/app-font-of-magic.css",
+    "styles/app-image-selectors.css",
+    "styles/app-money-spender.css",
+    "styles/app-target-sequence.css",
+    "styles/app-whisper-dialog.css",
+    "styles/button-feel.css",
+    "styles/hotbar.css",
+    "styles/monster-stat-block.css",
+    "styles/settings-menu.css",
+    "styles/sheet-colors.css",
+    "styles/sheet-dots.css",
+    "styles/sheet-edits.css",
+    "styles/token-hud.css"
   ],
   "languages": [
     {
@@ -44,17 +54,8 @@
   ],
   "flags": {
     "hotReload": {
-      "extensions": ["css", "hbs", "json"],
-      "paths": [
-        "styles/dialogs.css",
-        "styles/experimentalElixir.css",
-        "styles/fontOfMagic.css",
-        "styles/moneySpender.css",
-        "styles/monsterStatBlock.css",
-        "styles/sheetEdits.css",
-        "styles/statusEffects.css",
-        "styles/styles.css"
-      ]
+      "extensions": ["css"],
+      "paths": []
     }
   },
   "url": "https://github.com/InnilToo/innil-custom-stuff",

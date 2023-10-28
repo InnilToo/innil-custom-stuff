@@ -1,0 +1,5 @@
+/* CENTER HOTBAR */
+#ui-bottom>div {
+  display: flex;
+  justify-content: center;
+}
