@@ -1,4 +1,8 @@
 /* TOKEN HUD STATUS EFFECTS */
+#token-hud .status-effect.hidden {
+  display: none !important;
+}
+
 #token-hud .col.right .status-effects {
   width: max-content;
   column-gap: 0.1em;
