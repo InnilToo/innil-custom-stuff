@@ -1,28 +1,3 @@
-/* CENTER HOTBAR */
-#ui-bottom>div {
-  display: flex;
-  justify-content: center;
-}
-
-/* BUTTON FEEL */
-button:active:not(.pm-dropdown, :disabled),
-:not(:disabled) a:active {
-  filter: brightness(0.7);
-}
-
-.tab#chat {
-  margin: -5px 0 0;
-}
-
-/* SETTINGS MENU */
-.innil-custom-stuff.settings-menu input[type=checkbox] {
-  margin-right: 5em;
-}
-
-.innil-custom-stuff.settings-menu .form-group:not(:last-of-type) {
-  border-bottom: 2px groove;
-}
-
 /** TARGET SEQUENCE PICKER */
 .innil-custom-stuff.target-sequence {
   height: auto !important;

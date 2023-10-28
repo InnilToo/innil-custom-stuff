@@ -1,0 +1,42 @@
+/* STYLE OF THE DOTS. */
+.innil-custom-stuff.dot-container {
+  flex-direction: row-reverse;
+  gap: 2px;
+  display: flex;
+  flex: 0;
+}
+
+.innil-custom-stuff.dot-container .dot {
+  height: 15px;
+  width: 15px;
+  max-height: 15px;
+  max-width: 15px;
+  background-color: var(--usesUnexpended);
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: inset 0 0 4px 0 black, 0 0 4px 0 var(--usesUnexpended);
+}
+
+/*
+ * Scale up any dot you hover over.
+ * Scale up all following full dots when hovering over a full dot.
+ * Scale up all preceding empty dots when hovering over an empty dot.
+ */
+.innil-custom-stuff.dot-container .dot:hover,
+.innil-custom-stuff.dot-container .dot:not(.empty):hover~.dot:not(.empty),
+.innil-custom-stuff.dot-container .dot.empty:has(~.dot.empty:hover) {
+  transform: scale(1.2);
+}
+
+/* STYLE OF THE EXPENDED DOTS. */
+.innil-custom-stuff.dot-container .dot.empty {
+  background-color: lightgray;
+}
+
+.innil-custom-stuff.dot-container .dot.has-more {
+  mix-blend-mode: inherit;
+}
+
+.innil-custom-stuff.dot-container .dot.has-more.empty {
+  mix-blend-mode: color-burn;
+}
