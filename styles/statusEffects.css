@@ -1,11 +1,8 @@
-/* HIDE HEX, HEXCURSE, HMARK */
-div[data-status-id="hex"],
-div[data-status-id="hexcurse"],
-div[data-status-id="hmark"] {
+/* TOKEN HUD STATUS EFFECTS */
+#token-hud .status-effect.hidden {
   display: none !important;
 }
 
-/* TOKEN HUD STATUS EFFECTS */
 #token-hud .col.right .status-effects {
   width: max-content;
   column-gap: 0.1em;

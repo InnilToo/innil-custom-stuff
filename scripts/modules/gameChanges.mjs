@@ -1,4 +1,4 @@
-import { SPELL_EFFECTS, STATUS_EFFECTS } from "../../sources/conditions.mjs";
+import { STATUS_EFFECTS } from "../../sources/statusEffects.mjs";
 import { MODULE } from "../const.mjs";
 
 export class GameChangesHandler {
@@ -95,7 +95,7 @@ export class GameChangesHandler {
     });
 
     // Replace status conditions.
-    CONFIG.statusEffects = SPELL_EFFECTS.concat(STATUS_EFFECTS).sort((a, b) => a.sort - b.sort);
+    CONFIG.statusEffects = STATUS_EFFECTS.sort((a, b) => a.sort - b.sort);
   }
 
   static _tools() {
@@ -435,13 +435,13 @@ export class GameChangesHandler {
         const atts = (eff.isActive ? "active" : "") + " " + (eff.isOverlay ? "overlay" : "");
         const tooltip = condition.description;
         const name = game.i18n.localize(`INNIL.StatusCondition${eff.id.capitalize()}`);
+        const hidden = condition.hidden ? "hidden" : "";
         return (
           acc +
-          `
-<div src="${eff.src}" class="${clss} ${atts}" data-status-id="${eff.id}" data-tooltip="${tooltip}">
-<img class="status-effect-img" src="${eff.src}">
-<div class="status-effect-name">${name}</div>
-</div>`
+          `<div src="${eff.src}" class="${clss} ${atts} ${hidden}" data-status-id="${eff.id}" data-tooltip="${tooltip}">
+          <img class="status-effect-img" src="${eff.src}">
+          <div class="status-effect-name">${name}</div>
+          </div>`
         );
       }, "");
     html[0].querySelector(".status-effects").innerHTML = innerHTML;
