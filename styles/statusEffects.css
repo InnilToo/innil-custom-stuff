@@ -1,15 +1,3 @@
-/* HIDE SOME STATUS EFFECTS SPELLS AND FEATURES*/
-div[data-status-id="bane"],
-div[data-status-id="bless"],
-div[data-status-id="fly"],
-div[data-status-id="haste"],
-div[data-status-id="hex"],
-div[data-status-id="hexcurse"],
-div[data-status-id="huntersmark"],
-div[data-status-id="slow"] {
-  display: none !important;
-}
-
 /* TOKEN HUD STATUS EFFECTS */
 #token-hud .col.right .status-effects {
   width: max-content;

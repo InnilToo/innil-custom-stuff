@@ -95,7 +95,7 @@ export class GameChangesHandler {
     });
 
     // Replace status conditions.
-    CONFIG.statusEffects = STATUS_EFFECTS.sort((a, b) => a.sort - b.sort);
+    CONFIG.statusEffects = STATUS_EFFECTS.filter((effect) => !effect.hidden).sort((a, b) => a.sort - b.sort);
   }
 
   static _tools() {

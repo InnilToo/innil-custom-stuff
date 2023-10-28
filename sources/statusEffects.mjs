@@ -290,6 +290,7 @@ export const STATUS_EFFECTS = [
     id: "bless",
     name: "INNIL.StatusConditionBless",
     icon: "assets/images/icons/conditions/bless.webp",
+    hidden: true,
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Bless spell.</p>" +
@@ -326,6 +327,7 @@ export const STATUS_EFFECTS = [
     id: "bane",
     name: "INNIL.StatusConditionBane",
     icon: "assets/images/icons/conditions/bane.webp",
+    hidden: true,
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Bane spell.</p>" +
@@ -362,6 +364,7 @@ export const STATUS_EFFECTS = [
     id: "haste",
     name: "INNIL.StatusConditionHaste",
     icon: "assets/images/icons/conditions/haste.webp",
+    hidden: true,
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Haste spell.</p>" +
@@ -403,6 +406,7 @@ export const STATUS_EFFECTS = [
     id: "slow",
     name: "INNIL.StatusConditionSlow",
     icon: "assets/images/icons/conditions/slowed.webp",
+    hidden: true,
     duration: { seconds: 60 },
     description:
       "<p>You are under the effects of the Slow spell.</p>" +
@@ -449,6 +453,7 @@ export const STATUS_EFFECTS = [
     id: "fly",
     name: "INNIL.StatusConditionFly",
     icon: "assets/images/icons/conditions/flying.webp",
+    hidden: true,
     duration: { seconds: 600 },
     description: "<p>You are under the effects of the Fly spell.</p>" + "<p>You have a flying speed of 60 feet.</p>",
     changes: [
@@ -473,6 +478,7 @@ export const STATUS_EFFECTS = [
     id: "hex",
     name: "INNIL.StatusConditionHex",
     icon: "icons/magic/unholy/hand-marked-pink.webp",
+    hidden: true,
     duration: { seconds: 3600 },
     description:
       "<p>You take extra 1d6 necrotic damage when the caster hits you with an attack.</p>" +
@@ -482,6 +488,7 @@ export const STATUS_EFFECTS = [
     id: "hexcurse",
     name: "INNIL.StatusConditionHexcurse",
     icon: "icons/magic/unholy/hand-light-pink.webp",
+    hidden: true,
     duration: { seconds: 60 },
     description:
       "<p>You take extra damage equal to the caster's proficiency bonus.</p>" +
@@ -492,6 +499,7 @@ export const STATUS_EFFECTS = [
     id: "huntersmark",
     name: "INNIL.StatusConditionHuntersMark",
     icon: "icons/skills/targeting/crosshair-pointed-orange.webp",
+    hidden: true,
     duration: { seconds: 3600 },
     description:
       "<p>You take extra 1d6 damage when the caster hits you with an attack.</p>" +
@@ -503,7 +511,6 @@ export const STATUS_EFFECTS = [
  * Assigns sort order to each status effect based on its ID.
  * It adds a 'sort' property to each status effect object in the provided array.
  * @param {Array} statusEffects     The array of status effect objects.
- * @private
  */
 const assignSortOrder = (statusEffects) => {
   const sortedEffectIds = statusEffects.map((effect) => effect.id).sort();
