@@ -282,7 +282,7 @@ export class AnimationsHandler {
     if (check) {
       const file = "jb2a.bless.400px.intro.yellow";
       targets.forEach((target) => {
-        new Sequence().effect().file(file).attachTo(target).play();
+        return new Sequence().effect().file(file).attachTo(target).play();
       });
     }
 
