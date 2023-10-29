@@ -254,7 +254,7 @@ export class AnimationsHandler {
       if (!target || !token) return;
       const file = "jb2a.magic_missile";
       targets.forEach((target) => {
-        new Sequence().effect().stretchTo(target).atLocation(token).file(file).randomizeMirrorY().play();
+        return new Sequence().effect().stretchTo(target).atLocation(token).file(file).randomizeMirrorY().play();
       });
     }
   }
