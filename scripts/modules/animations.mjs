@@ -114,6 +114,7 @@ export class AnimationsHandler {
 
     const token = actor.token?.object ?? actor.getActiveTokens()[0];
     const target = game.user.targets.first();
+    const targets = Array.from(game.user.targets);
     let check;
 
     // BOWS in general.
@@ -204,6 +205,7 @@ export class AnimationsHandler {
 
     const token = actor.token?.object ?? actor.getActiveTokens()[0];
     const target = game.user.targets.first();
+    const targets = Array.from(game.user.targets);
     let check;
 
     // CURE WOUNDS.
@@ -244,6 +246,16 @@ export class AnimationsHandler {
       if (!target || !token) return;
       const file = "jb2a.chain_lightning.secondary.blue";
       return new Sequence().effect().stretchTo(target).atLocation(token).file(file).play();
+    }
+
+    // MAGIC MISSILE
+    check = name === "Magic Missile";
+    if (check) {
+      if (!target || !token) return;
+      const file = "jb2a.magic_missile";
+      targets.forEach((target) => {
+        new Sequence().effect().stretchTo(target).atLocation(token).file(file).randomizeMirrorY().play();
+      });
     }
   }
 
