@@ -2,24 +2,16 @@ import { DEPEND } from "../../../const.mjs";
 import { elementalDialog } from "../../customDialogs.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function ABSORB_ELEMENTS(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function ABSORB_ELEMENTS(item, speaker, actor, token, character, event, args) {
+  const use = await item.use();
+  if (!use) return;
+
   const type = await elementalDialog({
     types: ["acid", "cold", "fire", "lightning", "thunder"],
     content: "Choose the damage type.",
     title: item.name,
   });
   if (!type) return;
-
-  const use = await item.use();
-  if (!use) return;
 
   const level = ItemMacroHelpers._getSpellLevel(use);
   const mode = CONST.ACTIVE_EFFECT_MODES.ADD;
