@@ -114,7 +114,7 @@ export class AnimationsHandler {
 
     const token = actor.token?.object ?? actor.getActiveTokens()[0];
     const target = game.user.targets.first();
-    const targets = Array.from(game.user.targets);
+    const targets = game.user.targets;
     let check;
 
     // BOWS in general.
@@ -205,7 +205,7 @@ export class AnimationsHandler {
 
     const token = actor.token?.object ?? actor.getActiveTokens()[0];
     const target = game.user.targets.first();
-    const targets = Array.from(game.user.targets);
+    const targets = game.user.targets;
     let check;
 
     // CURE WOUNDS.
@@ -266,7 +266,7 @@ export class AnimationsHandler {
 
     const token = actor.token?.object ?? actor.getActiveTokens()[0];
     const target = game.user.targets.first();
-    const targets = Array.from(game.user.targets);
+    const targets = game.user.targets;
     let check;
 
     // ACID SPLASH.
