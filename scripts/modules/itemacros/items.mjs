@@ -9,58 +9,33 @@ export const items = {
   TORCH,
 };
 
-async function HIT_DIE_APPLY(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function HIT_DIE_APPLY(item, speaker, actor, token, character, event, args) {
   const use = await item.use();
   if (!use) return;
   return actor.rollHitDie(undefined, { dialog: false });
 }
 
-async function RING_OF_LIGHT(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
-    return item.use();
+async function RING_OF_LIGHT(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE)) return item.use();
 
   if (!item.system.equipped) await item.update({ "system.equipped": true }); // Forcefully equip the item.
 
-  const has = actor.effects.find((e) =>
-    e.statuses.has(item.name.slugify({ strict: true }))
-  );
+  const has = actor.effects.find((e) => e.statuses.has(item.name.slugify({ strict: true })));
   if (has) return has.delete();
 
   const use = await item.use();
   if (!use) return;
 
   const lightData = { bright: 30, dim: 60 };
-  return actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    ItemMacroHelpers._constructLightEffectData({ item, lightData })
-  );
+  return actor.createEmbeddedDocuments("ActiveEffect", ItemMacroHelpers._constructLightEffectData({ item, lightData }));
 }
 
 async function TORCH(item, speaker, actor, token, character, event, args) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
-    return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE)) return item.use();
 
   if (!item.system.equipped) await item.update({ "system.equipped": true }); // Forcefully equip the item.
 
-  const has = actor.effects.find((e) =>
-    e.statuses.has(item.name.slugify({ strict: true }))
-  );
+  const has = actor.effects.find((e) => e.statuses.has(item.name.slugify({ strict: true })));
   if (has) return has.delete();
 
   const use = await item.use();
@@ -81,29 +56,15 @@ async function TORCH(item, speaker, actor, token, character, event, args) {
     saturation: 0,
     shadows: 0,
   };
-  return actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    ItemMacroHelpers._constructLightEffectData({ item, lightData })
-  );
+  return actor.createEmbeddedDocuments("ActiveEffect", ItemMacroHelpers._constructLightEffectData({ item, lightData }));
 }
 
-async function LANTERN_OF_TRACKING(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE))
-    return item.use();
+async function LANTERN_OF_TRACKING(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE)) return item.use();
 
   if (!item.system.equipped) await item.update({ "system.equipped": true }); // Forcefully equip the item.
 
-  const has = actor.effects.find((e) =>
-    e.statuses.has(item.name.slugify({ strict: true }))
-  );
+  const has = actor.effects.find((e) => e.statuses.has(item.name.slugify({ strict: true })));
   if (has) return has.delete();
 
   const oilFlask = actor.items.getName("Oil Flask");
@@ -129,24 +90,15 @@ async function LANTERN_OF_TRACKING(
     color: "#ff4d00",
     attenuation: 0.5,
   };
-  await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    ItemMacroHelpers._constructLightEffectData({ item, lightData })
-  );
+  await actor.createEmbeddedDocuments("ActiveEffect", ItemMacroHelpers._constructLightEffectData({ item, lightData }));
   return oilFlask.update({ "system.quantity": quantity - 1 });
 }
 
 async function FREE_USE(item, speaker, actor, token, character, event, args) {
-  return item.use(
-    {
-      createMeasuredTemplate: false,
-      consumeQuantity: false,
-      consumeRecharge: false,
-      consumeResource: false,
-      consumeSpellLevel: false,
-      consumeSpellSlot: false,
-      consumeUsage: false,
-    },
-    { configureDialog: false }
-  );
+  return item.use({
+    createMeasuredTemplate: null,
+    consumeResource: null,
+    consumeSpellSlot: null,
+    consumeUsage: null,
+  });
 }
