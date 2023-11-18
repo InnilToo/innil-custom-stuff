@@ -65,14 +65,21 @@ export class GameChangesHandler {
 
     // Adjust languages.
     foundry.utils.mergeObject(
-      CONFIG.DND5E.languages,
+      CONFIG.DND5E.languages.standard.children,
+      {
+        marquesian: "DND5E.LanguagesMarquesian",
+        orc: "DND5E.LanguagesOrcish",
+        zemnian: "DND5E.LanguagesZemnian",
+        naush: "DND5E.LanguagesNaush",
+      },
+      { performDeletions: true }
+    );
+
+    foundry.utils.mergeObject(
+      CONFIG.DND5E.languages.exotic.children,
       {
         aeorian: "DND5E.LanguagesAeorian",
-        marquesian: "DND5E.LanguagesMarquesian",
-        naush: "DND5E.LanguagesNaush",
-        orc: "DND5E.LanguagesOrcish",
         qoniiran: "DND5E.LanguagesQoniiran",
-        zemnian: "DND5E.LanguagesZemnian",
       },
       { performDeletions: true }
     );
