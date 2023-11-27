@@ -1,5 +1,6 @@
 import { DEPEND } from "../../const.mjs";
 import { ItemMacroHelpers } from "../itemMacros.mjs";
+import { HIT_DIE_APPLY } from "./items/hitDieApply.mjs";
 import { TORCH } from "./items/torch.mjs";
 
 export const items = {
@@ -9,12 +10,6 @@ export const items = {
   RING_OF_LIGHT,
   TORCH,
 };
-
-async function HIT_DIE_APPLY(item, speaker, actor, token, character, event, args) {
-  const use = await item.use();
-  if (!use) return;
-  return actor.rollHitDie(undefined, { dialog: false });
-}
 
 async function RING_OF_LIGHT(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE)) return item.use();
