@@ -1,17 +1,8 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function CALL_LIGHTNING(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.CN, DEPEND.VAE))
-    return item.use();
+export async function CALL_LIGHTNING(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.CN, DEPEND.VAE)) return item.use();
 
   const concentrating = CN.isActorConcentratingOnItem(actor, item);
   if (!concentrating) {

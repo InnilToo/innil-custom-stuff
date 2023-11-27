@@ -2,42 +2,27 @@ import { MODULE } from "../../../const.mjs";
 
 export const sorcerer = { FONT_OF_MAGIC };
 
-async function FONT_OF_MAGIC(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function FONT_OF_MAGIC(item, speaker, actor, token, character, event, args) {
   const conversionMap = { 1: 2, 2: 3, 3: 5, 4: 6, 5: 7 };
   const spellPoints = item.system.uses;
   const spellSlots = actor.system.spells;
 
   // array of spell levels for converting points to slots.
-  const validLevelsWithSpentSpellSlots = Object.entries(spellSlots).filter(
-    ([key, entry]) => {
-      const k = key === "pact" ? entry.level : key.at(-1);
-      const cost = conversionMap[k];
-      if (!cost || cost > spellPoints.value) return false;
-      return entry.max > 0 && entry.value < entry.max;
-    }
-  );
+  const validLevelsWithSpentSpellSlots = Object.entries(spellSlots).filter(([key, entry]) => {
+    const k = key === "pact" ? entry.level : key.at(-1);
+    const cost = conversionMap[k];
+    if (!cost || cost > spellPoints.value) return false;
+    return entry.max > 0 && entry.value < entry.max;
+  });
 
   // array of spell levels for converting slots to points.
-  const spellLevelsWithAvailableSlots = Object.entries(spellSlots).filter(
-    ([key, entry]) => {
-      return entry.value > 0 && entry.max > 0;
-    }
-  );
+  const spellLevelsWithAvailableSlots = Object.entries(spellSlots).filter(([key, entry]) => {
+    return entry.value > 0 && entry.max > 0;
+  });
 
-  const canConvertSlotToPoints =
-    spellLevelsWithAvailableSlots.length > 0 &&
-    spellPoints.value < spellPoints.max;
+  const canConvertSlotToPoints = spellLevelsWithAvailableSlots.length > 0 && spellPoints.value < spellPoints.max;
   const canConvertPointsToSlot =
-    spellPoints.value >= Math.min(...Object.values(conversionMap)) &&
-    validLevelsWithSpentSpellSlots.length > 0;
+    spellPoints.value >= Math.min(...Object.values(conversionMap)) && validLevelsWithSpentSpellSlots.length > 0;
   if (!canConvertPointsToSlot && !canConvertSlotToPoints) {
     ui.notifications.warn("You have no options available.");
     return null;
@@ -59,25 +44,19 @@ async function FONT_OF_MAGIC(
       callback: pointsToSlot,
     };
   }
-  return new Dialog(
-    { title: item.name, buttons },
-    { id: `font-of-magic-${actor.uuid.replaceAll(".", "-")}` }
-  ).render(true);
+  return new Dialog({ title: item.name, buttons }, { id: `font-of-magic-${actor.uuid.replaceAll(".", "-")}` }).render(true);
 
   // Convert spell slot to sorcery points.
   async function slotToPoints() {
     // build buttons for each level where value, max > 0.
     const slotToPointsButtons = Object.fromEntries(
       spellLevelsWithAvailableSlots.map(([key, vals]) => {
-        const k =
-          key === "pact" ? "Pact Slot" : CONFIG.DND5E.spellLevels[key.at(-1)];
+        const k = key === "pact" ? "Pact Slot" : CONFIG.DND5E.spellLevels[key.at(-1)];
         return [
           key,
           {
             callback: () => key,
-            label: `<span>${k} (${vals.value}/${vals.max})</span><span>(+${
-              vals.level ?? key.at(-1)
-            } points)</span>`,
+            label: `<span>${k} (${vals.value}/${vals.max})</span><span>(+${vals.level ?? key.at(-1)} points)</span>`,
           },
         ];
       })
@@ -100,17 +79,11 @@ async function FONT_OF_MAGIC(
       [`system.spells.${retKey}.value`]: spellSlots[retKey].value - 1,
     });
     const level = retKey === "pact" ? spellSlots["pact"].level : retKey.at(-1);
-    const newPointsValue = Math.clamped(
-      spellPoints.value + Number(level),
-      0,
-      spellPoints.max
-    );
+    const newPointsValue = Math.clamped(spellPoints.value + Number(level), 0, spellPoints.max);
     await item.update({ "system.uses.value": newPointsValue });
     return ChatMessage.create({
       speaker,
-      content: `${actor.name} regained ${
-        newPointsValue - spellPoints.value
-      } sorcery points.`,
+      content: `${actor.name} regained ${newPointsValue - spellPoints.value} sorcery points.`,
     });
   }
 
@@ -118,8 +91,7 @@ async function FONT_OF_MAGIC(
   async function pointsToSlot() {
     const pointsToSlotButtons = Object.fromEntries(
       validLevelsWithSpentSpellSlots.map(([key, vals]) => {
-        const k =
-          key === "pact" ? "Pact Slot" : CONFIG.DND5E.spellLevels[key.at(-1)];
+        const k = key === "pact" ? "Pact Slot" : CONFIG.DND5E.spellLevels[key.at(-1)];
         const cost = conversionMap[vals.level ?? key.at(-1)];
         return [
           key,
@@ -147,16 +119,9 @@ async function FONT_OF_MAGIC(
     });
     const level = retKey === "pact" ? spellSlots["pact"].level : retKey.at(-1);
     await item.update({
-      "system.uses.value": Math.clamped(
-        spellPoints.value - conversionMap[level],
-        0,
-        spellPoints.max
-      ),
+      "system.uses.value": Math.clamped(spellPoints.value - conversionMap[level], 0, spellPoints.max),
     });
-    const str =
-      retKey === "pact"
-        ? "Pact Slot"
-        : `${CONFIG.DND5E.spellLevels[level]} spell slot`;
+    const str = retKey === "pact" ? "Pact Slot" : `${CONFIG.DND5E.spellLevels[level]} spell slot`;
     return ChatMessage.create({
       speaker,
       content: `${actor.name} regained a ${str}.`,

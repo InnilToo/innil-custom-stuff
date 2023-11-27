@@ -20,7 +20,6 @@ export class TargetSequencePicker extends Application {
     this.includeSource = config.includeSource ?? true;
     this.source = config.source;
     this.maxDistance = config.maxDistance ?? Infinity;
-
     const seq = this.includeSource ? [this.source.id] : [];
     this.sequence = this.unique ? new Set(seq) : seq;
   }
@@ -64,9 +63,7 @@ export class TargetSequencePicker extends Application {
     html[0].querySelectorAll("[data-action='add-target']").forEach((n) => {
       n.addEventListener("click", this._addTarget.bind(this));
     });
-    html[0]
-      .querySelector("[data-action='submit']")
-      .addEventListener("click", this.submit.bind(this));
+    html[0].querySelector("[data-action='submit']").addEventListener("click", this.submit.bind(this));
   }
 
   /**
@@ -98,26 +95,15 @@ export class TargetSequencePicker extends Application {
         const isFin = Number.isFinite(this.maxDistance);
 
         if (isFin) {
-          const range = babonus.getMinimumDistanceBetweenTokens(
-            this.source,
-            token.object,
-            { gridSpaces: true }
-          );
+          const range = babonus.getMinimumDistanceBetweenTokens(this.source, token.object, { gridSpaces: true });
           if (range > this.maxDistance) return acc;
         }
 
         // Include a token if it is within range.
-        const range = babonus.getMinimumDistanceBetweenTokens(
-          a ?? this.source,
-          token.object,
-          { gridSpaces: true }
-        );
+        const range = babonus.getMinimumDistanceBetweenTokens(a ?? this.source, token.object, { gridSpaces: true });
 
         // The max range is the max distance if used and the first in the sequence.
-        const maxRange = Math.max(
-          this.range,
-          isFin && foundry.utils.isEmpty(this.sequence) ? this.maxDistance : 0
-        );
+        const maxRange = Math.max(this.range, isFin && foundry.utils.isEmpty(this.sequence) ? this.maxDistance : 0);
         if (range <= maxRange) acc.push(token);
 
         return acc;

@@ -2,8 +2,7 @@ import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export async function AID(item, speaker, actor, token, character, event, args) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.EM, DEPEND.VAE))
-    return item.use();
+  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.EM, DEPEND.VAE)) return item.use();
 
   const targets = game.user.targets;
   if (!targets.size.between(1, 3)) {
@@ -34,9 +33,7 @@ export async function AID(item, speaker, actor, token, character, event, args) {
       },
     ],
     statuses: [item.name.slugify({ strict: true })],
-    description: `Your hit point maximum is increased by ${
-      5 * (spellLevel - 1)
-    }.`,
+    description: `Your hit point maximum is increased by ${5 * (spellLevel - 1)}.`,
     "flags.effectmacro.data.spellLevel": spellLevel,
     "flags.effectmacro.onCreate.script": `(${onCreate.toString()})()`,
   };
@@ -50,6 +47,5 @@ export async function AID(item, speaker, actor, token, character, event, args) {
   };
 
   ui.notifications.info("Granting hit points to your targets!");
-  for (const target of targets)
-    warpgate.mutate(target.document, updates, {}, options);
+  for (const target of targets) warpgate.mutate(target.document, updates, {}, options);
 }

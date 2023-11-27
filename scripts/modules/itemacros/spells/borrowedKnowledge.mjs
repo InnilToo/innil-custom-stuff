@@ -1,26 +1,15 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function BORROWED_KNOWLEDGE(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function BORROWED_KNOWLEDGE(item, speaker, actor, token, character, event, args) {
   const use = await item.use();
   if (!use) return;
 
-  const options = Object.entries(actor.system.skills).reduce(
-    (acc, [id, { value }]) => {
-      if (value > 0) return acc;
-      const name = CONFIG.DND5E.skills[id].label;
-      return acc + `<option value="${id}">${name}</option>`;
-    },
-    ""
-  );
+  const options = Object.entries(actor.system.skills).reduce((acc, [id, { value }]) => {
+    if (value > 0) return acc;
+    const name = CONFIG.DND5E.skills[id].label;
+    return acc + `<option value="${id}">${name}</option>`;
+  }, "");
 
   const skl = await Dialog.prompt({
     title: item.name,

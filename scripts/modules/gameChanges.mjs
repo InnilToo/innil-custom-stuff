@@ -17,8 +17,6 @@ export class GameChangesHandler {
     Hooks.on("renderTokenHUD", GameChangesHandler._replaceTokenHUD);
     Hooks.on("dnd5e.restCompleted", GameChangesHandler._restItemDeletion);
     Hooks.on("dnd5e.getItemContextOptions", GameChangesHandler._addContextMenuOptions);
-    Hooks.on("preCreateActiveEffect", GameChangesHandler._preCreateActiveEffect);
-    Hooks.on("applyActiveEffect", GameChangesHandler.evaluateArmorClassBonus);
     Hooks.on("getSceneConfigHeaderButtons", GameChangesHandler._sceneHeaderView);
     Hooks.on("dropCanvasData", GameChangesHandler._dropActorFolder);
     Hooks.on("preCreateScene", GameChangesHandler._preCreateScene);
@@ -67,12 +65,12 @@ export class GameChangesHandler {
     foundry.utils.mergeObject(
       CONFIG.DND5E.languages,
       {
-        aeorian: "DND5E.LanguagesAeorian",
-        marquesian: "DND5E.LanguagesMarquesian",
-        naush: "DND5E.LanguagesNaush",
-        orc: "DND5E.LanguagesOrcish",
-        qoniiran: "DND5E.LanguagesQoniiran",
-        zemnian: "DND5E.LanguagesZemnian",
+        "standard.children.marquesian": "DND5E.LanguagesMarquesian",
+        "standard.children.orc": "DND5E.LanguagesOrcish",
+        "standard.children.zemnian": "DND5E.LanguagesZemnian",
+        "standard.children.naush": "DND5E.LanguagesNaush",
+        "exotic.children.aeorian": "DND5E.LanguagesAeorian",
+        "exotic.children.qoniiran": "DND5E.LanguagesQoniiran",
       },
       { performDeletions: true }
     );
@@ -397,23 +395,6 @@ export class GameChangesHandler {
   }
 
   /**
-   * When an effect is created in an item, set its icon and name to be the item's img
-   * and name unless a different and non-default icon and name are provided.
-   * @param {ActiveEffect} effect     The effect to be created.
-   * @param {object} effectData       The data object used to create the effect.
-   */
-  static _preCreateActiveEffect(effect, effectData) {
-    const data = {};
-    if (effectData.icon === "icons/svg/aura.svg" || !effectData.icon) {
-      data.icon = effect.parent.img;
-    }
-    if (effectData.name === "New Effect" || !effectData.name) {
-      data.name = effect.parent.name;
-    }
-    effect.updateSource(data);
-  }
-
-  /**
    * Hook function to replace the token HUD condition selector with a new one
    * that has images and names, as well as tooltips.
    * @param {TokenHUD} hud          The token HUD.
@@ -521,14 +502,6 @@ export class GameChangesHandler {
     if (!foundry.utils.hasProperty(update, "x") && !foundry.utils.hasProperty(update, "y")) return;
     const ray = new Ray(doc, { x: update.x ?? doc.x, y: update.y ?? doc.y });
     update.rotation = (ray.angle * 180) / Math.PI - 90;
-  }
-
-  /** Evaluate roll data in an ac bonus effect. */
-  static evaluateArmorClassBonus(actor, change, current, delta, changes) {
-    const { key, value } = change;
-    if (key === "system.attributes.ac.bonus" && typeof value == "string" && value.includes("@")) {
-      changes[key] = dnd5e.utils.simplifyBonus(value, actor.getRollData());
-    }
   }
 
   static sceneControls(array) {

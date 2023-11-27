@@ -58,13 +58,7 @@ export class ExperimentalElixir extends Application {
       boldness: {
         name: "Boldness",
         data: {
-          changes: [
-            "mwak.attack",
-            "rwak.attack",
-            "msak.attack",
-            "rsak.attack",
-            "abilities.save",
-          ].map((prop) => {
+          changes: ["mwak.attack", "rwak.attack", "msak.attack", "rsak.attack", "abilities.save"].map((prop) => {
             return {
               key: `system.bonuses.${prop}`,
               mode: CONST.ACTIVE_EFFECT_MODES.ADD,
@@ -153,9 +147,7 @@ export class ExperimentalElixir extends Application {
       "Something-ade",
       "Sunny Capital",
     ];
-    return `Experimental Elixir: ${
-      randomName[Math.floor(Math.random() * randomName.length)]
-    }`;
+    return `Experimental Elixir: ${randomName[Math.floor(Math.random() * randomName.length)]}`;
   }
 
   /**
@@ -192,10 +184,7 @@ export class ExperimentalElixir extends Application {
    * @returns {Promise<string>}     The image.
    */
   async _getRandomImage() {
-    const { files } = await FilePicker.browse(
-      "public",
-      "icons/consumables/potions"
-    );
+    const { files } = await FilePicker.browse("public", "icons/consumables/potions");
     return files[Math.floor(Math.random() * files.length)];
   }
 
@@ -280,18 +269,12 @@ export class ExperimentalElixir extends Application {
     const mod = this.rollData.abilities.int.mod;
     let desc = types.reduce((acc, type) => {
       const data = this.elixirTypes[type];
-      const intro = game.i18n.format(
-        `INNIL.ExperimentalElixirType${type.capitalize()}`,
-        { mod }
-      );
+      const intro = game.i18n.format(`INNIL.ExperimentalElixirType${type.capitalize()}`, { mod });
       return acc + `<p><strong><em>${data.name}.</em></strong> ${intro}</p>`;
     }, "");
     if (this.rollData.classes.artificer.levels >= 9) {
       const name = "Restorative Reagents";
-      const intro = game.i18n.format(
-        "INNIL.ExperimentalElixirTypeRestorativeReagents",
-        { mod }
-      );
+      const intro = game.i18n.format("INNIL.ExperimentalElixirTypeRestorativeReagents", { mod });
       desc += `<p><strong><em>${name}.</em></strong> ${intro}</p>`;
     }
     return desc;
@@ -344,9 +327,7 @@ export class ExperimentalElixir extends Application {
 
   /** @override */
   activateListeners(html) {
-    html[0]
-      .querySelector("[data-action='submit']")
-      .addEventListener("click", this._onSubmit.bind(this));
+    html[0].querySelector("[data-action='submit']").addEventListener("click", this._onSubmit.bind(this));
     html[0].querySelectorAll("[type='checkbox']").forEach((n) => {
       n.addEventListener("change", this._onChangeCheckbox.bind(this));
     });
@@ -359,9 +340,7 @@ export class ExperimentalElixir extends Application {
    */
   async _onSubmit(event) {
     const types = [];
-    this.element[0]
-      .querySelectorAll("input:checked")
-      .forEach((input) => types.push(input.value));
+    this.element[0].querySelectorAll("input:checked").forEach((input) => types.push(input.value));
     if (!types.length.between(1, this.maxLevel)) {
       ui.notifications.warn(
         game.i18n.format("INNIL.ExperimentalElixirBoundedWarning", {
@@ -397,9 +376,7 @@ export class ExperimentalElixir extends Application {
     if (tooMany) Array.from(checked).find((c) => c !== target).checked = false;
     const button = this.element[0].querySelector("[data-action='submit']");
     const _checked = this.element[0].querySelectorAll("input:checked");
-    button.disabled = !(
-      this.actor.system.spells[`spell${_checked.length}`]?.value > 0
-    );
+    button.disabled = !(this.actor.system.spells[`spell${_checked.length}`]?.value > 0);
     if (button.disabled) {
       const string = !_checked.length ? "PickAtLeastOne" : "NoSpellSlot";
       button.setAttribute("data-tooltip", `INNIL.ExperimentalElixir${string}`);
@@ -413,15 +390,10 @@ export class ExperimentalElixir extends Application {
   async experiment() {
     const value = this.item.system.uses.value;
     if (value < 1) {
-      ui.notifications.warn(
-        game.i18n.format("DND5E.ItemNoUses", { name: this.item.name })
-      );
+      ui.notifications.warn(game.i18n.format("DND5E.ItemNoUses", { name: this.item.name }));
       return;
     }
-    const roll = await new Roll(
-      "(@scale.alchemist.elixirs)d8x8rr8",
-      this.rollData
-    ).evaluate();
+    const roll = await new Roll("(@scale.alchemist.elixirs)d8x8rr8", this.rollData).evaluate();
     await roll.toMessage({
       speaker: this.speaker,
       flavor: game.i18n.format("INNIL.ExperimentalElixirRollRandom", {
@@ -429,9 +401,7 @@ export class ExperimentalElixir extends Application {
       }),
     });
     const keys = Object.keys(this.elixirTypes);
-    const types = roll.dice[0].results
-      .filter((i) => i.active)
-      .map((i) => keys[i.result - 1]);
+    const types = roll.dice[0].results.filter((i) => i.active).map((i) => keys[i.result - 1]);
     const data = [];
     for (const type of types) {
       const [elix] = await this.getElixirItemData([type]);
@@ -439,13 +409,10 @@ export class ExperimentalElixir extends Application {
     }
     await ChatMessage.create({
       speaker: this.speaker,
-      content: game.i18n.format(
-        "INNIL.ExperimentalElixirCreatedRandomElixirs",
-        {
-          name: this.actor.name,
-          n: data.length,
-        }
-      ),
+      content: game.i18n.format("INNIL.ExperimentalElixirCreatedRandomElixirs", {
+        name: this.actor.name,
+        n: data.length,
+      }),
     });
     await this.item.update({ "system.uses.value": value - 1 });
     return this.actor.createEmbeddedDocuments("Item", data);

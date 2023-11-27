@@ -49,10 +49,7 @@ export class SocketsHandler {
    */
   static async createTiles({ userId, tileData }, push = true) {
     userId ??= _getFirstGM();
-    if (!userId)
-      return ui.notifications.warn(
-        "No user was found able to create the tiles."
-      );
+    if (!userId) return ui.notifications.warn("No user was found able to create the tiles.");
     if (game.user.id !== userId && push) {
       game.socket.emit(`world.${game.world.id}`, {
         action: "createTiles",
@@ -90,15 +87,9 @@ export class SocketsHandler {
    * @param {object[]} updates      The array of update data.
    * @param {object} options        The update options.
    */
-  static async updateTokens(
-    { userId, updates = [], options = {} },
-    push = true
-  ) {
+  static async updateTokens({ userId, updates = [], options = {} }, push = true) {
     userId ??= _getFirstGM();
-    if (!userId)
-      return ui.notifications.warn(
-        "No user was found able to update the tokens."
-      );
+    if (!userId) return ui.notifications.warn("No user was found able to update the tokens.");
     if (game.user.id !== userId && push) {
       game.socket.emit(`world.${game.world.id}`, {
         action: "updateTokens",
@@ -115,30 +106,18 @@ export class SocketsHandler {
    * @param {number} amount       The amount of healing or temp hp to grant.
    * @param {boolean} temp        Whether the healing is temporary hit points.
    */
-  static async healToken(
-    { tokenId, userId = null, amount = 0, temp = false },
-    push = true
-  ) {
-    if (tokenId instanceof Token || tokenId instanceof TokenDocument)
-      tokenId = tokenId.id;
+  static async healToken({ tokenId, userId = null, amount = 0, temp = false }, push = true) {
+    if (tokenId instanceof Token || tokenId instanceof TokenDocument) tokenId = tokenId.id;
     userId ??= _getTargetUser(tokenId);
-    if (!userId)
-      return ui.notifications.warn(
-        "No user was found able to heal the target."
-      );
+    if (!userId) return ui.notifications.warn("No user was found able to heal the target.");
     if (game.user.id !== userId && push) {
       game.socket.emit(`world.${game.world.id}`, {
         action: "healToken",
         data: { tokenId, amount, temp, userId },
       });
     } else if (game.user.id === userId) {
-      if (temp)
-        return canvas.scene.tokens
-          .get(tokenId)
-          .actor.applyTempHP(Math.abs(amount));
-      return canvas.scene.tokens
-        .get(tokenId)
-        .actor.applyDamage(Math.abs(amount), -1);
+      if (temp) return canvas.scene.tokens.get(tokenId).actor.applyTempHP(Math.abs(amount));
+      return canvas.scene.tokens.get(tokenId).actor.applyDamage(Math.abs(amount), -1);
     }
   }
 
@@ -147,15 +126,9 @@ export class SocketsHandler {
    * @param {object[]} itemData     The array of item data objects.
    * @param {string} tokenId        The id of the token whose actor receives the items.
    */
-  static async createEmbeddedDocuments(
-    { userId, itemData = [], tokenId },
-    push = true
-  ) {
+  static async createEmbeddedDocuments({ userId, itemData = [], tokenId }, push = true) {
     userId ??= _getTargetUser(tokenId);
-    if (!userId)
-      return ui.notifications.warn(
-        "No user was found able to create the item on the target."
-      );
+    if (!userId) return ui.notifications.warn("No user was found able to create the item on the target.");
     if (game.user.id !== userId && push) {
       game.socket.emit(`world.${game.world.id}`, {
         action: "createEmbeddedDocuments",
@@ -164,9 +137,7 @@ export class SocketsHandler {
     } else if (game.user.id === userId) {
       const names = itemData.map((i) => i.name).join(", ");
       const actor = canvas.scene.tokens.get(tokenId).actor;
-      const content = `${names} ${
-        itemData.length > 1 ? "were" : "was"
-      } added to ${actor.name}'s inventory.`;
+      const content = `${names} ${itemData.length > 1 ? "were" : "was"} added to ${actor.name}'s inventory.`;
       const whisper = _getOwnerIds(actor);
       await ChatMessage.create({
         content,
@@ -231,10 +202,7 @@ export class SocketsHandler {
    * @param {string[]} [effectIds=[]]     The ids of effects to delete.
    * @param {string} actorId              The id of the actor off which to delete documents.
    */
-  static async deleteEmbeddedDocuments(
-    { userId, itemIds = [], effectIds = [], actorId },
-    push = true
-  ) {
+  static async deleteEmbeddedDocuments({ userId, itemIds = [], effectIds = [], actorId }, push = true) {
     // Find a user who is able to handle this request.
     userId ??= _getTargetUser(actorId, true);
     if (!userId) {
@@ -286,17 +254,9 @@ export class SocketsHandler {
  * @returns {string|null}                       The id of the found user, if any.
  */
 function _getTargetUser(tokenId, isActor = false, preferAssigned = false) {
-  const actor = isActor
-    ? game.actors.get(tokenId)
-    : canvas.scene.tokens.get(tokenId).actor;
-  const owners = game.users.filter(
-    (u) => u.active && !u.isGM && actor.testUserPermission(u, "OWNER")
-  );
-  return (
-    (!isActor || !preferAssigned
-      ? owners[0]?.id
-      : owners.find((u) => u.character === actor)?.id) ?? _getFirstGM()
-  );
+  const actor = isActor ? game.actors.get(tokenId) : canvas.scene.tokens.get(tokenId).actor;
+  const owners = game.users.filter((u) => u.active && !u.isGM && actor.testUserPermission(u, "OWNER"));
+  return (!isActor || !preferAssigned ? owners[0]?.id : owners.find((u) => u.character === actor)?.id) ?? _getFirstGM();
 }
 
 /**

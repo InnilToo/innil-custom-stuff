@@ -9,9 +9,7 @@ export async function playerLanguages({ whisper = true } = {}) {
     .map((i) => i.character)
     .filter((i) => !!i)
     .reduce((acc, c) => {
-      const lang = [...c.system.traits.languages.value]
-        .map((i) => i.capitalize())
-        .join(", ");
+      const lang = [...c.system.traits.languages.value].map((i) => i.capitalize()).join(", ");
       let name = c.name;
       // Add the title only for the first character in the list
       if (acc === "") {

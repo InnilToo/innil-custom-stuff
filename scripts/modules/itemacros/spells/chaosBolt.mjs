@@ -1,14 +1,6 @@
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function CHAOS_BOLT(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function CHAOS_BOLT(item, speaker, actor, token, character, event, args) {
   /* Dialog to allow for attack rerolls in case of Seeking Spell. */
   const castOrAttack = await Dialog.wait({
     title: "Is this a casting, or a reroll of an attack?",
@@ -86,9 +78,7 @@ export async function CHAOS_BOLT(
       let flavor = "<p><strong>Chaos Bolt</strong></p>";
       flavor += `<p>Damage type: ${type}</p>`;
       const chain = totals.length > new Set(totals).size;
-      if (chain)
-        flavor +=
-          '<p style="text-align: center;"><strong><em>Chaining!</em></strong></p>';
+      if (chain) flavor += '<p style="text-align: center;"><strong><em>Chaining!</em></strong></p>';
       await ChatMessage.create({ content: flavor, speaker });
       return chain;
     }

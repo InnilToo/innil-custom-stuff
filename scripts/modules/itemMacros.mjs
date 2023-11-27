@@ -1,36 +1,12 @@
 import { DEPEND, MODULE } from "../const.mjs";
-import { alchemist } from "./itemacros/features/artificer-alchemist.mjs";
-import { twilight } from "./itemacros/features/cleric-twilight.mjs";
-import { stars } from "./itemacros/features/druid-stars.mjs";
-import { misc } from "./itemacros/features/misc.mjs";
-import { hearth } from "./itemacros/features/paladin-hearth.mjs";
-import { paladin } from "./itemacros/features/paladin.mjs";
-import { races } from "./itemacros/features/races.mjs";
-import { sorcerer } from "./itemacros/features/sorcerer.mjs";
-import { fathomless } from "./itemacros/features/warlock-fathomless.mjs";
-import { wizard } from "./itemacros/features/wizard.mjs";
+import { features } from "./itemacros/features.mjs";
 import { items } from "./itemacros/items.mjs";
-import { poisons } from "./itemacros/items/poisons.mjs";
 import { spells } from "./itemacros/spells.mjs";
 
 // item, speaker, actor, token, character, event, args
 export const ITEMACRO = {
-  // class, subclass, and race features
-  ...alchemist,
-  ...twilight,
-  ...stars,
-  ...misc,
-  ...hearth,
-  ...paladin,
-  ...races,
-  ...sorcerer,
-  ...fathomless,
-  ...wizard,
-  // boons
-  // items
+  ...features,
   ...items,
-  ...poisons,
-  // spells
   ...spells,
 };
 

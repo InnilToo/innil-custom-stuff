@@ -1,23 +1,12 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function SPIRITUAL_WEAPON(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG))
-    return item.use();
+export async function SPIRITUAL_WEAPON(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
 
   const isActive = actor.statuses.has(item.name.slugify({ strict: true }));
   if (isActive) {
-    ui.notifications.warn(
-      "You already have a weapon summoned! Use the buttons in the effect."
-    );
+    ui.notifications.warn("You already have a weapon summoned! Use the buttons in the effect.");
     return null;
   }
 
@@ -36,12 +25,7 @@ export async function SPIRITUAL_WEAPON(
   // then spawn the actor:
   await actor.sheet.minimize();
   const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
-  const [spawn] = await ItemMacroHelpers._spawnHelper(
-    "Spiritual Weapon",
-    updates,
-    {},
-    options
-  );
+  const [spawn] = await ItemMacroHelpers._spawnHelper("Spiritual Weapon", updates, {}, options);
   await actor.sheet.maximize();
   canvas.app.stage.removeChild(p);
   if (!spawn) return;
@@ -52,9 +36,6 @@ export async function SPIRITUAL_WEAPON(
     level,
     types: ["redisplay", "attack", "damage"],
   });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
+  const [effect] = await actor.createEmbeddedDocuments("ActiveEffect", effectData);
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }

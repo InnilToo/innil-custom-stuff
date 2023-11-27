@@ -1,24 +1,8 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function SHADOW_OF_MOIL(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (
-    !ItemMacroHelpers._getDependencies(
-      DEPEND.CN,
-      DEPEND.JB2A,
-      DEPEND.SEQ,
-      DEPEND.VAE
-    )
-  )
-    return item.use();
+export async function SHADOW_OF_MOIL(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.CN, DEPEND.JB2A, DEPEND.SEQ, DEPEND.VAE)) return item.use();
 
   const use = await item.use();
   if (!use) return;

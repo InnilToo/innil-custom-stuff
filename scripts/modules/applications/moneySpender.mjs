@@ -34,9 +34,7 @@ export class MoneySpender extends Application {
    * @returns {string}
    */
   get defaultDenomination() {
-    const [key] = Object.entries(CONFIG.DND5E.currencies).find(
-      (c) => c[1].conversion === 1
-    );
+    const [key] = Object.entries(CONFIG.DND5E.currencies).find((c) => c[1].conversion === 1);
     return key;
   }
 
@@ -51,8 +49,7 @@ export class MoneySpender extends Application {
       .map((key) => {
         const remaining = this.clone.system.currency[key];
         const spent = this.actor.system.currency[key] - remaining;
-        if (config[key].conversion)
-          data.inBase += spent / config[key].conversion;
+        if (config[key].conversion) data.inBase += spent / config[key].conversion;
         return {
           ...config[key],
           key,
@@ -82,17 +79,11 @@ export class MoneySpender extends Application {
     });
 
     // Save button.
-    html[0]
-      .querySelector("[data-action=submit]")
-      .addEventListener("click", this._spendMoney.bind(this));
+    html[0].querySelector("[data-action=submit]").addEventListener("click", this._spendMoney.bind(this));
 
     // Cycle displayed denomination.
-    const node = (this.node = html[0].querySelector(
-      "[data-action='change-denom']"
-    ));
-    ["click", "contextmenu"].forEach((type) =>
-      node.addEventListener(type, this._changeDenomination.bind(this))
-    );
+    const node = (this.node = html[0].querySelector("[data-action='change-denom']"));
+    ["click", "contextmenu"].forEach((type) => node.addEventListener(type, this._changeDenomination.bind(this)));
 
     // Set displayed denomination.
     html[0].querySelectorAll("[data-action='set-denom']").forEach((n) => {
@@ -106,15 +97,9 @@ export class MoneySpender extends Application {
    */
   _onClickAdjustment(event) {
     const denom = event.currentTarget.closest("[data-denom]").dataset.denom;
-    const diff =
-      (event.ctrlKey ? 100 : event.shiftKey ? 5 : 1) *
-      Number(event.currentTarget.dataset.dir);
+    const diff = (event.ctrlKey ? 100 : event.shiftKey ? 5 : 1) * Number(event.currentTarget.dataset.dir);
     const oldValue = this.clone.system.currency[denom];
-    const newValue = Math.clamped(
-      oldValue - diff,
-      0,
-      this.actor.system.currency[denom]
-    );
+    const newValue = Math.clamped(oldValue - diff, 0, this.actor.system.currency[denom]);
     this.clone.updateSource({ [`system.currency.${denom}`]: newValue });
     this.render();
   }

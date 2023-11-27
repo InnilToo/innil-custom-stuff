@@ -1,15 +1,7 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function FATHOMLESS_BLACK_TENTACLES(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function FATHOMLESS_BLACK_TENTACLES(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.CN)) return item.use();
 
   const use = await item.use();

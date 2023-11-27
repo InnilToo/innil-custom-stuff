@@ -1,17 +1,8 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function FIND_FAMILIAR(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG))
-    return item.use();
+export async function FIND_FAMILIAR(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
 
   const actorName = actor.name;
   const familiars = {
@@ -21,10 +12,7 @@ export async function FIND_FAMILIAR(
   };
 
   const familiar = familiars[actorName];
-  if (!familiar)
-    return ui.notifications.warn(
-      "Can't spawn a familiar for an unknown actor."
-    );
+  if (!familiar) return ui.notifications.warn("Can't spawn a familiar for an unknown actor.");
 
   const isActive = actor.statuses.has(item.name.slugify({ strict: true }));
   if (isActive) {
@@ -40,12 +28,7 @@ export async function FIND_FAMILIAR(
   // then spawn the actor:
   await actor.sheet?.minimize();
   const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
-  const [spawn] = await ItemMacroHelpers._spawnHelper(
-    familiar.name,
-    updates,
-    {},
-    options
-  );
+  const [spawn] = await ItemMacroHelpers._spawnHelper(familiar.name, updates, {}, options);
   canvas.app.stage.removeChild(p);
   await actor.sheet?.maximize();
   if (!spawn) return;
@@ -56,9 +39,6 @@ export async function FIND_FAMILIAR(
     level,
     types: ["redisplay"],
   });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
+  const [effect] = await actor.createEmbeddedDocuments("ActiveEffect", effectData);
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }

@@ -2,17 +2,8 @@ import { DEPEND } from "../../../const.mjs";
 import { elementalDialog } from "../../customDialogs.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function ELEMENTAL_WEAPON(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.BAB, DEPEND.VAE, DEPEND.CN))
-    return item.use();
+export async function ELEMENTAL_WEAPON(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.BAB, DEPEND.VAE, DEPEND.CN)) return item.use();
 
   const status = item.name.slugify({ strict: true });
   const has = actor.effects.find((e) => e.statuses.has(status));

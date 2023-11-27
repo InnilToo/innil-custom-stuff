@@ -1,23 +1,11 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function SUMMON_CELESTIAL(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.CN, DEPEND.EM))
-    return item.use();
+export async function SUMMON_CELESTIAL(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.CN, DEPEND.EM)) return item.use();
 
   const isConc = CN.isActorConcentratingOnItem(actor, item);
-  if (isConc)
-    return ui.notifications.warn(
-      "You are already concentrating on 'Summon Celestial'."
-    );
+  if (isConc) return ui.notifications.warn("You are already concentrating on 'Summon Celestial'.");
 
   return Dialog.wait({
     title: item.name,
@@ -48,8 +36,7 @@ export async function SUMMON_CELESTIAL(
       token: { name: `${actor.name.split(" ")[0]}'s Celestial Spirit` },
       embedded: {
         Item: {
-          [type === "avenger" ? "Radiant Mace" : "Radiant Bow"]:
-            warpgate.CONST.DELETE,
+          [type === "avenger" ? "Radiant Mace" : "Radiant Bow"]: warpgate.CONST.DELETE,
           "Healing Touch": {
             "system.damage.parts": [[`2d8 + ${level}`, "healing"]],
           },
@@ -87,12 +74,7 @@ export async function SUMMON_CELESTIAL(
 
     // then spawn the actor:
     await actor.sheet?.minimize();
-    const [spawn] = await ItemMacroHelpers._spawnHelper(
-      "Celestial Spirit",
-      updates,
-      {},
-      options
-    );
+    const [spawn] = await ItemMacroHelpers._spawnHelper("Celestial Spirit", updates, {}, options);
     await actor.sheet?.maximize();
     const effect = CN.isActorConcentratingOnItem(actor, item);
     if (!spawn) return effect.delete();

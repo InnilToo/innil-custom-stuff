@@ -2,15 +2,7 @@ import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const misc = { HARNESS_DIVINE_POWER };
 
-async function HARNESS_DIVINE_POWER(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function HARNESS_DIVINE_POWER(item, speaker, actor, token, character, event, args) {
   const maxLevel = Math.ceil(actor.getRollData().attributes.prof / 2);
   const options = ItemMacroHelpers._constructSpellSlotOptions(actor, {
     missing: true,
