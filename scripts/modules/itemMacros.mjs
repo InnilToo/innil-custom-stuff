@@ -10,7 +10,6 @@ import { sorcerer } from "./itemacros/features/sorcerer.mjs";
 import { fathomless } from "./itemacros/features/warlock-fathomless.mjs";
 import { wizard } from "./itemacros/features/wizard.mjs";
 import { items } from "./itemacros/items.mjs";
-import { poisons } from "./itemacros/items/poisons.mjs";
 import { spells } from "./itemacros/spells.mjs";
 
 // item, speaker, actor, token, character, event, args
@@ -29,7 +28,6 @@ export const ITEMACRO = {
   // boons
   // items
   ...items,
-  ...poisons,
   // spells
   ...spells,
 };
