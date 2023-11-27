@@ -2,15 +2,7 @@ import { SlotRecoverer } from "../../applications/slotRecoverer.mjs";
 
 export const wizard = { ARCANE_RECOVERY };
 
-async function ARCANE_RECOVERY(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function ARCANE_RECOVERY(item, speaker, actor, token, character, event, args) {
   const config = {
     maxValue: Math.ceil(actor.classes.wizard.system.levels / 2),
     maxLevel: 6,

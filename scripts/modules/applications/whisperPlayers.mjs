@@ -36,9 +36,7 @@ export class WhisperPlayers extends Application {
     html[0].querySelectorAll("[data-action='player']").forEach((n) => {
       n.addEventListener("click", this._togglePlayer.bind(this));
     });
-    html[0]
-      .querySelector("[data-action='whisper']")
-      .addEventListener("click", this._whisperPlayers.bind(this));
+    html[0].querySelector("[data-action='whisper']").addEventListener("click", this._whisperPlayers.bind(this));
   }
 
   /**

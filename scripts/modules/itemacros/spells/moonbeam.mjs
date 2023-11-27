@@ -1,17 +1,8 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function MOONBEAM(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.CN, DEPEND.EM))
-    return item.use();
+export async function MOONBEAM(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.CN, DEPEND.EM)) return item.use();
 
   const isConc = CN.isActorConcentratingOnItem(actor, item);
   if (isConc) return CN.redisplayCard(actor, item);
@@ -28,12 +19,7 @@ export async function MOONBEAM(
 
   // then spawn the actor:
   await actor.sheet?.minimize();
-  const [spawn] = await ItemMacroHelpers._spawnHelper(
-    "Moonbeam",
-    updates,
-    {},
-    options
-  );
+  const [spawn] = await ItemMacroHelpers._spawnHelper("Moonbeam", updates, {}, options);
   await actor.sheet?.maximize();
   const effect = CN.isActorConcentratingOnItem(actor, item);
   if (!spawn) return effect.delete();

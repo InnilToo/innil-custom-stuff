@@ -6,12 +6,7 @@ export async function _heartOfTheStorm(item) {
    */
   if (item.type !== "spell") return;
   if (!(item.system.level > 0)) return;
-  if (
-    !item
-      .getDerivedDamageLabel()
-      .some(({ damageType }) => ["lightning", "thunder"].includes(damageType))
-  )
-    return;
+  if (!item.getDerivedDamageLabel().some(({ damageType }) => ["lightning", "thunder"].includes(damageType))) return;
   const hasHeart = item.actor.items.getName("Heart of the Storm");
   if (!hasHeart || hasHeart.type !== "feat") return;
   const token = item.actor.getActiveTokens()[0];
@@ -47,23 +42,20 @@ export async function _heartOfTheStorm(item) {
    * also ignores any actors with immunity to the damage type, and then
    * sets a multiplier according to resistance and vulnerability.
    */
-  const damages = babonus
-    .findTokensInRangeOfToken(token, 10)
-    .reduce((acc, token) => {
-      if (token.document.disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY)
-        return acc;
-      if (!token.actor) return acc;
-      if (token.actor.hasPlayerOwner) return acc;
-      const { dr, dv, di } = token.actor.system.traits;
-      if (di.value.has(type)) return acc;
-      const modifier = dv.value.has(type) ? 1 : dr.value.has(type) ? 0.25 : 0.5;
-      acc.push({
-        modifier,
-        id: token.id,
-        level: item.actor.classes.sorcerer.system.levels,
-      });
-      return acc;
-    }, []);
+  const damages = babonus.findTokensInRangeOfToken(token, 10).reduce((acc, token) => {
+    if (token.document.disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY) return acc;
+    if (!token.actor) return acc;
+    if (token.actor.hasPlayerOwner) return acc;
+    const { dr, dv, di } = token.actor.system.traits;
+    if (di.value.has(type)) return acc;
+    const modifier = dv.value.has(type) ? 1 : dr.value.has(type) ? 0.25 : 0.5;
+    acc.push({
+      modifier,
+      id: token.id,
+      level: item.actor.classes.sorcerer.system.levels,
+    });
+    return acc;
+  }, []);
   if (!damages.length) return;
 
   // Create a chat message with a button that only the GM can use.
@@ -84,12 +76,10 @@ export function _heartOfTheStormButton() {
    */
   if (!game.user.isGM) return;
   Hooks.on("renderChatMessage", function (message, html) {
-    html[0]
-      .querySelector("[data-action='heart-of-the-storm']")
-      ?.addEventListener("click", () => {
-        for (const { modifier, id, level } of message.flags.world.damages) {
-          canvas.scene.tokens.get(id)?.actor?.applyDamage(level, modifier);
-        }
-      });
+    html[0].querySelector("[data-action='heart-of-the-storm']")?.addEventListener("click", () => {
+      for (const { modifier, id, level } of message.flags.world.damages) {
+        canvas.scene.tokens.get(id)?.actor?.applyDamage(level, modifier);
+      }
+    });
   });
 }

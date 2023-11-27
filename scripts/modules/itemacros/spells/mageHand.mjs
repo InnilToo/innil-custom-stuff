@@ -1,17 +1,8 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function MAGE_HAND(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG))
-    return item.use();
+export async function MAGE_HAND(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.WG)) return item.use();
 
   const isActive = actor.statuses.has(item.name.slugify({ strict: true }));
   if (isActive) {
@@ -29,12 +20,7 @@ export async function MAGE_HAND(
   // then spawn the actor:
   await actor.sheet?.minimize();
   const p = ItemMacroHelpers.drawCircle(token, item.system.range.value);
-  const [spawn] = await ItemMacroHelpers._spawnHelper(
-    "Mage Hand",
-    updates,
-    {},
-    options
-  );
+  const [spawn] = await ItemMacroHelpers._spawnHelper("Mage Hand", updates, {}, options);
   canvas.app.stage.removeChild(p);
   await actor.sheet?.maximize();
   if (!spawn) return;
@@ -45,9 +31,6 @@ export async function MAGE_HAND(
     level,
     types: ["redisplay"],
   });
-  const [effect] = await actor.createEmbeddedDocuments(
-    "ActiveEffect",
-    effectData
-  );
+  const [effect] = await actor.createEmbeddedDocuments("ActiveEffect", effectData);
   return ItemMacroHelpers._addTokenDismissalToEffect(effect, spawn);
 }

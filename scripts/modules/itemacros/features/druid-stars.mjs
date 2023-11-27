@@ -3,25 +3,8 @@ import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const stars = { STARRY_FORM };
 
-async function STARRY_FORM(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (
-    !ItemMacroHelpers._getDependencies(
-      DEPEND.EM,
-      DEPEND.VAE,
-      DEPEND.CN,
-      DEPEND.SEQ,
-      DEPEND.JB2A
-    )
-  )
-    return item.use();
+async function STARRY_FORM(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.VAE, DEPEND.CN, DEPEND.SEQ, DEPEND.JB2A)) return item.use();
 
   const status = item.name.slugify({ strict: true });
   const has = actor.effects.find((e) => e.statuses(status));
@@ -69,10 +52,7 @@ async function STARRY_FORM(
       });
   }
 
-  const form = await Dialog.wait(
-    { title, buttons, render, close: () => false },
-    { classes: ["dialog", "column-dialog"] }
-  );
+  const form = await Dialog.wait({ title, buttons, render, close: () => false }, { classes: ["dialog", "column-dialog"] });
   if (form === "archer") {
     const itemData = {
       name: "Starry Form (Archer)",
@@ -125,9 +105,7 @@ async function STARRY_FORM(
   } else return;
   // Delete any pre-existing starry form and create the new one.
   await actor.effects.find((e) => e.statuses.has(status))?.delete();
-  const [effect] = await actor.createEmbeddedDocuments("ActiveEffect", [
-    effectData,
-  ]);
+  const [effect] = await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
   const file = "jb2a.markers.circle_of_stars.blue";
   return new Sequence()

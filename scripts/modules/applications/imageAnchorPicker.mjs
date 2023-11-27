@@ -39,12 +39,8 @@ export class ImageAnchorPicker extends Application {
     super.activateListeners(html);
     html[0]
       .querySelectorAll(".image-selector a")
-      .forEach((n) =>
-        n.addEventListener("click", this._onClickAnchor.bind(this))
-      );
-    html[0]
-      .querySelector("button")
-      .addEventListener("click", this._onClickButton.bind(this));
+      .forEach((n) => n.addEventListener("click", this._onClickAnchor.bind(this)));
+    html[0].querySelector("button").addEventListener("click", this._onClickButton.bind(this));
     for (const s of [".row.top", ".row.middle", ".row.bottom"]) {
       const row = html[0].querySelector(s);
       if (!row) continue;
@@ -62,11 +58,8 @@ export class ImageAnchorPicker extends Application {
   _onClickAnchor(event) {
     const wasActive = event.currentTarget.classList.contains("active");
     if (this.allowMultiple) {
-      const length = event.currentTarget
-        .closest(".row")
-        .querySelectorAll(".active").length;
-      if (length > 1 || !wasActive)
-        event.currentTarget.classList.toggle("active");
+      const length = event.currentTarget.closest(".row").querySelectorAll(".active").length;
+      if (length > 1 || !wasActive) event.currentTarget.classList.toggle("active");
     } else if (!wasActive) {
       for (const child of event.currentTarget.closest(".row").children) {
         child.classList.toggle("active", child === event.currentTarget);
@@ -81,15 +74,9 @@ export class ImageAnchorPicker extends Application {
    */
   _onClickButton(event) {
     const data = {
-      top: Array.from(this.element[0].querySelectorAll(".top .active")).map(
-        (u) => u.dataset.name
-      ),
-      middle: Array.from(
-        this.element[0].querySelectorAll(".middle .active")
-      ).map((u) => u.dataset.name),
-      bottom: Array.from(
-        this.element[0].querySelectorAll(".bottom .active")
-      ).map((u) => u.dataset.name),
+      top: Array.from(this.element[0].querySelectorAll(".top .active")).map((u) => u.dataset.name),
+      middle: Array.from(this.element[0].querySelectorAll(".middle .active")).map((u) => u.dataset.name),
+      bottom: Array.from(this.element[0].querySelectorAll(".bottom .active")).map((u) => u.dataset.name),
     };
     this.close();
     return this.callback(event, data);

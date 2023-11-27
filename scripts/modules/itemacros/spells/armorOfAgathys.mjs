@@ -1,14 +1,6 @@
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function ARMOR_OF_AGATHYS(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function ARMOR_OF_AGATHYS(item, speaker, actor, token, character, event, args) {
   const use = await item.use();
   if (!use) return;
 

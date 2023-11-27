@@ -39,16 +39,10 @@ export class SlotRecoverer extends FormApplication {
 
     let recovered = 0;
     for (const level of levels) {
-      level.value = Math.clamped(
-        this.clone.system.spells[level.key].value,
-        level.min,
-        level.max
-      );
+      level.value = Math.clamped(this.clone.system.spells[level.key].value, level.min, level.max);
       level.disableLeft = level.value === level.min;
       level.disableRight = level.value === level.max;
-      recovered +=
-        (level.value - level.min) *
-        (this.config.valueEqualToLevel ? level.level : 1);
+      recovered += (level.value - level.min) * (this.config.valueEqualToLevel ? level.level : 1);
     }
     levels.sort((a, b) => a.label.localeCompare(b.label));
     return {
@@ -77,8 +71,7 @@ export class SlotRecoverer extends FormApplication {
       acc.push({
         min: data.value,
         max: data.max,
-        label:
-          key === "pact" ? "Pact Slots" : CONFIG.DND5E.spellLevels[key.at(-1)],
+        label: key === "pact" ? "Pact Slots" : CONFIG.DND5E.spellLevels[key.at(-1)],
         level: level,
         key,
         name: `system.spells.${key}.value`,

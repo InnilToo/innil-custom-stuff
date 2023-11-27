@@ -68,9 +68,7 @@ export class ColorationMenu extends SettingsMenu {
     const defs = foundry.utils.deepClone(COLOR_DEFAULTS);
     const _data = foundry.utils.mergeObject(defs, curr, { insertKeys: false });
 
-    for (const [key, val] of Object.entries(
-      foundry.utils.flattenObject(_data)
-    )) {
+    for (const [key, val] of Object.entries(foundry.utils.flattenObject(_data))) {
       const [section, entry] = key.split(".");
       data[section] ??= [];
       data[section].push({

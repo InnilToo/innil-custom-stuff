@@ -7,17 +7,8 @@ import { ItemMacroHelpers } from "../../itemMacros.mjs";
  * Target is teleported to point within 90 feet of caster.
  * The range is actually 30 + 30 * spell level.
  */
-export async function VORTEX_WARP(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.SEQ, DEPEND.JB2A))
-    return item.use();
+export async function VORTEX_WARP(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.WG, DEPEND.SEQ, DEPEND.JB2A)) return item.use();
 
   const target = game.user.targets.first();
   if (!target) {

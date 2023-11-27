@@ -3,25 +3,14 @@ import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const hearth = { BURNING_WEAPON, WARMING_RESPITE };
 
-async function BURNING_WEAPON(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.BAB, DEPEND.VAE))
-    return item.use();
+async function BURNING_WEAPON(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.EM, DEPEND.BAB, DEPEND.VAE)) return item.use();
 
   const status = item.name.slugify({ strict: true });
   const effect = actor.effects.find((e) => e.statuses.has(status));
   if (effect) return effect.delete();
 
-  const weapons = actor.items.filter(
-    (i) => i.type === "weapon" && i.system.equipped
-  );
+  const weapons = actor.items.filter((i) => i.type === "weapon" && i.system.equipped);
   if (!weapons.length) {
     ui.notifications.warn("You have no equipped weapons.");
     return;
@@ -91,15 +80,7 @@ async function BURNING_WEAPON(
   }
 }
 
-async function WARMING_RESPITE(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function WARMING_RESPITE(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.WG)) return item.use();
 
   const targets = game.user.targets;
@@ -120,7 +101,6 @@ async function WARMING_RESPITE(
       INNIL.token.healToken({ tokenId: target.id, amount: levels, temp: true });
     }
   }
-  const content =
-    `Granting ${levels} temporary hit points to ` + valids.join(", ");
+  const content = `Granting ${levels} temporary hit points to ` + valids.join(", ");
   return ChatMessage.create({ speaker, content });
 }

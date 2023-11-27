@@ -1,15 +1,7 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function SEE_INVISIBILITY(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function SEE_INVISIBILITY(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.EM)) return item.use();
 
   const data = ItemMacroHelpers._constructDetectionModeEffectData({

@@ -3,15 +3,7 @@ import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const twilight = { EYES_OF_NIGHT, STEPS_OF_NIGHT, TWILIGHT_SANCTUARY };
 
-async function EYES_OF_NIGHT(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function EYES_OF_NIGHT(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.WG)) return item.use();
   const range = 120;
   const mod = Math.max(actor.system.abilities.wis.mod, 1);
@@ -39,19 +31,10 @@ async function EYES_OF_NIGHT(
   const use = await item.use();
   if (!use) return;
   ui.notifications.info("Granting darkvision to your targets!");
-  for (const target of game.user.targets)
-    warpgate.mutate(target.document, updates, {}, options);
+  for (const target of game.user.targets) warpgate.mutate(target.document, updates, {}, options);
 }
 
-async function STEPS_OF_NIGHT(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function STEPS_OF_NIGHT(item, speaker, actor, token, character, event, args) {
   const use = await item.use();
   if (!use) return;
 
@@ -75,17 +58,8 @@ async function STEPS_OF_NIGHT(
   ]);
 }
 
-async function TWILIGHT_SANCTUARY(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.SEQ, DEPEND.JB2A))
-    return item.use();
+async function TWILIGHT_SANCTUARY(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.SEQ, DEPEND.JB2A)) return item.use();
 
   // Constants.
   const status = item.name.slugify({ strict: true });
@@ -104,8 +78,7 @@ async function TWILIGHT_SANCTUARY(
         description:
           "When a creature ends their turn within your twilight sanctuary, you may choose to grant them temporary hit points or end the charmed or frightened condition on them.",
         "duration.seconds": 60,
-        "flags.visual-active-effects.data.content":
-          item.system.description.value,
+        "flags.visual-active-effects.data.content": item.system.description.value,
       },
     ]);
 

@@ -26,8 +26,5 @@ export async function elementalDialog({ types = [], content, title }) {
     return acc;
   }, {});
 
-  return Dialog.wait(
-    { title, buttons, content },
-    { classes: [MODULE, "dialog", "elemental"] }
-  );
+  return Dialog.wait({ title, buttons, content }, { classes: [MODULE, "dialog", "elemental"] });
 }

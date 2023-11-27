@@ -3,29 +3,19 @@ import { ExperimentalElixir } from "../../applications/experimentalElixirs.mjs";
 
 export const alchemist = { EXPERIMENTAL_ELIXIR, ELIXIR_CANNON };
 
-async function EXPERIMENTAL_ELIXIR(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function EXPERIMENTAL_ELIXIR(item, speaker, actor, token, character, event, args) {
   const app = new ExperimentalElixir({ item, speaker, actor });
   return new Dialog(
     {
       title: "Experimental Elixir",
       buttons: {
         experiment: {
-          label:
-            "<div class='label'>Experiment<br><em>(once per long rest)</em></div>",
+          label: "<div class='label'>Experiment<br><em>(once per long rest)</em></div>",
           icon: "<i class='fa-solid fa-flask'></i>",
           callback: app.experiment.bind(app),
         },
         build: {
-          label:
-            "<div class='label'>Build-an-Elixir<br><em>(expend a spell slot)</em></div>",
+          label: "<div class='label'>Build-an-Elixir<br><em>(expend a spell slot)</em></div>",
           icon: "<i class='fa-solid fa-cubes'></i>",
           callback: app.render.bind(app, true),
         },
@@ -37,15 +27,7 @@ async function EXPERIMENTAL_ELIXIR(
   ).render(true);
 }
 
-async function ELIXIR_CANNON(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function ELIXIR_CANNON(item, speaker, actor, token, character, event, args) {
   const app = new ExperimentalElixir({ item, speaker, actor });
 
   // The item has 15 max uses. If it has no uses left, prompt for a new type and refill.
@@ -62,9 +44,7 @@ async function ELIXIR_CANNON(
             .closest(".dialog")
             .querySelectorAll("[data-button]")
             .forEach((n) => {
-              const string = `INNIL.ExperimentalElixirType${
-                app.elixirTypes[n.dataset.button].name
-              }`;
+              const string = `INNIL.ExperimentalElixirType${app.elixirTypes[n.dataset.button].name}`;
               n.setAttribute(
                 "data-tooltip",
                 game.i18n.format(string, {

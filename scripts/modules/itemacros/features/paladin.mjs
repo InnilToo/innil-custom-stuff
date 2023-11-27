@@ -2,15 +2,7 @@ import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
 export const paladin = { DIVINE_SMITE, LAY_ON_HANDS };
 
-async function DIVINE_SMITE(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function DIVINE_SMITE(item, speaker, actor, token, character, event, args) {
   const options = ItemMacroHelpers._constructSpellSlotOptions(actor);
   if (!options.length) {
     ui.notifications.warn("You have no spell slots remaining.");
@@ -49,10 +41,7 @@ async function DIVINE_SMITE(
 
   async function rollDamage(html, event) {
     const data = new FormDataExtended(html[0].querySelector("form")).object;
-    const level =
-      data.level === "pact"
-        ? actor.system.spells.pact.level
-        : Number(data.level.at(-1));
+    const level = data.level === "pact" ? actor.system.spells.pact.level : Number(data.level.at(-1));
     const formula = `${Math.min(5, 1 + level) + Number(data.evil)}d8`;
 
     const clone = new Item.implementation(
@@ -76,20 +65,10 @@ async function DIVINE_SMITE(
   }
 }
 
-async function LAY_ON_HANDS(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+async function LAY_ON_HANDS(item, speaker, actor, token, character, event, args) {
   const value = item.system.uses.value;
   if (!value) {
-    ui.notifications.warn(
-      game.i18n.format("DND5E.ItemNoUses", { name: item.name })
-    );
+    ui.notifications.warn(game.i18n.format("DND5E.ItemNoUses", { name: item.name }));
     return;
   }
 
@@ -132,9 +111,7 @@ async function LAY_ON_HANDS(
     render: (html) => {
       const range = html[0].querySelector("input");
       const target = html[0].querySelector(".range-value");
-      const button = range
-        .closest(".window-content")
-        .querySelector("[data-attr='lay']");
+      const button = range.closest(".window-content").querySelector("[data-attr='lay']");
       range.addEventListener("change", function (event) {
         target.innerText = event.currentTarget.value;
         button.innerText = event.currentTarget.value;

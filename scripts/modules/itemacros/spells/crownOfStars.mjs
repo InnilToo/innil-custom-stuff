@@ -1,15 +1,7 @@
 import { DEPEND, MODULE } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function CROWN_OF_STARS(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function CROWN_OF_STARS(item, speaker, actor, token, character, event, args) {
   if (!ItemMacroHelpers._getDependencies(DEPEND.CN)) return item.use();
 
   const isConc = CN.isActorConcentratingOnItem(actor, item);
@@ -28,7 +20,5 @@ export async function CROWN_OF_STARS(
   const motes = isConc.flags[MODULE].crownStars;
   if (motes < 1) return isConc.delete();
   await CN.redisplayCard(actor);
-  return motes - 1 === 0
-    ? isConc.delete()
-    : isConc.setFlag(MODULE, "crownStars", motes - 1);
+  return motes - 1 === 0 ? isConc.delete() : isConc.setFlag(MODULE, "crownStars", motes - 1);
 }

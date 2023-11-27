@@ -20,9 +20,7 @@ export async function playerHP({ whisper = true } = {}) {
       if (acc === "") {
         acc = "<h2>Hit Points</h2>";
       }
-      return (
-        acc + `<p><strong>${name}:</strong> ${hp_temp}${hp_value}/${hp_max}</p>`
-      );
+      return acc + `<p><strong>${name}:</strong> ${hp_temp}${hp_value}/${hp_max}</p>`;
     }, ``);
 
   const messageData = { content, "flags.core.canPopout": true };

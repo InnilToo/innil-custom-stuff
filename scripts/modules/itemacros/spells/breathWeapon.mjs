@@ -2,15 +2,7 @@ import { MODULE } from "../../../const.mjs";
 import { elementalDialog } from "../../customDialogs.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function BREATH_WEAPON(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
+export async function BREATH_WEAPON(item, speaker, actor, token, character, event, args) {
   const options = [
     ["cone", "Cone (30ft)"],
     ["line", "Line (60ft)"],

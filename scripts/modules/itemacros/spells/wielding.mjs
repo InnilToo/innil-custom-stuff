@@ -1,17 +1,8 @@
 import { DEPEND, MODULE } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function WIELDING(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (!ItemMacroHelpers._getDependencies(DEPEND.CN, DEPEND.VAE, DEPEND.EM))
-    return item.use();
+export async function WIELDING(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.CN, DEPEND.VAE, DEPEND.EM)) return item.use();
 
   const isConc = CN.isActorConcentratingOnItem(actor, item);
   if (isConc) return;
