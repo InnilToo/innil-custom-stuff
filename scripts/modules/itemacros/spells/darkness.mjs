@@ -1,41 +1,22 @@
 import { DEPEND } from "../../../const.mjs";
 import { ItemMacroHelpers } from "../../itemMacros.mjs";
 
-export async function DARKNESS(
-  item,
-  speaker,
-  actor,
-  token,
-  character,
-  event,
-  args
-) {
-  if (
-    !ItemMacroHelpers._getDependencies(
-      DEPEND.CN,
-      DEPEND.WG,
-      DEPEND.SEQ,
-      DEPEND.JB2A
-    )
-  )
-    return item.use();
+export async function DARKNESS(item, speaker, actor, token, character, event, args) {
+  if (!ItemMacroHelpers._getDependencies(DEPEND.CN, DEPEND.WG, DEPEND.SEQ, DEPEND.JB2A)) return item.use();
 
   const isConc = CN.isActorConcentratingOnItem(actor, item);
   if (!isConc) {
-    const use = await item.use(
-      { createMeasuredTemplate: false },
-      { configureDialog: false }
-    );
+    const use = await item.use({ createMeasuredTemplate: false }, { configureDialog: false });
     if (!use) return;
     const conc = await CN.waitForConcentrationStart(actor, { item });
     if (!conc) return;
 
     const file = "jb2a.darkness.black";
+    const distance = item.system.range.value;
 
     const dialog = new Dialog({
       title: "Darkness",
-      content:
-        "<p style='text-align:center'>Either put the Darkness on yourself or spawn a token that carries it:</p>",
+      content: "<p style='text-align:center'>Either put the Darkness on yourself or spawn a token that carries it:</p>",
       buttons: {
         Self: {
           icon: "<i class='fa-solid fa-user'></i>",
@@ -64,27 +45,13 @@ export async function DARKNESS(
 
             // then spawn the actor:
             await actor.sheet?.minimize();
-            const p = ItemMacroHelpers.drawCircle(
-              token,
-              item.system.range.value
-            );
-            const [spawn] = await ItemMacroHelpers._spawnHelper(
-              "dummy",
-              updates,
-              {},
-              options
-            );
+            const p = ItemMacroHelpers.drawCircle(token, distance);
+            const [spawn] = await ItemMacroHelpers._spawnHelper("dummy", updates, {}, options);
             canvas.app.stage.removeChild(p);
             await actor.sheet?.maximize();
 
             // Play a sequence on the spawn
-            await new Sequence()
-              .effect()
-              .attachTo(spawn)
-              .tieToDocuments(conc)
-              .file(file)
-              .persist()
-              .play({ remote: true });
+            await new Sequence().effect().attachTo(spawn).tieToDocuments(conc).file(file).persist().play({ remote: true });
 
             // Add the token dismissal to the effect
             const effect = CN.isActorConcentratingOnItem(actor, item);
