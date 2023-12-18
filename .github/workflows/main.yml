@@ -11,6 +11,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Get part of the tag after the `v`.
+      - name: Extract tag version number
+        id: get_version
+        uses: battila7/get-version-action@v2
+
       # Combine CSS files into a single CSS file
       - name: Combine CSS files
         run: |
@@ -23,8 +28,9 @@ jobs:
           files: "module.json"
         env:
           styles: '["module.css"]'
-          flags.hotReload.paths: '["module.css"]'
-          download: "https://github.com/InnilToo/innil-custom-stuff/releases/download/${{ github.event.release.tag_name }}/module.zip"
+          flags.hotReload: false
+          version: ${{steps.get_version.outputs.version-without-v}}
+          download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip
 
       # Create zip file
       - name: Create ZIP archive
